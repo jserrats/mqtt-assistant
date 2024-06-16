@@ -1,0 +1,22 @@
+{
+  "name": "mqtt-assistant",
+  "version": "1.0.0",
+  "description": "A typescript wrapper for easily creating home automations with mqtt entities",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "prepublish": "tsc"
+  },
+  "author": "Jaume Serrats",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node-schedule": "^2.1.7",
+    "mqtt": "^5.7.0",
+    "node-schedule": "^2.1.1",
+    "sunrise-sunset-js": "^2.2.1",
+    "typescript": "^5.4.5",
+    "wildcard-match": "^5.1.3"
+  }
+}
