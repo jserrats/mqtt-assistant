@@ -1,5 +1,4 @@
 import { ZigbeeComponent, InboundZigbeeInfo } from "./zigbee"
-import { Trigger } from "../../types"
 
 export class PresenceSensorZigbee extends ZigbeeComponent {
     occupancy = false
@@ -67,3 +66,29 @@ type ClosureSensorZigbeeComponentInfo = {
 type ClosureSensorZigbeeOptions = {
     inverted?: boolean
 }
+
+
+export class WeatherSensorZigbee extends ZigbeeComponent {
+    temperature: number | undefined
+    humidity: number | undefined
+    updateCallback: CallableFunction | undefined
+
+    constructor(name: string, updateCallback?: CallableFunction) {
+        super(name)
+        this.updateCallback = updateCallback
+    }
+
+    updateComponent(message: WeatherSensorZigbeeComponentInfo): void {
+        this.temperature = message.temperature
+        this.humidity = message.humidity
+        super.updateComponent(message)
+        if (typeof this.updateCallback !== "undefined") {
+            this.updateCallback(this)
+        }
+    }
+}
+
+type WeatherSensorZigbeeComponentInfo = {
+    temperature: number,
+    humidity: number
+} & InboundZigbeeInfo

@@ -50,4 +50,15 @@ type ClosureSensorZigbeeComponentInfo = {
 type ClosureSensorZigbeeOptions = {
     inverted?: boolean;
 };
+export declare class WeatherSensorZigbee extends ZigbeeComponent {
+    temperature: number | undefined;
+    humidity: number | undefined;
+    updateCallback: CallableFunction | undefined;
+    constructor(name: string, updateCallback?: CallableFunction);
+    updateComponent(message: WeatherSensorZigbeeComponentInfo): void;
+}
+type WeatherSensorZigbeeComponentInfo = {
+    temperature: number;
+    humidity: number;
+} & InboundZigbeeInfo;
 export {};

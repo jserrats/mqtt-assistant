@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ContactSensorZigbee = exports.PresenceSensorZigbee = void 0;
+exports.WeatherSensorZigbee = exports.ContactSensorZigbee = exports.PresenceSensorZigbee = void 0;
 const zigbee_1 = require("./zigbee");
 class PresenceSensorZigbee extends zigbee_1.ZigbeeComponent {
     constructor() {
@@ -52,3 +52,18 @@ class ContactSensorZigbee extends zigbee_1.ZigbeeComponent {
     }
 }
 exports.ContactSensorZigbee = ContactSensorZigbee;
+class WeatherSensorZigbee extends zigbee_1.ZigbeeComponent {
+    constructor(name, updateCallback) {
+        super(name);
+        this.updateCallback = updateCallback;
+    }
+    updateComponent(message) {
+        this.temperature = message.temperature;
+        this.humidity = message.humidity;
+        super.updateComponent(message);
+        if (typeof this.updateCallback !== "undefined") {
+            this.updateCallback(this);
+        }
+    }
+}
+exports.WeatherSensorZigbee = WeatherSensorZigbee;
