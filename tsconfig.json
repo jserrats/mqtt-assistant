@@ -1,12 +1,15 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "outDir": "../dist",
     "module": "commonjs",
-    "outDir": "./dist",
-    "strict": true,
-    "esModuleInterop": true,
-    "declaration": true
+    "types": ["node", "jest"],
+    "target": "es2022",
+    "esModuleInterop": true
   },
-  "include": ["src/*.ts"],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "jest.config.ts",
+    "**/*.spec.ts",
+    "**/*.test.ts",
+  ],
+  "include": ["**/*.ts"]
 }
