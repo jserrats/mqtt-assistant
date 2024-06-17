@@ -2,7 +2,7 @@ import { ZigbeeComponent, InboundZigbeeInfo } from "./zigbee"
 
 
 class PowerZigbee extends ZigbeeComponent {
-    set_topic = this.topic + "/set"
+    setTopic = this.topic + "/set"
     state: boolean = false
 
     on() {
@@ -18,7 +18,7 @@ class PowerZigbee extends ZigbeeComponent {
     }
 
     private set(order: boolean) {
-        this.client.publish(this.set_topic, order ? "ON" : "OFF")
+        this.client.publish(this.setTopic, order ? "ON" : "OFF")
     }
 
     updateComponent(message: InboundPowerZigbeeInfo): void {
@@ -37,3 +37,15 @@ export class PowerE1603 extends PowerZigbee {
 type InboundPowerZigbeeInfo = {
     state: string,
 } & InboundZigbeeInfo
+
+export class WattPowerZigbee extends PowerZigbee {
+    power = 0
+    updateComponent(message: InboundWattPowerZigbeeInfo): void {
+        this.power = message.power
+        super.updateComponent(message)
+    }
+}
+
+type InboundWattPowerZigbeeInfo = {
+    power: number,
+} & InboundPowerZigbeeInfo
