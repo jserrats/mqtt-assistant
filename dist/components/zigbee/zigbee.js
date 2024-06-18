@@ -6,9 +6,12 @@ const topics_1 = require("../../topics");
 const router_1 = require("../../router");
 const component_1 = require("../component");
 class ZigbeeComponent extends component_1.Component {
+    topic;
+    linkquality = 0;
+    name;
     constructor(name) {
         super();
-        this.linkquality = 0;
+        this.name = name;
         this.topic = topics_1.ZIGBEE2MQTT_TOPIC + name;
         router_1.router.addAutomation({
             trigger: { topic: this.topic, payload: "*" },

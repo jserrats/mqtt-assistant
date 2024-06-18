@@ -3,16 +3,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.WeatherSensorZigbee = exports.ContactSensorZigbee = exports.PresenceSensorZigbee = void 0;
 const zigbee_1 = require("./zigbee");
 class PresenceSensorZigbee extends zigbee_1.ZigbeeComponent {
-    constructor() {
-        super(...arguments);
-        this.occupancy = false;
-        this.actionTopic = this.topic + "/action";
-        this.trigger = {
-            occupied: { topic: this.actionTopic, payload: "ON" },
-            cleared: { topic: this.actionTopic, payload: "OFF" },
-            all: { topic: this.actionTopic, payload: "*" }
-        };
-    }
+    occupancy = false;
+    actionTopic = this.topic + "/action";
+    trigger = {
+        occupied: { topic: this.actionTopic, payload: "ON" },
+        cleared: { topic: this.actionTopic, payload: "OFF" },
+        all: { topic: this.actionTopic, payload: "*" }
+    };
     updateComponent(message) {
         if (this.occupancy == !message.occupancy) {
             this.triggerItself();
@@ -26,16 +23,16 @@ class PresenceSensorZigbee extends zigbee_1.ZigbeeComponent {
 }
 exports.PresenceSensorZigbee = PresenceSensorZigbee;
 class ContactSensorZigbee extends zigbee_1.ZigbeeComponent {
+    contact = false;
+    inverted = false;
+    actionTopic = this.topic + "/action";
+    trigger = {
+        whenClosed: { topic: this.actionTopic, payload: "CLOSED" },
+        whenOpened: { topic: this.actionTopic, payload: "OPEN" },
+        all: { topic: this.actionTopic, payload: "*" }
+    };
     constructor(name, options) {
         super(name);
-        this.contact = false;
-        this.inverted = false;
-        this.actionTopic = this.topic + "/action";
-        this.trigger = {
-            whenClosed: { topic: this.actionTopic, payload: "CLOSED" },
-            whenOpened: { topic: this.actionTopic, payload: "OPEN" },
-            all: { topic: this.actionTopic, payload: "*" }
-        };
         if (typeof options !== "undefined" && typeof options.inverted !== "undefined") {
             this.inverted = options.inverted;
         }
@@ -53,6 +50,9 @@ class ContactSensorZigbee extends zigbee_1.ZigbeeComponent {
 }
 exports.ContactSensorZigbee = ContactSensorZigbee;
 class WeatherSensorZigbee extends zigbee_1.ZigbeeComponent {
+    temperature;
+    humidity;
+    updateCallback;
     constructor(name, updateCallback) {
         super(name);
         this.updateCallback = updateCallback;

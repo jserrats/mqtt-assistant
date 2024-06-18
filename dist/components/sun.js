@@ -6,6 +6,9 @@ const component_1 = require("./component");
 const sunrise_sunset_js_1 = require("sunrise-sunset-js");
 const node_schedule_1 = require("node-schedule");
 class Sun extends component_1.Component {
+    nextSunrise;
+    nextSunset;
+    location;
     constructor(latitude, longitude) {
         super();
         this.location = [latitude, longitude];

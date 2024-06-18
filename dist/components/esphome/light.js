@@ -4,13 +4,16 @@ exports.LightESPHome = void 0;
 const esphome_1 = require("./esphome");
 const router_1 = require("../../router");
 class LightESPHome extends esphome_1.ESPHomeComponent {
+    sensorTopic;
+    commandTopic;
+    state = false;
+    updater;
+    trigger = {
+        on: { topic: "", payload: "*OFF*" },
+        off: { topic: "", payload: "*ON*" }
+    };
     constructor(name, component) {
         super(name);
-        this.state = false;
-        this.trigger = {
-            on: { topic: "", payload: "*OFF*" },
-            off: { topic: "", payload: "*ON*" }
-        };
         this.sensorTopic = this.topic + "/light/" + component + "/state";
         this.commandTopic = this.topic + "/light/" + component + "/command";
         this.trigger.on.topic = this.sensorTopic;

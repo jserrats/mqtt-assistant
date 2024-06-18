@@ -1,13 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PowerE1603 = void 0;
+exports.WattPowerZigbee = exports.PowerE1603 = void 0;
 const zigbee_1 = require("./zigbee");
 class PowerZigbee extends zigbee_1.ZigbeeComponent {
-    constructor() {
-        super(...arguments);
-        this.set_topic = this.topic + "/set";
-        this.state = false;
-    }
+    setTopic = this.topic + "/set";
+    state = false;
     on() {
         this.set(true);
     }
@@ -18,7 +15,7 @@ class PowerZigbee extends zigbee_1.ZigbeeComponent {
         this.set(!this.state);
     }
     set(order) {
-        this.client.publish(this.set_topic, order ? "ON" : "OFF");
+        this.client.publish(this.setTopic, order ? "ON" : "OFF");
     }
     updateComponent(message) {
         this.state = (message.state == "ON");
@@ -31,3 +28,11 @@ class PowerZigbee extends zigbee_1.ZigbeeComponent {
 class PowerE1603 extends PowerZigbee {
 }
 exports.PowerE1603 = PowerE1603;
+class WattPowerZigbee extends PowerZigbee {
+    power = 0;
+    updateComponent(message) {
+        this.power = message.power;
+        super.updateComponent(message);
+    }
+}
+exports.WattPowerZigbee = WattPowerZigbee;

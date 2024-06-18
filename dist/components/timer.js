@@ -4,15 +4,12 @@ exports.Timer = void 0;
 const component_1 = require("./component");
 const router_1 = require("../router");
 class Timer extends component_1.Component {
-    constructor() {
-        super(...arguments);
-        this.timeoutID = setTimeout(() => { });
-        this.intervalID = setInterval(() => { });
-        this.length = 0;
-        this.seconds = 0;
-        this.cancelCallback = () => { };
-        this.publishTopic = "";
-    }
+    timeoutID = setTimeout(() => { });
+    intervalID = setInterval(() => { });
+    length = 0;
+    seconds = 0;
+    cancelCallback = () => { };
+    publishTopic = "";
     setTimeout(period, callback, options) {
         this.cancelTimeout();
         this.setLength(period);

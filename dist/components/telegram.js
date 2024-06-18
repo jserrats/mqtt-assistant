@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TelegramClient = void 0;
 const mqtt_1 = __importDefault(require("mqtt"));
 class TelegramClient {
+    client;
     constructor(server) {
         var MQTT_SERVER;
         if (typeof server !== "undefined") {

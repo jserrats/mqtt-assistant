@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PowerE1603 = exports.RemoteTS0044 = exports.RemoteE1812 = exports.RemoteE2002 = exports.WeatherSensorZigbee = exports.ContactSensorZigbee = exports.PresenceSensorZigbee = exports.Timer = exports.LightLED1623G12 = exports.LightZigbee = void 0;
+exports.WattPowerZigbee = exports.PowerE1603 = exports.RemoteTS0044 = exports.RemoteE1812 = exports.RemoteE2002 = exports.WeatherSensorZigbee = exports.ContactSensorZigbee = exports.PresenceSensorZigbee = exports.Timer = exports.LightLED1623G12 = exports.LightZigbee = void 0;
 var light_1 = require("./light");
 Object.defineProperty(exports, "LightZigbee", { enumerable: true, get: function () { return light_1.LightZigbee; } });
 Object.defineProperty(exports, "LightLED1623G12", { enumerable: true, get: function () { return light_1.LightLED1623G12; } });
@@ -16,3 +16,4 @@ Object.defineProperty(exports, "RemoteE1812", { enumerable: true, get: function 
 Object.defineProperty(exports, "RemoteTS0044", { enumerable: true, get: function () { return remote_1.RemoteTS0044; } });
 var power_1 = require("./power");
 Object.defineProperty(exports, "PowerE1603", { enumerable: true, get: function () { return power_1.PowerE1603; } });
+Object.defineProperty(exports, "WattPowerZigbee", { enumerable: true, get: function () { return power_1.WattPowerZigbee; } });

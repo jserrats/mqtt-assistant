@@ -5,9 +5,11 @@ const component_1 = require("./component");
 const router_1 = require("../router");
 const topics_1 = require("../topics");
 class Alarm extends component_1.Component {
+    sensors;
+    topic;
+    safe = true;
     constructor(name, contactSensors) {
         super();
-        this.safe = true;
         this.topic = topics_1.BASE_TOPIC + "alarms/" + name;
         this.sensors = contactSensors;
         this.sensors.forEach(sensor => {

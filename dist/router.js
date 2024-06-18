@@ -6,9 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.router = void 0;
 const wildcard_match_1 = __importDefault(require("wildcard-match"));
 class Router {
-    constructor() {
-        this.routes = [];
-    }
+    routes = [];
     addAutomation(automation) {
         if (Array.isArray(automation.trigger)) {
             automation.trigger.forEach((triggerInArray) => {

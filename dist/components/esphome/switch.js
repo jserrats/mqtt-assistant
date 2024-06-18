@@ -4,13 +4,16 @@ exports.SwitchESPHome = void 0;
 const esphome_1 = require("./esphome");
 const router_1 = require("../../router");
 class SwitchESPHome extends esphome_1.ESPHomeComponent {
+    sensorTopic;
+    commandTopic;
+    state = false;
+    updater;
+    trigger = {
+        on: { topic: "", payload: "ON" },
+        off: { topic: "", payload: "OFF" }
+    };
     constructor(name, component) {
         super(name);
-        this.state = false;
-        this.trigger = {
-            on: { topic: "", payload: "ON" },
-            off: { topic: "", payload: "OFF" }
-        };
         this.sensorTopic = this.topic + "/switch/" + component + "/state";
         this.commandTopic = this.topic + "/switch/" + component + "/command";
         this.trigger.off.topic = this.sensorTopic;
