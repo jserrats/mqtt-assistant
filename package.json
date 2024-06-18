@@ -2,8 +2,7 @@
   "name": "mqtt-assistant",
   "version": "1.0.0",
   "description": "A typescript wrapper for easily creating home automations with mqtt entities",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "src/index.ts",
   "scripts": {
     "test": "jest --setupFiles dotenv/config",
     "build": "tsc",
