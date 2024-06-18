@@ -8,9 +8,11 @@ import { Trigger } from "../../types"
 export class ZigbeeComponent extends Component {
     topic: string
     linkquality = 0
+    name: string
 
     constructor(name: string) {
         super()
+        this.name = name
         this.topic = ZIGBEE2MQTT_TOPIC + name
         router.addAutomation({
             trigger: { topic: this.topic, payload: "*" },
