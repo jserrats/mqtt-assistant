@@ -12,17 +12,3 @@ export class ESPHomeComponent extends Component {
         this.name = name
     }
 }
-
-
-
-// import { ESPHomeComponent } from "./index"
-// import { Trigger } from "../types"
-
-// export class Scale extends ESPHomeComponent {
-//     weight_topic = this.topic + "weight/*"
-//     impedance_topic = this.topic + "weight/*"
-//     weight: Trigger = { topic: this.weight_topic, payload: "on" }
-//     impedance: Trigger = { topic: this.weight_topic, payload: "on" }
-
-
-// }

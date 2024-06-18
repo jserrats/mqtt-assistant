@@ -15,12 +15,6 @@ class Router {
         }
     }
 
-    // addAutomationMultipleTriggers({ triggers, callback }: { triggers: Trigger[], callback: CallableFunction }) {
-    //     triggers.forEach((trigger: Trigger) => {
-    //         this.addAutomation({ trigger, callback })
-    //     })
-    // }
-
     route(newTopic: string, newPayload: string) {
         this.routes.forEach((automation: Automation) => {
             if (wcmatch(automation.trigger.topic)(newTopic) && wcmatch(automation.trigger.payload)(newPayload)) {

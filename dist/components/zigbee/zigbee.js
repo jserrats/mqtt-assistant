@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ZigbeeComponent = void 0;
 const topics_1 = require("../../topics");
-//import { TelegramClient } from "../telegram"
 const router_1 = require("../../router");
 const component_1 = require("../component");
 class ZigbeeComponent extends component_1.Component {

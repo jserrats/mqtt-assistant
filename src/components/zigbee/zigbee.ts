@@ -1,6 +1,5 @@
 import { ZIGBEE2MQTT_TOPIC } from "../../topics"
 
-//import { TelegramClient } from "../telegram"
 import { router } from "../../router"
 import { Component } from "../component"
 import { Trigger } from "../../types"

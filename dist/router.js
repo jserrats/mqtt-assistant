@@ -17,11 +17,6 @@ class Router {
             this.routes.push(automation);
         }
     }
-    // addAutomationMultipleTriggers({ triggers, callback }: { triggers: Trigger[], callback: CallableFunction }) {
-    //     triggers.forEach((trigger: Trigger) => {
-    //         this.addAutomation({ trigger, callback })
-    //     })
-    // }
     route(newTopic, newPayload) {
         this.routes.forEach((automation) => {
             if ((0, wildcard_match_1.default)(automation.trigger.topic)(newTopic) && (0, wildcard_match_1.default)(automation.trigger.payload)(newPayload)) {
