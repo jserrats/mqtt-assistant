@@ -1,6 +1,6 @@
 import { ZigbeeComponent, InboundZigbeeInfo } from "./zigbee";
 declare class PowerZigbee extends ZigbeeComponent {
-    set_topic: string;
+    setTopic: string;
     state: boolean;
     on(): void;
     off(): void;
@@ -16,4 +16,11 @@ export declare class PowerE1603 extends PowerZigbee {
 type InboundPowerZigbeeInfo = {
     state: string;
 } & InboundZigbeeInfo;
+export declare class WattPowerZigbee extends PowerZigbee {
+    power: number;
+    updateComponent(message: InboundWattPowerZigbeeInfo): void;
+}
+type InboundWattPowerZigbeeInfo = {
+    power: number;
+} & InboundPowerZigbeeInfo;
 export {};
