@@ -17,26 +17,26 @@ export class Sun extends Component {
         this.updateSunset(this.nextSunset)
 
         scheduleJob(this.nextSunrise, () => {
-            this.notify("sunrise")
             this.updateSunrise(this.nextSunrise)
         })
 
         scheduleJob(this.nextSunset, () => {
-            this.notify("sunset")
             this.updateSunset(this.nextSunrise)
         })
     }
 
-    private notify(sun: "sunrise" | "sunset") {
+    notify(sun: "sunrise" | "sunset") {
         this.client.publish(BASE_TOPIC + "sun/" + sun, "now"
         )
     }
 
     private updateSunrise(message: Date) {
+        this.notify("sunrise")
         this.client.publish(BASE_TOPIC + "sun/sunrise/time", message.toISOString(), { retain: true })
     }
 
     private updateSunset(message: Date) {
+        this.notify("sunset")
         this.client.publish(BASE_TOPIC + "sun/sunset/time", message.toISOString(), { retain: true })
     }
 }
