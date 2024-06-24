@@ -1,6 +1,6 @@
 import { Sun } from "../../../src/components/sun"
 import { client } from "../../../src/mqtt"
-
+import { BASE_TOPIC } from "../../../src/topics";
 jest.useFakeTimers()
 
 jest.mock('../../../src/mqtt', () => ({
@@ -22,12 +22,12 @@ describe('Sun', () => {
     })
 
     it('should notify of sun changes', async () => {
-        expect(calls["automations/sun/sunset"]).toStrictEqual("now")
-        expect(calls["automations/sun/sunrise"]).toStrictEqual("now")
+        expect(calls[BASE_TOPIC + "sun/sunset"]).toStrictEqual("now")
+        expect(calls[BASE_TOPIC + "sun/sunrise"]).toStrictEqual("now")
     })
 
     it('should publish sun times', async () => {
-        expect(calls["automations/sun/sunset/time"]).toStrictEqual(sun.nextSunset.toISOString())
-        expect(calls["automations/sun/sunrise/time"]).toStrictEqual(sun.nextSunrise.toISOString())
+        expect(calls[BASE_TOPIC + "sun/sunset/time"]).toStrictEqual(sun.nextSunset.toISOString())
+        expect(calls[BASE_TOPIC + "sun/sunrise/time"]).toStrictEqual(sun.nextSunrise.toISOString())
     })
 })
