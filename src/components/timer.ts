@@ -10,7 +10,7 @@ export class Timer extends Component {
     private cancelCallback: CallableFunction = () => { }
     private publishTopic: string = ""
 
-    setTimeout(period: Length, callback: CallableFunction, options?: Options) {
+    setTimeout(period: TimerLength, callback: CallableFunction, options?: Options) {
         this.cancelTimeout()
         this.setLength(period)
         if (typeof options !== 'undefined') {
@@ -59,7 +59,7 @@ export class Timer extends Component {
         clearInterval(this.intervalID)
     }
 
-    private setLength(period: Length) {
+    private setLength(period: TimerLength) {
         let seconds: number = 0;
         if (typeof period.seconds !== 'undefined') {
             seconds = period.seconds
@@ -87,7 +87,7 @@ export class Timer extends Component {
 
 }
 
-type Length = {
+export type TimerLength = {
     seconds?: number,
     minutes?: number
     hours?: number

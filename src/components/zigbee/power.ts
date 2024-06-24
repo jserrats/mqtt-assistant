@@ -1,9 +1,19 @@
 import { ZigbeeComponent, InboundZigbeeInfo } from "./zigbee"
-
+import { Timer, TimerLength } from "../timer"
 
 class PowerZigbee extends ZigbeeComponent {
     setTopic = this.topic + "/set"
     state: boolean = false
+    autoOffTimer: TimerLength
+    timer: Timer
+
+    constructor(name: string, options?: PowerZigbeeOptions) {
+        super(name)
+        if (typeof options !== 'undefined') {
+            this.autoOffTimer = options.autoOff
+            this.timer = new Timer()
+        }
+    }
 
     on() {
         this.set(true)
@@ -24,7 +34,18 @@ class PowerZigbee extends ZigbeeComponent {
     updateComponent(message: InboundPowerZigbeeInfo): void {
         this.state = (message.state == "ON")
         super.updateComponent(message)
+        if (typeof this.autoOffTimer !== 'undefined') {
+            if (this.state) {
+                this.timer.setTimeout(this.autoOffTimer, () => { this.off() })
+            } else {
+                this.timer.cancelTimeout()
+            }
+        }
     }
+}
+
+type PowerZigbeeOptions = {
+    autoOff?: TimerLength
 }
 
 /**

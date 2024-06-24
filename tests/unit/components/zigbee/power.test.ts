@@ -8,12 +8,14 @@ jest.mock('../../../../src/mqtt', () => ({
     }
 }));
 
+jest.useFakeTimers()
+
 describe('Power', () => {
     var wattPower: WattPowerZigbee
 
 
     beforeAll(async () => {
-        wattPower = new WattPowerZigbee("test1")
+        wattPower = new WattPowerZigbee("test1", { autoOff: { hours: 4 } })
     })
 
     afterEach(async () => {
@@ -40,6 +42,15 @@ describe('Power', () => {
 
     it('should be named', async () => {
         expect(wattPower.name).toBe("test1")
+    })
+
+    it('should timeout correctly', async () => {
+        client.publish(wattPower.topic, JSON.stringify({ power: 43.57, state: "ON", }));
+        expect(wattPower.state).toBe(true);
+
+        (client.publish as jest.Mock).mockClear()
+        jest.runOnlyPendingTimers();
+        expect((client.publish as jest.Mock).mock.calls[0]).toStrictEqual([wattPower.setTopic, 'OFF'])
     })
 
 })
