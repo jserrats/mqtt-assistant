@@ -1,6 +1,7 @@
 import { Trigger } from "../types"
 import { Component } from "./component"
 import { router } from "../router"
+import { BASE_TOPIC } from "../topics"
 
 export class Timer extends Component {
     private timeoutID: NodeJS.Timeout = setTimeout(() => { })
@@ -18,7 +19,7 @@ export class Timer extends Component {
                 this.setCancelTrigger(options.cancelTrigger)
             }
             if (typeof options.publishTopic !== 'undefined') {
-                this.publishTopic = options.publishTopic
+                this.publishTopic = BASE_TOPIC + "timer/" + options.publishTopic
                 this.intervalID = setInterval(() => {
                     this.seconds = this.seconds + 1;
                     this.publishTime()
@@ -32,10 +33,10 @@ export class Timer extends Component {
     }
 
     private publishTime() {
-        this.client.publish("automations/timer/" + this.publishTopic, this.seconds.toString())
-        this.client.publish("automations/timer/" + this.publishTopic + "/countdown", (this.length / 1000 - this.seconds).toString())
-        this.client.publish("automations/timer/" + this.publishTopic + "/text", Timer.secondsToHms(this.seconds))
-        this.client.publish("automations/timer/" + this.publishTopic + "/text_countdown", Timer.secondsToHms(this.length / 1000 - this.seconds))
+        this.client.publish(this.publishTopic, this.seconds.toString())
+        this.client.publish(this.publishTopic + "/countdown", (this.length / 1000 - this.seconds).toString())
+        this.client.publish(this.publishTopic + "/text", Timer.secondsToHms(this.seconds))
+        this.client.publish(this.publishTopic + "/text_countdown", Timer.secondsToHms(this.length / 1000 - this.seconds))
     }
 
     private static secondsToHms(seconds: number) {
