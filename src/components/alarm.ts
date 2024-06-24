@@ -20,6 +20,7 @@ export class Alarm extends Component {
                 }
             })
         });
+        this.updateState()
     }
 
     updateState() {

@@ -13,7 +13,6 @@
   "license": "ISC",
   "dependencies": {
     "mqtt": "^5.7.0",
-    "node-schedule": "^2.1.1",
     "sunrise-sunset-js": "^2.2.1",
     "wildcard-match": "^5.1.3"
   },

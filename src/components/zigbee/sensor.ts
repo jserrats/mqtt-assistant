@@ -59,7 +59,7 @@ export class ContactSensorZigbee extends ZigbeeComponent {
 
 }
 
-type ClosureSensorZigbeeComponentInfo = {
+export type ClosureSensorZigbeeComponentInfo = {
     contact: boolean
 } & InboundZigbeeInfo
 

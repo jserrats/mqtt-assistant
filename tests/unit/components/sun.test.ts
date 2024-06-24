@@ -15,7 +15,7 @@ describe('Sun', () => {
 
     beforeAll(async () => {
         sun = new Sun(41.3831173, 2.1640883);
-
+        jest.runOnlyPendingTimers();
         (client.publish as jest.Mock).mock.calls.forEach(element => {
             calls[element[0]] = element[1]
         });

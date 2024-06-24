@@ -1,7 +1,7 @@
 import { BASE_TOPIC } from "../topics"
 import { Component } from "./component"
 import { getSunrise, getSunset } from 'sunrise-sunset-js';
-import { scheduleJob } from 'node-schedule'
+
 export class Sun extends Component {
 
     nextSunrise: Date
@@ -11,33 +11,47 @@ export class Sun extends Component {
     constructor(latitude: number, longitude: number) {
         super()
         this.location = [latitude, longitude]
-        this.nextSunrise = getSunrise(...this.location)
-        this.nextSunset = getSunset(...this.location)
-        this.updateSunrise(this.nextSunrise)
-        this.updateSunset(this.nextSunset)
 
-        scheduleJob(this.nextSunrise, () => {
-            this.updateSunrise(this.nextSunrise)
-        })
-
-        scheduleJob(this.nextSunset, () => {
-            this.updateSunset(this.nextSunrise)
-        })
+        this.scheduleSunrise()
+        this.scheduleSunset()
     }
 
-    notify(sun: "sunrise" | "sunset") {
+    private notify(sun: "sunrise" | "sunset") {
         this.client.publish(BASE_TOPIC + "sun/" + sun, "now"
         )
     }
 
-    private updateSunrise(message: Date) {
-        this.notify("sunrise")
+    private scheduleSunrise() {
+        this.nextSunrise = getSunrise(...this.location, this.tomorrow())
+        this.publishSunrise(this.nextSunrise)
+        setTimeout(() => {
+            this.notify("sunrise")
+            this.scheduleSunrise()
+        }, this.nextSunrise.getTime() - Date.now())
+    }
+
+    private scheduleSunset() {
+        this.nextSunset = getSunset(...this.location, this.tomorrow())
+        this.publishSunset(this.nextSunset)
+        setTimeout(() => {
+            this.notify("sunset")
+            this.scheduleSunset()
+        }, this.nextSunset.getTime() - Date.now())
+    }
+
+    private publishSunrise(message: Date) {
         this.client.publish(BASE_TOPIC + "sun/sunrise/time", message.toISOString(), { retain: true })
     }
 
-    private updateSunset(message: Date) {
+    private publishSunset(message: Date) {
         this.notify("sunset")
         this.client.publish(BASE_TOPIC + "sun/sunset/time", message.toISOString(), { retain: true })
+    }
+
+    private tomorrow(): Date {
+        var tomorrow = new Date()
+        tomorrow.setDate(tomorrow.getDate() + 1)
+        return tomorrow
     }
 }
 
