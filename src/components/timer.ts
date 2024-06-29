@@ -35,21 +35,10 @@ export class Timer extends Component {
     private publishTime() {
         this.client.publish(this.publishTopic, this.seconds.toString())
         this.client.publish(this.publishTopic + "/countdown", (this.length / 1000 - this.seconds).toString())
-        this.client.publish(this.publishTopic + "/text", Timer.secondsToHms(this.seconds))
-        this.client.publish(this.publishTopic + "/text_countdown", Timer.secondsToHms(this.length / 1000 - this.seconds))
+        this.client.publish(this.publishTopic + "/text", secondsToHms(this.seconds))
+        this.client.publish(this.publishTopic + "/text_countdown", secondsToHms(this.length / 1000 - this.seconds))
     }
 
-    private static secondsToHms(seconds: number) {
-        seconds = Number(seconds);
-        var h = Math.floor(seconds / 3600);
-        var m = Math.floor(seconds % 3600 / 60);
-        var s = Math.floor(seconds % 3600 % 60);
-
-        var hDisplay = h > 0 ? h + ("h ") : "";
-        var mDisplay = m > 0 ? m + ("m ") : "";
-        var sDisplay = s > 0 ? s + ("s") : "";
-        return hDisplay + mDisplay + sDisplay;
-    }
 
     public cancelTimeout() {
         clearTimeout(this.timeoutID)
@@ -98,4 +87,18 @@ type Options = {
     cancelTrigger?: Trigger | Trigger[]
     cancelCallback?: CallableFunction
     publishTopic?: string
+}
+
+
+export function secondsToHms(seconds: number) {
+    seconds = Number(seconds);
+    var h = Math.floor(seconds / 3600);
+    var m = Math.floor(seconds % 3600 / 60);
+    var s = Math.floor(seconds % 3600 % 60);
+
+    var hDisplay = h > 0 ? h + ("h ") : "";
+    var mDisplay = m > 0 ? m + ("m ") : "";
+    var sDisplay = h > 0 ? "" : (s > 0 ? s + ("s") : "");
+
+    return (hDisplay + mDisplay + sDisplay).trim();
 }

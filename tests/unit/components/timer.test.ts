@@ -1,6 +1,6 @@
 import { client } from "../../../src/mqtt"
 import { router } from "../../../src/router"
-import { Timer } from "../../../src/components/timer"
+import { Timer, secondsToHms } from "../../../src/components/timer"
 import { BASE_TOPIC } from "../../../src/topics";
 
 jest.mock('../../../src/mqtt', () => ({
@@ -28,6 +28,12 @@ describe('Timer', () => {
         timer.setTimeout({ seconds: 10 }, mockCallback, { publishTopic: "test" })
         jest.runOnlyPendingTimers();
         expect((client.publish as jest.Mock).mock.calls).toHaveLength(40)
+    })
+
+    it('time formatting should adjust', async () => {
+        expect(secondsToHms(60 * 60 * 2 - 1)).toStrictEqual("1h 59m")
+        expect(secondsToHms(60 * 60 - 1)).toStrictEqual("59m 59s")
+        expect(secondsToHms(59)).toStrictEqual("59s")
     })
 
 })
