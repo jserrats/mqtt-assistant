@@ -40,6 +40,11 @@ describe('Power', () => {
         expect((client.publish as jest.Mock).mock.calls[0]).toStrictEqual([wattPower.setTopic, 'ON'])
     })
 
+    it('should toggle', async () => {
+        wattPower.toggle()
+        expect((client.publish as jest.Mock).mock.calls[0]).toStrictEqual([wattPower.setTopic, 'TOGGLE'])
+    })
+
     it('should be named', async () => {
         expect(wattPower.name).toBe("test1")
     })

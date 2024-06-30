@@ -24,11 +24,19 @@ class PowerZigbee extends ZigbeeComponent {
     }
 
     toggle() {
-        this.set(!this.state)
+        this.set("toggle")
     }
 
-    private set(order: boolean) {
-        this.client.publish(this.setTopic, order ? "ON" : "OFF")
+    private set(order: boolean | "toggle") {
+        var text_order: string;
+        if (typeof order === 'boolean') {
+            text_order = order ? "ON" : "OFF"
+        } else {
+            text_order = "TOGGLE"
+        }
+        this.client.publish(this.setTopic, text_order)
+
+
     }
 
     updateComponent(message: InboundPowerZigbeeInfo): void {
