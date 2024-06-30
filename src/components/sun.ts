@@ -44,7 +44,6 @@ export class Sun extends Component {
     }
 
     private publishSunset(message: Date) {
-        this.notify("sunset")
         this.client.publish(BASE_TOPIC + "sun/sunset/time", message.toISOString(), { retain: true })
     }
 

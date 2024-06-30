@@ -15,6 +15,14 @@ describe('Sun', () => {
 
     beforeAll(async () => {
         sun = new Sun(41.3831173, 2.1640883);
+        (client.publish as jest.Mock).mock.calls.forEach(element => {
+            calls[element[0]] = element[1]
+        });
+    })
+
+    it("should not notify of sun changes yet", async () => {
+        expect(calls[BASE_TOPIC + "sun/sunset"]).toBeUndefined()
+        expect(calls[BASE_TOPIC + "sun/sunrise"]).toBeUndefined()
         jest.runOnlyPendingTimers();
         (client.publish as jest.Mock).mock.calls.forEach(element => {
             calls[element[0]] = element[1]
