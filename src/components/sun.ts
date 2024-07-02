@@ -16,7 +16,7 @@ export class Sun extends Component {
 	}
 
 	private notify(sun: "sunrise" | "sunset") {
-		this.client.publish(BASE_TOPIC + "sun/" + sun, "now");
+		this.client.publish(`${BASE_TOPIC}sun/${sun}`, "now");
 	}
 
 	private scheduleSunrise() {
@@ -39,20 +39,20 @@ export class Sun extends Component {
 
 	private publishSunrise(message: Date) {
 		this.client.publish(
-			BASE_TOPIC + "sun/sunrise/time",
+			`${BASE_TOPIC}sun/sunrise/time`,
 			message.toISOString(),
 			{ retain: true },
 		);
 	}
 
 	private publishSunset(message: Date) {
-		this.client.publish(BASE_TOPIC + "sun/sunset/time", message.toISOString(), {
+		this.client.publish(`${BASE_TOPIC}sun/sunset/time`, message.toISOString(), {
 			retain: true,
 		});
 	}
 
 	private tomorrow(): Date {
-		var tomorrow = new Date();
+		const tomorrow = new Date();
 		tomorrow.setDate(tomorrow.getDate() + 1);
 		return tomorrow;
 	}

@@ -3,7 +3,7 @@ import mqtt, { type MqttClient } from "mqtt";
 export class TelegramClient {
 	client: MqttClient;
 	constructor(server?: string) {
-		var MQTT_SERVER: string | undefined;
+		let MQTT_SERVER: string | undefined;
 		if (typeof server !== "undefined") {
 			MQTT_SERVER = server;
 		} else {
@@ -13,7 +13,7 @@ export class TelegramClient {
 			}
 		}
 		MQTT_SERVER as string;
-		this.client = mqtt.connect("mqtt://" + MQTT_SERVER);
+		this.client = mqtt.connect(`mqtt://${MQTT_SERVER}`);
 	}
 
 	send(message: string) {

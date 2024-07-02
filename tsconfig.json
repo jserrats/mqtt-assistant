@@ -1,16 +1,12 @@
 {
-  "compilerOptions": {
-    "outDir": "./dist",
-    "module": "commonjs",
-    "types": ["node", "jest"],
-    "target": "es2022",
-    "esModuleInterop": true,
-    "declaration": true
-  },
-  "exclude": [
-    "jest.config.ts",
-    "**/*.spec.ts",
-    "**/*.test.ts",
-  ],
-  "include": ["**/*.ts"]
+	"compilerOptions": {
+		"outDir": "./dist",
+		"module": "commonjs",
+		"types": ["node", "jest"],
+		"target": "es2022",
+		"esModuleInterop": true,
+		"declaration": true
+	},
+	"exclude": ["jest.config.ts", "**/*.spec.ts", "**/*.test.ts"],
+	"include": ["**/*.ts"]
 }

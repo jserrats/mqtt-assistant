@@ -15,8 +15,8 @@ export class SwitchESPHome extends ESPHomeComponent {
 
 	constructor(name: string, component: string) {
 		super(name);
-		this.sensorTopic = this.topic + "/switch/" + component + "/state";
-		this.commandTopic = this.topic + "/switch/" + component + "/command";
+		this.sensorTopic = `${this.topic}/switch/${component}/state`;
+		this.commandTopic = `${this.topic}/switch/${component}/command`;
 		this.trigger.off.topic = this.sensorTopic;
 		this.trigger.on.topic = this.sensorTopic;
 		this.updater = {
@@ -41,6 +41,6 @@ export class SwitchESPHome extends ESPHomeComponent {
 	}
 
 	private updateComponent(message: string) {
-		this.state = message == "ON";
+		this.state = message === "ON";
 	}
 }

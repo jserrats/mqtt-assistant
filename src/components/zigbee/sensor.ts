@@ -2,7 +2,7 @@ import { type InboundZigbeeInfo, ZigbeeComponent } from "./zigbee";
 
 export class PresenceSensorZigbee extends ZigbeeComponent {
 	occupancy = false;
-	actionTopic = this.topic + "/action";
+	actionTopic = `${this.topic}/action`;
 	trigger = {
 		occupied: { topic: this.actionTopic, payload: "ON" },
 		cleared: { topic: this.actionTopic, payload: "OFF" },
@@ -10,7 +10,7 @@ export class PresenceSensorZigbee extends ZigbeeComponent {
 	};
 
 	updateComponent(message: PresenceSensorZigbeeComponentInfo): void {
-		if (this.occupancy == !message.occupancy) {
+		if (this.occupancy === !message.occupancy) {
 			this.triggerItself();
 		}
 		this.occupancy = message.occupancy;
@@ -29,7 +29,7 @@ type PresenceSensorZigbeeComponentInfo = {
 export class ContactSensorZigbee extends ZigbeeComponent {
 	contact = false;
 	private inverted = false;
-	private actionTopic = this.topic + "/action";
+	private actionTopic = `${this.topic}/action`;
 	trigger = {
 		whenClosed: { topic: this.actionTopic, payload: "CLOSED" },
 		whenOpened: { topic: this.actionTopic, payload: "OPEN" },

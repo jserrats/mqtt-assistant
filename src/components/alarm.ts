@@ -11,7 +11,7 @@ export class Alarm extends Component {
 
 	constructor(name: string, contactSensors: ContactSensors) {
 		super();
-		this.topic = BASE_TOPIC + "alarms/" + name;
+		this.topic = `${BASE_TOPIC}alarms/${name}`;
 		this.sensors = contactSensors;
 		this.sensors.forEach((sensor) => {
 			router.addAutomation({
@@ -25,7 +25,7 @@ export class Alarm extends Component {
 	}
 
 	updateState() {
-		var output = true;
+		let output = true;
 		this.sensors.forEach((sensor) => {
 			output = output && sensor.contact;
 		});

@@ -33,7 +33,7 @@ export class ZigbeeComponent extends Component {
 	}
 
 	protected updateComponent(message: InboundZigbeeInfo) {
-		this.linkquality = message["linkquality"];
+		this.linkquality = message.linkquality;
 	}
 }
 

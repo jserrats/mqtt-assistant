@@ -23,7 +23,7 @@ export class Timer extends Component {
 				this.setCancelTrigger(options.cancelTrigger);
 			}
 			if (typeof options.publishTopic !== "undefined") {
-				this.publishTopic = BASE_TOPIC + "timer/" + options.publishTopic;
+				this.publishTopic = `${BASE_TOPIC}timer/${options.publishTopic}`;
 				this.intervalID = setInterval(() => {
 					this.seconds = this.seconds + 1;
 					this.publishTime();
@@ -42,15 +42,15 @@ export class Timer extends Component {
 	private publishTime() {
 		this.client.publish(this.publishTopic, this.seconds.toString());
 		this.client.publish(
-			this.publishTopic + "/countdown",
+			`${this.publishTopic}/countdown`,
 			(this.length / 1000 - this.seconds).toString(),
 		);
 		this.client.publish(
-			this.publishTopic + "/text",
+			`${this.publishTopic}/text`,
 			secondsToHms(this.seconds),
 		);
 		this.client.publish(
-			this.publishTopic + "/text_countdown",
+			`${this.publishTopic}/text_countdown`,
 			secondsToHms(this.length / 1000 - this.seconds),
 		);
 	}
@@ -115,15 +115,15 @@ type Options = {
 	publishTopic?: string;
 };
 
-export function secondsToHms(seconds: number) {
-	seconds = Number(seconds);
-	var h = Math.floor(seconds / 3600);
-	var m = Math.floor((seconds % 3600) / 60);
-	var s = Math.floor((seconds % 3600) % 60);
+export function secondsToHms(inSeconds: number) {
+	const seconds = Number(inSeconds);
+	const h = Math.floor(seconds / 3600);
+	const m = Math.floor((seconds % 3600) / 60);
+	const s = Math.floor((seconds % 3600) % 60);
 
-	var hDisplay = h > 0 ? h + "h " : "";
-	var mDisplay = m > 0 ? m + "m " : "";
-	var sDisplay = h > 0 ? "" : s > 0 ? s + "s" : "";
+	const hDisplay = h > 0 ? `${h}h ` : "";
+	const mDisplay = m > 0 ? `${m}m ` : "";
+	const sDisplay = h > 0 ? "" : s > 0 ? `${s}s` : "";
 
 	return (hDisplay + mDisplay + sDisplay).trim();
 }

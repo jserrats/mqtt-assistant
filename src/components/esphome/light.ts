@@ -15,8 +15,8 @@ export class LightESPHome extends ESPHomeComponent {
 
 	constructor(name: string, component: string) {
 		super(name);
-		this.sensorTopic = this.topic + "/light/" + component + "/state";
-		this.commandTopic = this.topic + "/light/" + component + "/command";
+		this.sensorTopic = `${this.topic}/light/${component}/state`;
+		this.commandTopic = `${this.topic}/light/${component}/command`;
 		this.trigger.on.topic = this.sensorTopic;
 		this.trigger.off.topic = this.sensorTopic;
 		this.updater = {
@@ -48,6 +48,6 @@ export class LightESPHome extends ESPHomeComponent {
 	}
 
 	private updateComponent(message: string) {
-		this.state = JSON.parse(message).state == "ON";
+		this.state = JSON.parse(message).state === "ON";
 	}
 }

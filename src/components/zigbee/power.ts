@@ -2,7 +2,7 @@ import { Timer, type TimerLength } from "../timer";
 import { type InboundZigbeeInfo, ZigbeeComponent } from "./zigbee";
 
 class PowerZigbee extends ZigbeeComponent {
-	setTopic = this.topic + "/set";
+	setTopic = `${this.topic}/set`;
 	state = false;
 	autoOffTimer: TimerLength;
 	timer: Timer;
@@ -28,7 +28,7 @@ class PowerZigbee extends ZigbeeComponent {
 	}
 
 	private set(order: boolean | "toggle") {
-		var text_order: string;
+		let text_order: string;
 		if (typeof order === "boolean") {
 			text_order = order ? "ON" : "OFF";
 		} else {
@@ -38,7 +38,7 @@ class PowerZigbee extends ZigbeeComponent {
 	}
 
 	updateComponent(message: InboundPowerZigbeeInfo): void {
-		this.state = message.state == "ON";
+		this.state = message.state === "ON";
 		super.updateComponent(message);
 		if (typeof this.autoOffTimer !== "undefined") {
 			if (this.state) {

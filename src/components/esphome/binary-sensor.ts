@@ -15,7 +15,7 @@ export class BinarySensorESPHome extends ESPHomeComponent {
 
 	constructor(name: string, component: string) {
 		super(name);
-		this.sensorTopic = this.topic + "/binary_sensor/" + component + "/state";
+		this.sensorTopic = `${this.topic}/binary_sensor/${component}/state`;
 		this.trigger.off.topic = this.sensorTopic;
 		this.trigger.on.topic = this.sensorTopic;
 		this.trigger.all.topic = this.sensorTopic;
@@ -29,7 +29,7 @@ export class BinarySensorESPHome extends ESPHomeComponent {
 	}
 
 	updateComponent(message: string) {
-		this.state = message == "ON";
+		this.state = message === "ON";
 	}
 }
 
@@ -37,6 +37,6 @@ export class ContactSensorESPHome extends BinarySensorESPHome {
 	contact = false;
 
 	updateComponent(message: string) {
-		this.contact = message == "ON";
+		this.contact = message === "ON";
 	}
 }

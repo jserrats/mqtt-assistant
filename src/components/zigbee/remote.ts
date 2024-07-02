@@ -2,7 +2,7 @@ import { Trigger } from "../../types";
 import { ZigbeeComponent } from "./zigbee";
 
 export class RemoteZigbee extends ZigbeeComponent {
-	actionTopic = this.topic + "/action";
+	actionTopic = `${this.topic}/action`;
 }
 /**
  * STYRBAR remote control
