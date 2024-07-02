@@ -1,10 +1,10 @@
+import type { MqttClient } from "mqtt";
 import { client } from "../mqtt";
-import { MqttClient } from "mqtt";
 
 export class Component {
-    client: MqttClient
+	client: MqttClient;
 
-    constructor() {
-        this.client = client
-    }
+	constructor() {
+		this.client = client;
+	}
 }
