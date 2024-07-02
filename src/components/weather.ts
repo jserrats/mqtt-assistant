@@ -1,63 +1,100 @@
-import { BASE_TOPIC } from "../topics"
-import { Component } from "./component"
-import axios, { AxiosInstance } from 'axios';
+import axios, { type AxiosInstance } from "axios";
+import { BASE_TOPIC } from "../topics";
+import { Component } from "./component";
 
 export class Weather extends Component {
+	private location: { latitude: number; longitude: number };
+	private httpClient: AxiosInstance;
+	forecast: WeatherForecast;
 
-    private location: [number, number]
-    private instance: AxiosInstance;
+	constructor(latitude: number, longitude: number) {
+		super();
+		this.location = { latitude, longitude };
+		const OPENWEATHERMAP_API_KEY = process.env.OPENWEATHERMAP_API_KEY;
 
-    constructor(latitude: number, longitude: number) {
-        super()
-        this.location = [latitude, longitude]
-        this.instance = axios.create({
-            baseURL: 'https://api.met.no/weatherapi/locationforecast/2.0/mini?lat=41.3831173&lon=2.1640883',
-            timeout: 1000,
-            headers: {
-                "User-Agent": "Automations https://github.com/jserrats/automations"
-            }
-        });
-    }
+		this.httpClient = axios.create({
+			baseURL: `https://api.openweathermap.org/data/2.5/forecast?lat=${this.location.latitude}&lon=${this.location.longitude}&appid=${OPENWEATHERMAP_API_KEY}&units=metric`,
+			timeout: 1000,
+		});
 
-    async fetchWeather() {
-        var response = await this.instance.get<WeatherAPIResponse>("")
-        console.log(response.data.properties.timeseries[0].data.instant)
-    }
+		this.fetchWeather()
 
+		setInterval(() => { this.fetchWeather() }, 1000 * 60 * 15)
+	}
+
+	private async fetchWeather() {
+		const response = await this.httpClient.get<ForecastWeatherAPI>("");
+
+		const now = response.data.list[0];
+		const in3h = response.data.list[1];
+		const in6h = response.data.list[2];
+		const in9h = response.data.list[3];
+
+		this.forecast = {
+			now: {
+				rain_probability: now.pop,
+				temperature: now.main.temp,
+				humidity: now.main.humidity,
+				clouds: now.clouds.all,
+				description: now.weather[0].description,
+			},
+			in3h: {
+				rain_probability: in3h.pop,
+				temperature: in3h.main.temp,
+				humidity: in3h.main.humidity,
+				clouds: in3h.clouds.all,
+				description: in3h.weather[0].description,
+			},
+			in6h: {
+				rain_probability: in6h.pop,
+				temperature: in6h.main.temp,
+				humidity: in6h.main.humidity,
+				clouds: in6h.clouds.all,
+				description: in6h.weather[0].description,
+			},
+			in9h: {
+				rain_probability: in9h.pop,
+				temperature: in9h.main.temp,
+				humidity: in9h.main.humidity,
+				clouds: in9h.clouds.all,
+				description: in9h.weather[0].description,
+			},
+		};
+
+		this.client.publish(`${BASE_TOPIC}weather`, JSON.stringify(this.forecast.now));
+		this.client.publish(`${BASE_TOPIC}weather/3h`, JSON.stringify(this.forecast.in3h));
+		this.client.publish(`${BASE_TOPIC}weather/6h`, JSON.stringify(this.forecast.in6h));
+		this.client.publish(`${BASE_TOPIC}weather/9h`, JSON.stringify(this.forecast.in9h));
+	}
 }
 
+type CurrentWeatherAPI = {
+	weather: Array<{ main: string; description: string }>;
+	main: { temp: number; feels_like: number; humidity: number };
+	clouds: { all: number };
+};
 
-type WeatherAPIResponse = {
-    properties: {
-        timeseries: Array<DataWeatherAPIResponse>
-    }
-}
+type ForecastWeatherAPI = {
+	list: Array<
+		CurrentWeatherAPI & {
+			dt: number;
+			dt_txt: string;
+			pop: number;
+		}
+	>;
+};
 
-type DataWeatherAPIResponse = {
-    data: {
-        instant: {
-            details: {
-                air_pressure_at_sea_level: number,
-                air_temperature: number,
-                cloud_area_fraction: number,
-                relative_humidity: number,
-                wind_from_direction: number,
-                wind_speed: number
-            }
-        },
-        next_12_hours: PredictionWeatherAPIResponse,
-        next_6_hours: PredictionWeatherAPIResponse,
-        next_1_hours: PredictionWeatherAPIResponse,
-    },
-    time: Date
-}
+type WeatherMoment = {
+	rain_probability: number;
+	temperature: number;
+	humidity: number;
+	clouds: number;
+	description: string;
+};
 
-type PredictionWeatherAPIResponse = {
-    details: {
-        precipitation_amount?: number
-    },
-    summary: {
-        symbol_code: string
-    }
-}
-//https://api.met.no/weatherapi/locationforecast/2.0/mini?lat=41.3831173&lon=2.1640883
+export type WeatherForecast = {
+	now: WeatherMoment;
+	in3h: WeatherMoment;
+	in6h: WeatherMoment;
+	in9h: WeatherMoment;
+};
