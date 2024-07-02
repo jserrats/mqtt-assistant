@@ -4,3 +4,4 @@ export { Timer } from "./timer";
 export { Sun } from "./sun";
 export { Alarm } from "./alarm";
 export { TelegramClient } from "./telegram";
+export { Weather } from "./weather"
