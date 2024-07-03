@@ -6,4 +6,5 @@ export {
 	Sun,
 	Alarm,
 	TelegramClient,
+	Weather,
 } from "./components";
