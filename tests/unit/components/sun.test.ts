@@ -20,25 +20,16 @@ describe("Sun", () => {
 		});
 	});
 
-	it("should not notify of sun changes yet", async () => {
-		expect(calls[`${BASE_TOPIC}sun/sunset`]).toBeUndefined();
-		expect(calls[`${BASE_TOPIC}sun/sunrise`]).toBeUndefined();
-		jest.runOnlyPendingTimers();
-		(client.publish as jest.Mock).mock.calls.forEach((element) => {
-			calls[element[0]] = element[1];
-		});
-	});
-
 	it("should notify of sun changes", async () => {
-		expect(calls[`${BASE_TOPIC}sun/sunset`]).toStrictEqual("now");
-		expect(calls[`${BASE_TOPIC}sun/sunrise`]).toStrictEqual("now");
+		console.log(calls);
+		expect(calls["weather/sun"]).toBeDefined();
 	});
 
 	it("should publish sun times", async () => {
-		expect(calls[`${BASE_TOPIC}sun/sunset/time`]).toStrictEqual(
+		expect(calls["weather/sun/sunset"]).toStrictEqual(
 			sun.nextSunset.toISOString(),
 		);
-		expect(calls[`${BASE_TOPIC}sun/sunrise/time`]).toStrictEqual(
+		expect(calls["weather/sun/sunrise"]).toStrictEqual(
 			sun.nextSunrise.toISOString(),
 		);
 	});

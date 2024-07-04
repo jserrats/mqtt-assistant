@@ -8,7 +8,7 @@
 		"test": "jest --setupFiles dotenv/config",
 		"build": "tsc",
 		"prepublish": "tsc",
-		"lint": "npx @biomejs/biome check --write ./src"
+		"lint": "npx @biomejs/biome check --fix --unsafe"
 	},
 	"author": "Jaume Serrats",
 	"license": "ISC",

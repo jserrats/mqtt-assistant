@@ -1,29 +1,37 @@
 import { getSunrise, getSunset } from "sunrise-sunset-js";
-import { BASE_TOPIC } from "../topics";
 import { Component } from "./component";
 
 export class Sun extends Component {
 	nextSunrise: Date;
 	nextSunset: Date;
+	state: boolean;
 	private location: [number, number];
 
 	constructor(latitude: number, longitude: number) {
 		super();
 		this.location = [latitude, longitude];
-
 		this.scheduleSunrise();
 		this.scheduleSunset();
+
+		const todaySunrise = getSunrise(...this.location);
+		const todaySunset = getSunset(...this.location);
+		const now = new Date();
+
+		this.state = todaySunrise < now && todaySunset > now;
+		this.notifyChange();
 	}
 
-	private notify(sun: "sunrise" | "sunset") {
-		this.client.publish(`${BASE_TOPIC}sun/${sun}`, "now");
+	private notifyChange() {
+		//this.client.publish(`weather/sun/${sun}`, "now");
+		this.client.publish("weather/sun", this.state ? "ON" : "OFF");
 	}
 
 	private scheduleSunrise() {
 		this.nextSunrise = getSunrise(...this.location, this.tomorrow());
 		this.publishSunrise(this.nextSunrise);
 		setTimeout(() => {
-			this.notify("sunrise");
+			this.state = true;
+			this.notifyChange();
 			this.scheduleSunrise();
 		}, this.nextSunrise.getTime() - Date.now());
 	}
@@ -32,21 +40,20 @@ export class Sun extends Component {
 		this.nextSunset = getSunset(...this.location, this.tomorrow());
 		this.publishSunset(this.nextSunset);
 		setTimeout(() => {
-			this.notify("sunset");
+			this.state = false;
+			this.notifyChange();
 			this.scheduleSunset();
 		}, this.nextSunset.getTime() - Date.now());
 	}
 
 	private publishSunrise(message: Date) {
-		this.client.publish(
-			`${BASE_TOPIC}sun/sunrise/time`,
-			message.toISOString(),
-			{ retain: true },
-		);
+		this.client.publish("weather/sun/sunrise", message.toISOString(), {
+			retain: true,
+		});
 	}
 
 	private publishSunset(message: Date) {
-		this.client.publish(`${BASE_TOPIC}sun/sunset/time`, message.toISOString(), {
+		this.client.publish("weather/sun/sunset", message.toISOString(), {
 			retain: true,
 		});
 	}
