@@ -12,59 +12,79 @@ export class Weather extends Component {
 		this.location = { latitude, longitude };
 		const OPENWEATHERMAP_API_KEY = process.env.OPENWEATHERMAP_API_KEY;
 
-		this.httpClient = axios.create({
-			baseURL: `https://api.openweathermap.org/data/2.5/forecast?lat=${this.location.latitude}&lon=${this.location.longitude}&appid=${OPENWEATHERMAP_API_KEY}&units=metric`,
-			timeout: 1000,
-		});
+		if (OPENWEATHERMAP_API_KEY === undefined) {
+			console.error(
+				"[!] Error while creating Weather component: OPENWEATHERMAP_API_KEY is undefined",
+			);
+		} else {
+			this.httpClient = axios.create({
+				baseURL: `https://api.openweathermap.org/data/2.5/forecast?lat=${this.location.latitude}&lon=${this.location.longitude}&appid=${OPENWEATHERMAP_API_KEY}&units=metric`,
+				timeout: 1000,
+			});
 
-		this.fetchWeather()
+			this.fetchWeather();
 
-		setInterval(() => { this.fetchWeather() }, 1000 * 60 * 15)
+			setInterval(
+				() => {
+					this.fetchWeather();
+				},
+				1000 * 60 * 15,
+			);
+		}
 	}
 
 	private async fetchWeather() {
-		const response = await this.httpClient.get<ForecastWeatherAPI>("");
+		try {
+			const response = await this.httpClient.get<ForecastWeatherAPI>("");
+			const now = response.data.list[0];
+			const in3h = response.data.list[1];
+			const in6h = response.data.list[2];
+			const in9h = response.data.list[3];
 
-		const now = response.data.list[0];
-		const in3h = response.data.list[1];
-		const in6h = response.data.list[2];
-		const in9h = response.data.list[3];
+			this.forecast = {
+				now: {
+					rain_probability: now.pop,
+					temperature: now.main.temp,
+					humidity: now.main.humidity,
+					clouds: now.clouds.all,
+					description: now.weather[0].description,
+				},
+				in3h: {
+					rain_probability: in3h.pop,
+					temperature: in3h.main.temp,
+					humidity: in3h.main.humidity,
+					clouds: in3h.clouds.all,
+					description: in3h.weather[0].description,
+				},
+				in6h: {
+					rain_probability: in6h.pop,
+					temperature: in6h.main.temp,
+					humidity: in6h.main.humidity,
+					clouds: in6h.clouds.all,
+					description: in6h.weather[0].description,
+				},
+				in9h: {
+					rain_probability: in9h.pop,
+					temperature: in9h.main.temp,
+					humidity: in9h.main.humidity,
+					clouds: in9h.clouds.all,
+					description: in9h.weather[0].description,
+				},
+			};
 
-		this.forecast = {
-			now: {
-				rain_probability: now.pop,
-				temperature: now.main.temp,
-				humidity: now.main.humidity,
-				clouds: now.clouds.all,
-				description: now.weather[0].description,
-			},
-			in3h: {
-				rain_probability: in3h.pop,
-				temperature: in3h.main.temp,
-				humidity: in3h.main.humidity,
-				clouds: in3h.clouds.all,
-				description: in3h.weather[0].description,
-			},
-			in6h: {
-				rain_probability: in6h.pop,
-				temperature: in6h.main.temp,
-				humidity: in6h.main.humidity,
-				clouds: in6h.clouds.all,
-				description: in6h.weather[0].description,
-			},
-			in9h: {
-				rain_probability: in9h.pop,
-				temperature: in9h.main.temp,
-				humidity: in9h.main.humidity,
-				clouds: in9h.clouds.all,
-				description: in9h.weather[0].description,
-			},
-		};
-
-		this.client.publish(`${BASE_TOPIC}weather`, JSON.stringify(this.forecast.now));
-		this.client.publish(`${BASE_TOPIC}weather/3h`, JSON.stringify(this.forecast.in3h));
-		this.client.publish(`${BASE_TOPIC}weather/6h`, JSON.stringify(this.forecast.in6h));
-		this.client.publish(`${BASE_TOPIC}weather/9h`, JSON.stringify(this.forecast.in9h));
+			this.client.publish("weather", JSON.stringify(this.forecast.now));
+			this.client.publish("weather/3h", JSON.stringify(this.forecast.in3h));
+			this.client.publish("weather/6h", JSON.stringify(this.forecast.in6h));
+			this.client.publish("weather/9h", JSON.stringify(this.forecast.in9h));
+		} catch (error) {
+			let error_message = "Unknown Error";
+			if (error instanceof Error) error_message = error.message;
+			console.error(
+				`[!] Error while parsing message:
+					ERROR: ${error_message}`,
+			);
+			return;
+		}
 	}
 }
 
