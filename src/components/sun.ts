@@ -22,8 +22,9 @@ export class Sun extends Component {
 	}
 
 	private notifyChange() {
-		//this.client.publish(`weather/sun/${sun}`, "now");
-		this.client.publish("weather/sun", this.state ? "ON" : "OFF");
+		this.client.publish("weather/sun", this.state ? "ON" : "OFF", {
+			retain: true,
+		});
 	}
 
 	private scheduleSunrise() {
