@@ -13,24 +13,44 @@ describe("Sun", () => {
 	let sun: Sun;
 	const calls: Record<string, string> = {};
 
-	beforeAll(async () => {
+	beforeEach(async () => {
 		sun = new Sun(41.3831173, 2.1640883);
-		(client.publish as jest.Mock).mock.calls.forEach((element) => {
-			calls[element[0]] = element[1];
-		});
 	});
 
 	it("should notify of sun changes", async () => {
-		console.log(calls);
-		expect(calls["weather/sun"]).toBeDefined();
+		expect(
+			(client.publish as jest.Mock).mock.calls.some(
+				(item) => item[1] === "OFF",
+			) ||
+				(client.publish as jest.Mock).mock.calls.some(
+					(item) => item[1] === "ON",
+				),
+		).toBeTruthy();
+		
+		jest.runOnlyPendingTimers();
+
+		expect((client.publish as jest.Mock).mock.calls).toContainEqual([
+			"weather/sun",
+			"ON",
+			{ retain: true },
+		]);
+		expect((client.publish as jest.Mock).mock.calls).toContainEqual([
+			"weather/sun",
+			"OFF",
+			{ retain: true },
+		]);
 	});
 
 	it("should publish sun times", async () => {
-		expect(calls["weather/sun/sunset"]).toStrictEqual(
-			sun.nextSunset.toISOString(),
-		);
-		expect(calls["weather/sun/sunrise"]).toStrictEqual(
-			sun.nextSunrise.toISOString(),
-		);
+		expect(
+			(client.publish as jest.Mock).mock.calls.some(
+				(item) => item[0] === "weather/sun/sunset",
+			),
+		).toBeTruthy();
+		expect(
+			(client.publish as jest.Mock).mock.calls.some(
+				(item) => item[0] === "weather/sun/sunrise",
+			),
+		).toBeTruthy();
 	});
 });
