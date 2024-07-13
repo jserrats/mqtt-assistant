@@ -1,11 +1,9 @@
 import mqtt from "mqtt";
+import { getEnvVariable } from "./index";
 import { router } from "./router";
 import * as topic from "./topics";
 
-const MQTT_SERVER = process.env.MQTT_SERVER;
-if (MQTT_SERVER === undefined) {
-	throw new Error("[!] Missing MQTT_SERVER");
-}
+const MQTT_SERVER = getEnvVariable("MQTT_SERVER");
 
 export const client = mqtt.connect(`mqtt://${MQTT_SERVER}`, {
 	will: {

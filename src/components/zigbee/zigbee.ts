@@ -3,7 +3,7 @@ import { ZIGBEE2MQTT_TOPIC } from "../../topics";
 import { router } from "../../router";
 import type { Trigger } from "../../types";
 import { Component } from "../component";
-import { Telegram } from "../telegram";
+import { telegram } from "../telegram";
 export class ZigbeeComponent extends Component {
 	topic: string;
 	linkquality = 0;
@@ -39,11 +39,9 @@ export class ZigbeeComponent extends Component {
 
 export class ZigbeeMonitor extends Component {
 	offlineDevices: string[] = [];
-	telegram: Telegram;
 
 	constructor() {
 		super();
-		this.telegram = new Telegram();
 
 		router.addAutomation({
 			trigger: { topic: `${ZIGBEE2MQTT_TOPIC}*/availability`, payload: "*" },
@@ -67,7 +65,7 @@ export class ZigbeeMonitor extends Component {
 	}
 
 	sendNotification(message: Trigger) {
-		this.telegram.send(
+		telegram.send(
 			`[!] Zigbee component ${message.topic} status: ${(JSON.parse(message.payload) as InboundAvailability).state}`,
 		);
 	}

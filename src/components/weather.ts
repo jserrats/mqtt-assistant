@@ -1,4 +1,5 @@
 import axios, { type AxiosInstance } from "axios";
+import { getEnvVariable } from "..";
 import { BASE_TOPIC } from "../topics";
 import { Component } from "./component";
 
@@ -10,27 +11,30 @@ export class Weather extends Component {
 	constructor(latitude: number, longitude: number) {
 		super();
 		this.location = { latitude, longitude };
-		const OPENWEATHERMAP_API_KEY = process.env.OPENWEATHERMAP_API_KEY;
+		let OPENWEATHERMAP_API_KEY: string;
 
-		if (OPENWEATHERMAP_API_KEY === undefined) {
+		try {
+			OPENWEATHERMAP_API_KEY = getEnvVariable("OPENWEATHERMAP_API_KEY");
+		} catch (error) {
 			console.error(
 				"[!] Error while creating Weather component: OPENWEATHERMAP_API_KEY is undefined",
 			);
-		} else {
-			this.httpClient = axios.create({
-				baseURL: `https://api.openweathermap.org/data/2.5/forecast?lat=${this.location.latitude}&lon=${this.location.longitude}&appid=${OPENWEATHERMAP_API_KEY}&units=metric`,
-				timeout: 1000,
-			});
-
-			this.fetchWeather();
-
-			setInterval(
-				() => {
-					this.fetchWeather();
-				},
-				1000 * 60 * 15,
-			);
+			return;
 		}
+
+		this.httpClient = axios.create({
+			baseURL: `https://api.openweathermap.org/data/2.5/forecast?lat=${this.location.latitude}&lon=${this.location.longitude}&appid=${OPENWEATHERMAP_API_KEY}&units=metric`,
+			timeout: 1000,
+		});
+
+		this.fetchWeather();
+
+		setInterval(
+			() => {
+				this.fetchWeather();
+			},
+			1000 * 60 * 15,
+		);
 	}
 
 	private async fetchWeather() {
