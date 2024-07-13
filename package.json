@@ -1,6 +1,6 @@
 {
 	"name": "mqtt-assistant",
-	"version": "0.10.0",
+	"version": "0.11.0",
 	"description": "A typescript wrapper for easily creating home automations with mqtt entities",
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
