@@ -5,6 +5,6 @@ export {
 	Timer,
 	Sun,
 	Alarm,
-	TelegramClient,
+	Telegram,
 	Weather,
 } from "./components";

@@ -26,7 +26,7 @@ describe("Sun", () => {
 					(item) => item[1] === "ON",
 				),
 		).toBeTruthy();
-		
+
 		jest.runOnlyPendingTimers();
 
 		expect((client.publish as jest.Mock).mock.calls).toContainEqual([
