@@ -1,9 +1,7 @@
 import type { Trigger } from "../../../types";
 import { type InboundZigbeeInfo, ZigbeeComponent } from "../zigbee";
 
-export class GenericZigbeeSensor
-	extends ZigbeeComponent
-{
+export class GenericZigbeeSensor extends ZigbeeComponent {
 	triggerTopic = `${this.topic}/trigger`;
 	trigger: Record<string, Trigger>;
 	updateCallback: CallableFunction | undefined;

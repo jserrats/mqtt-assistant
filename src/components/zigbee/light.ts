@@ -3,7 +3,7 @@ import { type InboundZigbeeInfo, ZigbeeComponent } from "./zigbee";
 export class LightZigbee extends ZigbeeComponent {
 	protected setTopic = `${this.topic}/set`;
 	public state = false;
-	protected brightness = 254;
+	public brightness = 254;
 
 	setBrightness(level: number) {
 		if (level > 0 && level < 255) {
@@ -27,17 +27,21 @@ export class LightZigbee extends ZigbeeComponent {
 	}
 
 	toggle() {
-		this.set(!this.state);
+		this.set("toggle");
 	}
 
-	protected set(order: boolean) {
-		this.client.publish(
-			this.setTopic,
-			JSON.stringify({
-				state: order ? "ON" : "OFF",
-				...this.getOptions(),
-			}),
-		);
+	protected set(order: boolean | "toggle") {
+		if (typeof order === "boolean") {
+			this.client.publish(
+				this.setTopic,
+				JSON.stringify({
+					state: order ? "ON" : "OFF",
+					...this.getOptions(),
+				}),
+			);
+		} else {
+			this.client.publish(this.setTopic, "TOGGLE");
+		}
 	}
 
 	protected getOptions() {
@@ -92,7 +96,7 @@ export class LightLED1623G12 extends LightZigbee {
 	}
 }
 
-type InboundLightZigbeeInfo = {
+export type InboundLightZigbeeInfo = {
 	state: string;
 	brightness: number;
 } & InboundZigbeeInfo;

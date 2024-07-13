@@ -1,11 +1,7 @@
-import {
-	InboundAvailability,
-	ZigbeeComponent,
-	ZigbeeMonitor,
-} from "../../../../src/components/zigbee/zigbee";
-import { client } from "../../../../src/mqtt";
-import { router } from "../../../../src/router";
-import { ZIGBEE2MQTT_TOPIC } from "../../../../src/topics";
+import { client } from "../../../mqtt";
+import { router } from "../../../router";
+import { ZIGBEE2MQTT_TOPIC } from "../../../topics";
+import { InboundAvailability, ZigbeeComponent, ZigbeeMonitor } from "../zigbee";
 
 jest.mock("../../../../src/mqtt", () => ({
 	client: {

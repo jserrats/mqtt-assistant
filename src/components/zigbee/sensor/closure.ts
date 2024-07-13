@@ -1,5 +1,5 @@
 import type { InboundZigbeeInfo } from "../zigbee";
-import { GenericZigbeeSensor, GenericZigbeeSensorOptions } from "./sensor";
+import { GenericZigbeeSensor, type GenericZigbeeSensorOptions } from "./sensor";
 
 export class ClosureSensorZigbee extends GenericZigbeeSensor {
 	contact: boolean | undefined;

@@ -1,6 +1,6 @@
-import { WattPowerZigbee } from "../../../../src/components/zigbee/power";
-import { client } from "../../../../src/mqtt";
-import { router } from "../../../../src/router";
+import { client } from "../../../mqtt";
+import { router } from "../../../router";
+import { WattPowerZigbee } from "../power";
 
 jest.mock("../../../../src/mqtt", () => ({
 	client: {
