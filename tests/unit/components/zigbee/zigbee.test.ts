@@ -60,13 +60,11 @@ describe("ZigbeeMonitor", () => {
 	});
 
 	it("should notify when a zigbee component connects after being disconnected", async () => {
-		console.log(zigbeeMonitor.offlineDevices);
 		client.publish(`${ZIGBEE2MQTT_TOPIC}test1/availability`, onlineString);
 		expect((client.publish as jest.Mock).mock.calls).toHaveLength(2);
 	});
 
 	it("should not notify again", async () => {
-		console.log(zigbeeMonitor.offlineDevices);
 		client.publish(`${ZIGBEE2MQTT_TOPIC}test1/availability`, onlineString);
 		expect((client.publish as jest.Mock).mock.calls).toHaveLength(1);
 	});
