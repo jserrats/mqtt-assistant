@@ -1,10 +1,10 @@
-import { Alarm } from "../../../src/components/alarm";
+import { client } from "../../mqtt";
+import { router } from "../../router";
+import { Alarm } from "../alarm";
 import {
 	ClosureSensorZigbee,
 	type ClosureSensorZigbeeComponentInfo,
-} from "../../../src/components/zigbee/sensor/closure";
-import { client } from "../../../src/mqtt";
-import { router } from "../../../src/router";
+} from "../zigbee/sensor/closure";
 
 jest.mock("../../../src/mqtt", () => ({
 	client: {

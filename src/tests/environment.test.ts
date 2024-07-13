@@ -1,4 +1,4 @@
-import { getEnvVariable } from "../../src/environment";
+import { getEnvVariable } from "../environment";
 
 describe("index", () => {
 	it("should throw an error when the env does not exist", async () => {
