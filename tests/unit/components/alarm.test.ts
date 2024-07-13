@@ -1,8 +1,8 @@
 import { Alarm } from "../../../src/components/alarm";
 import {
+	ClosureSensorZigbee,
 	type ClosureSensorZigbeeComponentInfo,
-	ContactSensorZigbee,
-} from "../../../src/components/zigbee/sensor";
+} from "../../../src/components/zigbee/sensor/closure";
 import { client } from "../../../src/mqtt";
 import { router } from "../../../src/router";
 
@@ -17,11 +17,11 @@ jest.mock("../../../src/mqtt", () => ({
 describe("Alarm", () => {
 	let alarm: Alarm;
 	const calls: Record<string, string> = {};
-	const sensors: ContactSensorZigbee[] = [];
+	const sensors: ClosureSensorZigbee[] = [];
 
 	beforeAll(async () => {
 		[...Array(3).keys()].forEach((element: number) => {
-			sensors.push(new ContactSensorZigbee(`testSensor${Number.toString()}`));
+			sensors.push(new ClosureSensorZigbee(`testSensor${Number.toString()}`));
 		});
 
 		alarm = new Alarm("TestAlarm", sensors);

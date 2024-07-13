@@ -8,4 +8,4 @@ export {
 	telegram,
 	Weather,
 } from "./components";
-export { getEnvVariable } from "./environment"
+export { getEnvVariable } from "./environment";

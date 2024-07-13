@@ -37,6 +37,10 @@ export class ZigbeeComponent extends Component {
 	}
 }
 
+export type InboundZigbeeInfo = {
+	linkquality: number;
+};
+
 export class ZigbeeMonitor extends Component {
 	offlineDevices: string[] = [];
 
@@ -73,8 +77,4 @@ export class ZigbeeMonitor extends Component {
 
 export type InboundAvailability = {
 	state: "online" | "offline";
-};
-
-export type InboundZigbeeInfo = {
-	linkquality: number;
 };

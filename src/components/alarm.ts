@@ -2,7 +2,7 @@ import { router } from "../router";
 import { BASE_TOPIC } from "../topics";
 import { Component } from "./component";
 import type { ContactSensorESPHome } from "./esphome/binary-sensor";
-import type { ContactSensorZigbee } from "./zigbee/sensor";
+import type { ClosureSensorZigbee } from "./zigbee/sensor/closure";
 
 export class Alarm extends Component {
 	private sensors: ContactSensors;
@@ -27,7 +27,8 @@ export class Alarm extends Component {
 	updateState() {
 		let output = true;
 		this.sensors.forEach((sensor) => {
-			output = output && sensor.contact;
+			output =
+				output && (sensor.contact === undefined ? false : sensor.contact);
 		});
 		this.safe = output;
 		this.publishState();
@@ -38,4 +39,4 @@ export class Alarm extends Component {
 	}
 }
 
-type ContactSensors = Array<ContactSensorZigbee | ContactSensorESPHome>;
+type ContactSensors = Array<ClosureSensorZigbee | ContactSensorESPHome>;
