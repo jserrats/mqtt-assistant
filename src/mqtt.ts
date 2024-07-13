@@ -1,5 +1,5 @@
 import mqtt from "mqtt";
-import { getEnvVariable } from "./index";
+import { getEnvVariable } from "./environment";
 import { router } from "./router";
 import * as topic from "./topics";
 

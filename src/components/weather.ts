@@ -1,5 +1,5 @@
 import axios, { type AxiosInstance } from "axios";
-import { getEnvVariable } from "..";
+import { getEnvVariable } from "../environment";
 import { BASE_TOPIC } from "../topics";
 import { Component } from "./component";
 
