@@ -44,13 +44,21 @@ export type InboundZigbeeInfo = {
 // For this to work is necessary to go to zigbee2mqtt > Settings > Availability > Enable
 export class ZigbeeMonitor extends Component {
 	offlineDevices: string[] = [];
+	ignoredDevices: string[] = [];
 
-	constructor() {
+	constructor(ignoredDevices?: string[]) {
 		super();
+
+		ignoredDevices.forEach((device: string) => {
+			this.ignoredDevices.push(`${ZIGBEE2MQTT_TOPIC}${device}/availability`);
+		});
 
 		router.addAutomation({
 			trigger: { topic: `${ZIGBEE2MQTT_TOPIC}*/availability`, payload: "*" },
 			callback: (message: Trigger) => {
+				if (this.ignoredDevices.includes(message.topic)) {
+					return;
+				}
 				const payload = JSON.parse(message.payload) as InboundAvailability;
 				if (payload.state === "offline") {
 					this.sendNotification(message);

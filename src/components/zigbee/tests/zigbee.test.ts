@@ -36,7 +36,7 @@ describe("ZigbeeMonitor", () => {
 	const offlineString = JSON.stringify({ state: "offline" });
 
 	beforeAll(async () => {
-		zigbeeMonitor = new ZigbeeMonitor();
+		zigbeeMonitor = new ZigbeeMonitor(["ignored"]);
 	});
 
 	afterEach(async () => {
@@ -62,6 +62,11 @@ describe("ZigbeeMonitor", () => {
 
 	it("should not notify again", async () => {
 		client.publish(`${ZIGBEE2MQTT_TOPIC}test1/availability`, onlineString);
+		expect((client.publish as jest.Mock).mock.calls).toHaveLength(1);
+	});
+
+	it("should ignore blacklisted devices", async () => {
+		client.publish(`${ZIGBEE2MQTT_TOPIC}ignored/availability`, offlineString);
 		expect((client.publish as jest.Mock).mock.calls).toHaveLength(1);
 	});
 });
