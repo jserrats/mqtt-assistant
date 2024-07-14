@@ -41,6 +41,7 @@ export type InboundZigbeeInfo = {
 	linkquality: number;
 };
 
+// For this to work is necessary to go to zigbee2mqtt > Settings > Availability > Enable
 export class ZigbeeMonitor extends Component {
 	offlineDevices: string[] = [];
 
