@@ -7,10 +7,6 @@ export class PowerSensorZigbee extends GenericZigbeeSensor {
 	voltage?: number;
 	current?: number;
 
-	trigger = {
-		all: { topic: this.triggerTopic, payload: "*" },
-	};
-
 	updateComponent(message: PowerSensorZigbeeComponentInfo): void {
 		this.power = message.power;
 		this.voltage = message.voltage;
