@@ -1,4 +1,5 @@
-import { Component } from "./component";
+import { Component } from "../component";
+import type { LogLevel, TelegramErrorMessage, TelegramMessage } from "./types";
 const { dirname } = require("node:path");
 
 class Telegram extends Component {
@@ -13,7 +14,7 @@ class Telegram extends Component {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param error Error object that needs to be logged
 	 */
 	logError(error: Error) {
@@ -37,18 +38,4 @@ class Telegram extends Component {
 	}
 }
 
-export type LogLevel = "debug" | "info" | "warning" | "error";
-
 export const telegram = new Telegram();
-
-export type TelegramMessage = {
-	title?: string;
-	message: string;
-	recipient?: "admin" | "home";
-};
-
-export type TelegramErrorMessage = {
-	name: string;
-	message: string;
-	service: string;
-};
