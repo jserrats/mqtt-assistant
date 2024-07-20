@@ -1,10 +1,7 @@
 import { client } from "../../mqtt";
 import { router } from "../../router";
-import {
-	type TelegramErrorMessage,
-	type TelegramMessage,
-	telegram,
-} from "../telegram";
+import { telegram } from "../telegram";
+import type { TelegramErrorMessage, TelegramMessage } from "../telegram/types";
 
 jest.mock("../../../src/mqtt", () => ({
 	client: {

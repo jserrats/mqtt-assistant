@@ -78,8 +78,12 @@ export class ZigbeeMonitor extends Component {
 	}
 
 	sendNotification(message: Trigger) {
-		telegram.send(
-			`[!] Zigbee component ${message.topic} status: ${(JSON.parse(message.payload) as InboundAvailability).state}`,
+		telegram.log(
+			{
+				title: `Zigbee component ${message.topic.split("/")[1]}`,
+				message: `status: \`${(JSON.parse(message.payload) as InboundAvailability).state}\``,
+			},
+			"warning",
 		);
 	}
 }
