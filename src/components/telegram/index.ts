@@ -29,12 +29,31 @@ class Telegram extends Component {
 		);
 	}
 
-	log(message: TelegramMessage | TelegramErrorMessage, logLevel?: LogLevel) {
+	log(
+		message: TelegramMessage | TelegramErrorMessage | string,
+		logLevel?: LogLevel,
+	) {
+		if (typeof message === "string") {
+			message = { message: message } as TelegramMessage;
+		}
 		let topic = Telegram.base_topic;
 		if (logLevel !== undefined) {
 			topic = `${topic}/${logLevel}`;
 		}
 		this.client.publish(topic, JSON.stringify(message));
+	}
+
+	debug(message: TelegramMessage | string) {
+		this.log(message, "debug")
+	}
+	info(message: TelegramMessage | string) {
+		this.log(message, "info")
+	}
+	warning(message: TelegramMessage | string) {
+		this.log(message, "warning")
+	}
+	error(message: TelegramMessage | string) {
+		this.log(message, "error")
 	}
 }
 
