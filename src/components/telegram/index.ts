@@ -33,8 +33,11 @@ class Telegram extends Component {
 		message: TelegramMessage | TelegramErrorMessage | string,
 		logLevel?: LogLevel,
 	) {
+		let outMessage: TelegramMessage
 		if (typeof message === "string") {
-			message = { message: message } as TelegramMessage;
+			outMessage = { message: message } as TelegramMessage;
+		} else {
+			outMessage = message
 		}
 		let topic = Telegram.base_topic;
 		if (logLevel !== undefined) {
@@ -44,16 +47,16 @@ class Telegram extends Component {
 	}
 
 	debug(message: TelegramMessage | string) {
-		this.log(message, "debug")
+		this.log(message, "debug");
 	}
 	info(message: TelegramMessage | string) {
-		this.log(message, "info")
+		this.log(message, "info");
 	}
 	warning(message: TelegramMessage | string) {
-		this.log(message, "warning")
+		this.log(message, "warning");
 	}
 	error(message: TelegramMessage | string) {
-		this.log(message, "error")
+		this.log(message, "error");
 	}
 }
 
