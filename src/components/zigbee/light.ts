@@ -2,7 +2,7 @@ import { type InboundZigbeeInfo, ZigbeeComponent } from "./zigbee";
 
 export class LightZigbee extends ZigbeeComponent {
 	protected setTopic = `${this.topic}/set`;
-	public state = false;
+	public state: boolean;
 	public brightness = 254;
 
 	setBrightness(level: number) {

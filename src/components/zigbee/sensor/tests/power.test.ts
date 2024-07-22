@@ -1,6 +1,6 @@
 import { router } from "../../../../router";
 import {
-	 PowerSensorZigbee,
+	PowerSensorZigbee,
 	type PowerSensorZigbeeComponentInfo,
 } from "../power";
 
@@ -31,7 +31,7 @@ describe("PowerSensorZigbee", () => {
 		router.route(
 			sensor.topic,
 			JSON.stringify({
-				power: 10
+				power: 10,
 			} as PowerSensorZigbeeComponentInfo),
 		);
 		expect(sensor.power).toStrictEqual(10);

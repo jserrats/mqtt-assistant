@@ -3,7 +3,7 @@ import { type InboundZigbeeInfo, ZigbeeComponent } from "./zigbee";
 
 class PowerZigbee extends ZigbeeComponent {
 	setTopic = `${this.topic}/set`;
-	state = false;
+	state: boolean;
 	autoOffTimer: TimerLength;
 	timer: Timer;
 
