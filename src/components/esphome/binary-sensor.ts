@@ -4,8 +4,8 @@ import { ESPHomeComponent } from "./esphome";
 
 export class BinarySensorESPHome extends ESPHomeComponent {
 	sensorTopic: string;
-	state = false;
-	updater: Automation;
+	state: boolean;
+	private updater: Automation;
 
 	trigger = {
 		on: { topic: "", payload: "ON" },
@@ -20,7 +20,7 @@ export class BinarySensorESPHome extends ESPHomeComponent {
 		this.trigger.on.topic = this.sensorTopic;
 		this.trigger.all.topic = this.sensorTopic;
 		this.updater = {
-			trigger: { topic: this.topic, payload: "*" },
+			trigger: { topic: this.sensorTopic, payload: "*" },
 			callback: (message: Trigger) => {
 				this.updateComponent(message.payload);
 			},
