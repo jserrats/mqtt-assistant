@@ -23,5 +23,10 @@ client.on("connect", () => {
 });
 
 client.on("message", (topic, message) => {
-	router.route(topic, message.toString());
+	try {
+		router.route(topic, message.toString());
+
+	} catch (error) {
+		console.error(JSON.stringify(error))
+	}
 });
