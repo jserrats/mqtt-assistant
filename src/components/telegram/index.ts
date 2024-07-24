@@ -33,17 +33,18 @@ class Telegram extends Component {
 		message: TelegramMessage | TelegramErrorMessage | string,
 		logLevel?: LogLevel,
 	) {
-		let outMessage: TelegramMessage
-		if (typeof message === "string") {
+
+		let outMessage: TelegramMessage;
+		if (typeof message === 'string') {
 			outMessage = { message: message } as TelegramMessage;
 		} else {
-			outMessage = message
+			outMessage = message;
 		}
 		let topic = Telegram.base_topic;
 		if (logLevel !== undefined) {
 			topic = `${topic}/${logLevel}`;
 		}
-		this.client.publish(topic, JSON.stringify(message));
+		this.client.publish(topic, JSON.stringify(outMessage));
 	}
 
 	debug(message: TelegramMessage | string) {
