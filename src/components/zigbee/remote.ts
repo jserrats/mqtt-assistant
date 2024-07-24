@@ -55,3 +55,19 @@ export class RemoteTS0044 extends RemoteZigbee {
 		all: { topic: this.actionTopic, payload: "*" },
 	};
 }
+
+/**
+ * TRADFRI E2201
+ * 2 button IKEA remote powered by 1xAAA
+ */
+export class RemoteE2201 extends RemoteZigbee {
+	trigger = {
+		topClick: { topic: this.actionTopic, payload: "on" },
+		bottomClick: { topic: this.actionTopic, payload: "off" },
+		holdTopClick: { topic: this.actionTopic, payload: "brightness_move_up" },
+		holdBottomClick: {
+			topic: this.actionTopic,
+			payload: "brightness_move_down",
+		},
+	};
+}
