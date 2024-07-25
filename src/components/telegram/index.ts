@@ -33,9 +33,8 @@ class Telegram extends Component {
 		message: TelegramMessage | TelegramErrorMessage | string,
 		logLevel?: LogLevel,
 	) {
-
 		let outMessage: TelegramMessage;
-		if (typeof message === 'string') {
+		if (typeof message === "string") {
 			outMessage = { message: message } as TelegramMessage;
 		} else {
 			outMessage = message;

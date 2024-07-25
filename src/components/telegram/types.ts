@@ -1,7 +1,7 @@
 export type TelegramMessage = {
 	title?: string;
 	message: string;
-	recipient?: "admin" | "home";
+	recipient?: "admin" | "home" | "user";
 };
 
 export type TelegramErrorMessage = {

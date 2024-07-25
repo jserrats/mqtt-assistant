@@ -26,9 +26,9 @@ describe("Telegram", () => {
 		);
 
 		telegram.log("test");
-		expect(JSON.parse((client.publish as jest.Mock).mock.calls[1][1])).toStrictEqual(
-			{ message: "test" },
-		);
+		expect(
+			JSON.parse((client.publish as jest.Mock).mock.calls[1][1]),
+		).toStrictEqual({ message: "test" });
 	});
 
 	it("should send an error message", async () => {
