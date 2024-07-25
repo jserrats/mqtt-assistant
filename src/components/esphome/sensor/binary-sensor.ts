@@ -31,8 +31,8 @@ export class BinarySensorESPHome extends GenericESPHomeSensor {
 	}
 
 	updateComponent(message: string) {
-		super.updateComponent(message);
 		this.state = message === "ON";
+		super.updateComponent(message);
 	}
 }
 

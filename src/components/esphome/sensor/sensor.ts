@@ -29,7 +29,7 @@ export class SensorESPHome extends GenericESPHomeSensor {
 	}
 
 	updateComponent(message: string) {
-		super.updateComponent(message);
 		this.state = Number(message);
+		super.updateComponent(message);
 	}
 }
