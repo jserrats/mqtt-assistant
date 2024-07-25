@@ -1,26 +1,21 @@
-import { router } from "../../router";
-import type { Automation, Trigger } from "../../types";
-import { ESPHomeComponent } from "./esphome";
+import { router } from "../../../router";
+import type { Automation, Trigger } from "../../../types";
+import { ESPHomeComponent } from "../esphome";
 
 export class BinarySensorESPHome extends ESPHomeComponent {
-	sensorTopic: string;
 	state: boolean;
 	private updater: Automation;
 
 	trigger = {
-		on: { topic: "", payload: "ON" },
-		off: { topic: "", payload: "OFF" },
-		all: { topic: "", payload: "*" },
+		on: { topic: this.stateTopic, payload: "ON" },
+		off: { topic: this.stateTopic, payload: "OFF" },
+		all: { topic: this.stateTopic, payload: "*" },
 	};
 
 	constructor(name: string, component: string) {
-		super(name);
-		this.sensorTopic = `${this.topic}/binary_sensor/${component}/state`;
-		this.trigger.off.topic = this.sensorTopic;
-		this.trigger.on.topic = this.sensorTopic;
-		this.trigger.all.topic = this.sensorTopic;
+		super(name, component);
 		this.updater = {
-			trigger: { topic: this.sensorTopic, payload: "*" },
+			trigger: { topic: this.stateTopic, payload: "*" },
 			callback: (message: Trigger) => {
 				this.updateComponent(message.payload);
 			},

@@ -3,7 +3,6 @@ import type { Automation, Trigger } from "../../types";
 import { ESPHomeComponent } from "./esphome";
 
 export class LightESPHome extends ESPHomeComponent {
-	sensorTopic: string;
 	commandTopic: string;
 	state = false;
 	updater: Automation;
@@ -14,13 +13,12 @@ export class LightESPHome extends ESPHomeComponent {
 	};
 
 	constructor(name: string, component: string) {
-		super(name);
-		this.sensorTopic = `${this.topic}/light/${component}/state`;
-		this.commandTopic = `${this.topic}/light/${component}/command`;
-		this.trigger.on.topic = this.sensorTopic;
-		this.trigger.off.topic = this.sensorTopic;
+		super(name, component);
+		this.commandTopic = `${this.baseTopic}/light/${component}/command`;
+		this.trigger.on.topic = this.stateTopic;
+		this.trigger.off.topic = this.stateTopic;
 		this.updater = {
-			trigger: { topic: this.sensorTopic, payload: "*" },
+			trigger: { topic: this.stateTopic, payload: "*" },
 			callback: (message: Trigger) => {
 				this.updateComponent(message.payload);
 			},

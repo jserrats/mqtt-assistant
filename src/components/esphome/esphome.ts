@@ -1,14 +1,15 @@
 import { ESPHOME_TOPIC } from "../../topics";
-
-import { Automation } from "../../types";
 import { Component } from "../component";
 
 export class ESPHomeComponent extends Component {
-	topic: string;
+	protected baseTopic: string;
+	protected stateTopic: string;
 	name: string;
-	constructor(name: string) {
+
+	constructor(name: string, component: string) {
 		super();
-		this.topic = ESPHOME_TOPIC + name;
+		this.baseTopic = ESPHOME_TOPIC + name;
+		this.stateTopic = `${this.baseTopic}/switch/${component}/state`;
 		this.name = name;
 	}
 }

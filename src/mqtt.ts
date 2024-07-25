@@ -25,8 +25,7 @@ client.on("connect", () => {
 client.on("message", (topic, message) => {
 	try {
 		router.route(topic, message.toString());
-
 	} catch (error) {
-		console.error(JSON.stringify(error))
+		console.error(JSON.stringify(error));
 	}
 });

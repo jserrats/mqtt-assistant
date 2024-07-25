@@ -1,7 +1,7 @@
 import { router } from "../router";
 import { BASE_TOPIC } from "../topics";
 import { Component } from "./component";
-import type { ContactSensorESPHome } from "./esphome/binary-sensor";
+import type { ContactSensorESPHome } from "./esphome/sensor/binary-sensor";
 import type { ClosureSensorZigbee } from "./zigbee/sensor/closure";
 
 export class Alarm extends Component {
