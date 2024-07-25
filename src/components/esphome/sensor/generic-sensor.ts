@@ -1,6 +1,5 @@
 import type { Trigger } from "../../../types";
-import { Component } from "../../component";
-import { ESPHomeComponent } from "../esphome";
+import { ESPHomeComponent, type ESPHomeComponentTypes } from "../esphome";
 
 export class GenericESPHomeSensor extends ESPHomeComponent {
 	protected triggerTopic = `${this.baseTopic}/trigger`;
@@ -10,9 +9,10 @@ export class GenericESPHomeSensor extends ESPHomeComponent {
 	constructor(
 		name: string,
 		component: string,
+		type: ESPHomeComponentTypes,
 		options?: GenericESPHomeSensorOptions,
 	) {
-		super(name, component);
+		super(name, component, type);
 		if (options !== undefined && options.updateCallback !== undefined) {
 			this.updateCallback = options.updateCallback;
 		}

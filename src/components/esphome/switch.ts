@@ -13,7 +13,7 @@ export class SwitchESPHome extends ESPHomeComponent {
 	};
 
 	constructor(name: string, component: string) {
-		super(name, component);
+		super(name, component, "light");
 		this.commandTopic = `${this.baseTopic}/switch/${component}/command`;
 		this.trigger.off.topic = this.stateTopic;
 		this.trigger.on.topic = this.stateTopic;

@@ -16,4 +16,15 @@ describe("BinarySensorESPHome", () => {
 		router.route(sensor.trigger.off.topic, sensor.trigger.off.payload);
 		expect(sensor.state).toBeFalsy();
 	});
+
+	it("should trigger the callback", async () => {
+		const mockCallback = jest.fn();
+
+		const sensor = new BinarySensorESPHome("test", "test", {
+			updateCallback: mockCallback,
+		});
+
+		router.route(sensor.trigger.off.topic, sensor.trigger.off.payload);
+		expect(mockCallback).toHaveBeenCalled();
+	});
 });

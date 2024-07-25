@@ -18,7 +18,7 @@ export class SensorESPHome extends GenericESPHomeSensor {
 		component: string,
 		options?: GenericESPHomeSensorOptions,
 	) {
-		super(name, component, options);
+		super(name, component, "sensor", options);
 		this.updater = {
 			trigger: { topic: this.stateTopic, payload: "*" },
 			callback: (message: Trigger) => {

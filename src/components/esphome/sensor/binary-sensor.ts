@@ -1,8 +1,11 @@
 import { router } from "../../../router";
 import type { Automation, Trigger } from "../../../types";
-import { ESPHomeComponent } from "../esphome";
+import {
+	GenericESPHomeSensor,
+	type GenericESPHomeSensorOptions,
+} from "./generic-sensor";
 
-export class BinarySensorESPHome extends ESPHomeComponent {
+export class BinarySensorESPHome extends GenericESPHomeSensor {
 	state: boolean;
 	private updater: Automation;
 
@@ -12,8 +15,12 @@ export class BinarySensorESPHome extends ESPHomeComponent {
 		all: { topic: this.stateTopic, payload: "*" },
 	};
 
-	constructor(name: string, component: string) {
-		super(name, component);
+	constructor(
+		name: string,
+		component: string,
+		options?: GenericESPHomeSensorOptions,
+	) {
+		super(name, component, "binary_sensor", options);
 		this.updater = {
 			trigger: { topic: this.stateTopic, payload: "*" },
 			callback: (message: Trigger) => {
@@ -24,6 +31,7 @@ export class BinarySensorESPHome extends ESPHomeComponent {
 	}
 
 	updateComponent(message: string) {
+		super.updateComponent(message);
 		this.state = message === "ON";
 	}
 }
