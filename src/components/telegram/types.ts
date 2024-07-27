@@ -1,8 +1,8 @@
 export type TelegramMessage = {
 	title?: string;
 	message: string;
-	recipient?: "admin" | "home" | "user";
-};
+	recipient?: TelegramRecipients
+}
 
 export type TelegramErrorMessage = {
 	name: string;
@@ -11,3 +11,5 @@ export type TelegramErrorMessage = {
 };
 
 export type LogLevel = "debug" | "info" | "warning" | "error";
+
+export type TelegramRecipients = "admin" | "home" | "user"
