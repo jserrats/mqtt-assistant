@@ -1,5 +1,5 @@
 import { Component } from "../component";
-import type { LogLevel, TelegramErrorMessage, TelegramMessage } from "./types";
+import type { LogLevel, TelegramMessage } from "./types";
 const { dirname } = require("node:path");
 
 class Telegram extends Component {
@@ -13,32 +13,14 @@ class Telegram extends Component {
 		this.client.publish(Telegram.base_topic, message);
 	}
 
-	/**
-	 *
-	 * @param error Error object that needs to be logged
-	 */
-	logError(error: Error) {
-		this.log(
-			{
-				message: error.message,
-				name: error.name,
-				// TODO: send the root project folder name
-				service: dirname(require.main.filename),
-			} as TelegramErrorMessage,
-			"error",
-		);
-	}
-
-	log(
-		message: TelegramMessage | TelegramErrorMessage | string,
-		logLevel?: LogLevel,
-	) {
+	log(message: TelegramMessage | string, logLevel?: LogLevel) {
 		let outMessage: TelegramMessage;
 		if (typeof message === "string") {
 			outMessage = { message: message } as TelegramMessage;
 		} else {
 			outMessage = message;
 		}
+
 		let topic = Telegram.base_topic;
 		if (logLevel !== undefined) {
 			topic = `${topic}/${logLevel}`;
@@ -55,9 +37,18 @@ class Telegram extends Component {
 	warning(message: TelegramMessage | string) {
 		this.log(message, "warning");
 	}
-	error(message: TelegramMessage | string) {
-		this.log(message, "error");
+	error(message: TelegramMessage | string | Error) {
+		if (message instanceof Error) {
+			this.log(
+				{
+					message: `service:\`${dirname(require.main.filename)}\``,
+					title: `${message.name} \`${message.message}\``,
+				} as TelegramMessage,
+				"error",
+			);
+		} else {
+			this.log(message, "error");
+		}
 	}
 }
-
 export const telegram = new Telegram();

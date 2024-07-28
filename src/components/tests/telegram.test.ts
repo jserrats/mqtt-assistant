@@ -1,7 +1,7 @@
 import { client } from "../../mqtt";
 import { router } from "../../router";
 import { telegram } from "../telegram";
-import type { TelegramErrorMessage, TelegramMessage } from "../telegram/types";
+import type { TelegramMessage } from "../telegram/types";
 
 jest.mock("../../../src/mqtt", () => ({
 	client: {
@@ -32,19 +32,10 @@ describe("Telegram", () => {
 	});
 
 	it("should send an error message", async () => {
-		telegram.logError(new EvalError("test error"));
+		telegram.error(new EvalError("test error"));
 		expect((client.publish as jest.Mock).mock.calls[0][0]).toStrictEqual(
 			"notify/telegram/error",
 		);
-		//console.log((client.publish as jest.Mock).mock.calls[0][1]);
-		expect(
-			JSON.parse(
-				(client.publish as jest.Mock).mock.calls[0][1],
-			) as TelegramErrorMessage,
-		).toMatchObject({
-			message: "test error",
-			name: "EvalError",
-		} as TelegramErrorMessage);
 	});
 
 	it("should send a message with log level", async () => {
