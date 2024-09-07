@@ -33,10 +33,11 @@ export class EsphomeMonitor extends Component {
 
 	constructor(ignoredDevices?: string[]) {
 		super();
-
-		ignoredDevices.forEach((device: string) => {
-			this.ignoredDevices.push(`${ESPHOME_TOPIC}${device}/status`);
-		});
+		if (ignoredDevices) {
+			ignoredDevices.forEach((device: string) => {
+				this.ignoredDevices.push(`${ESPHOME_TOPIC}${device}/status`);
+			});
+		}
 
 		router.addAutomation({
 			trigger: { topic: `${ESPHOME_TOPIC}*/status`, payload: "*" },

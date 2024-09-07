@@ -49,9 +49,11 @@ export class ZigbeeMonitor extends Component {
 	constructor(ignoredDevices?: string[]) {
 		super();
 
-		ignoredDevices.forEach((device: string) => {
-			this.ignoredDevices.push(`${ZIGBEE2MQTT_TOPIC}${device}/availability`);
-		});
+		if (ignoredDevices) {
+			ignoredDevices.forEach((device: string) => {
+				this.ignoredDevices.push(`${ZIGBEE2MQTT_TOPIC}${device}/availability`);
+			});
+		}
 
 		router.addAutomation({
 			trigger: { topic: `${ZIGBEE2MQTT_TOPIC}*/availability`, payload: "*" },
