@@ -1,7 +1,7 @@
-import { ESPHOME_TOPIC } from "../../topics";
-import { Component } from "../component";
 import { router } from "../../router";
-import { Trigger } from "../../types";
+import { ESPHOME_TOPIC } from "../../topics";
+import type { Trigger } from "../../types";
+import { Component } from "../component";
 import { telegram } from "../telegram";
 
 export class ESPHomeComponent extends Component {
