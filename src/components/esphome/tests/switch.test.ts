@@ -30,7 +30,7 @@ describe("SwitchESPHome", () => {
 	});
 
 	it("should turn on/off", async () => {
-		switchEsphome.on();
+		switchEsphome.setOn();
 		expect((client.publish as jest.Mock).mock.calls[0]).toStrictEqual([
 			switchEsphome.commandTopic,
 			"ON",

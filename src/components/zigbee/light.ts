@@ -1,6 +1,6 @@
 import { type InboundZigbeeInfo, ZigbeeComponent } from "./zigbee";
 
-export class LightZigbee extends ZigbeeComponent {
+export class LightZigbee extends ZigbeeComponent implements ISwitch {
 	protected setTopic = `${this.topic}/set`;
 	public state: boolean;
 	public brightness = 254;
@@ -15,14 +15,14 @@ export class LightZigbee extends ZigbeeComponent {
 		}
 	}
 
-	on(options?: LightOptions) {
+	setOn(options?: LightOptions) {
 		if (typeof options?.brightness !== "undefined") {
 			this.setBrightness(options.brightness);
 		}
 		this.set(true);
 	}
 
-	off() {
+	setOff() {
 		this.set(false);
 	}
 
@@ -77,13 +77,13 @@ export class LightLED1623G12 extends LightZigbee {
 	 * @param brightness (0-254)
 	 * @param colorTemp (250-454)
 	 */
-	on(options?: TemperatureLightOptions) {
+	setOn(options?: TemperatureLightOptions) {
 		if (typeof options?.colorTemp !== "undefined") {
 			this.setColorTemp(options.colorTemp);
 		}
 		const brightness: number | undefined = options?.brightness;
 
-		super.on({ brightness });
+		super.setOn({ brightness });
 	}
 
 	protected getOptions() {

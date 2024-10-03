@@ -45,7 +45,7 @@ describe("LightZigbee", () => {
 	});
 
 	it("should turn on", async () => {
-		light.on();
+		light.setOn();
 		expect((client.publish as jest.Mock).mock.calls[0][0]).toStrictEqual(
 			`${light.topic}/set`,
 		);
@@ -55,7 +55,7 @@ describe("LightZigbee", () => {
 	});
 
 	it("should turn off", async () => {
-		light.off();
+		light.setOff();
 		expect((client.publish as jest.Mock).mock.calls[0][0]).toStrictEqual(
 			`${light.topic}/set`,
 		);

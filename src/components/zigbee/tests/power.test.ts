@@ -45,7 +45,7 @@ describe("Power", () => {
 	});
 
 	it("should turn on/off", async () => {
-		wattPower.on();
+		wattPower.setOn();
 		expect((client.publish as jest.Mock).mock.calls[0]).toStrictEqual([
 			wattPower.setTopic,
 			"ON",

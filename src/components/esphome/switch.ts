@@ -2,7 +2,7 @@ import { router } from "../../router";
 import type { Automation, Trigger } from "../../types";
 import { ESPHomeComponent } from "./esphome";
 
-export class SwitchESPHome extends ESPHomeComponent {
+export class SwitchESPHome extends ESPHomeComponent implements ISwitch {
 	commandTopic: string;
 	state: boolean;
 	updater: Automation;
@@ -25,11 +25,11 @@ export class SwitchESPHome extends ESPHomeComponent {
 		router.addAutomation(this.updater);
 	}
 
-	on() {
+	setOn() {
 		this.set(true);
 	}
 
-	off() {
+	setOff() {
 		this.set(false);
 	}
 
