@@ -1,4 +1,4 @@
-export interface ISwitch {
+export interface Switch {
 	state: boolean;
 	setOn(): void;
 	setOff(): void;

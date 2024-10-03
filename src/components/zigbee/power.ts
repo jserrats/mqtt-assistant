@@ -1,8 +1,8 @@
-import type { ISwitch } from "../switch";
+import type { Switch } from "../interfaces/switch";
 import { Timer, type TimerLength } from "../timer";
 import { type InboundZigbeeInfo, ZigbeeComponent } from "./zigbee";
 
-class PowerZigbee extends ZigbeeComponent implements ISwitch {
+class PowerZigbee extends ZigbeeComponent implements Switch {
 	setTopic = `${this.topic}/set`;
 	state: boolean;
 	autoOffTimer: TimerLength;

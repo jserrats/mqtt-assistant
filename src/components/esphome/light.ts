@@ -1,9 +1,9 @@
 import { router } from "../../router";
 import type { Automation, Trigger } from "../../types";
-import type { ISwitch } from "../switch";
+import type { Switch } from "../interfaces/switch";
 import { ESPHomeComponent } from "./esphome";
 
-export class LightESPHome extends ESPHomeComponent implements ISwitch {
+export class LightESPHome extends ESPHomeComponent implements Switch {
 	commandTopic: string;
 	state = false;
 	updater: Automation;

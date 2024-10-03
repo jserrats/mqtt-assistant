@@ -1,7 +1,7 @@
-import type { ISwitch } from "../switch";
+import type { Switch } from "../interfaces/switch";
 import { type InboundZigbeeInfo, ZigbeeComponent } from "./zigbee";
 
-export class LightZigbee extends ZigbeeComponent implements ISwitch {
+export class LightZigbee extends ZigbeeComponent implements Switch {
 	protected setTopic = `${this.topic}/set`;
 	public state: boolean;
 	public brightness = 254;
