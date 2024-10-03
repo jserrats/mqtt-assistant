@@ -39,8 +39,10 @@ class PowerZigbee extends ZigbeeComponent implements ISwitch {
 	}
 
 	updateComponent(message: InboundPowerZigbeeInfo): void {
-		if (this.state !== (message.state === "ON")) { this.emit("state") }
-		this.state = message.state === "ON";
+		if (this.state !== (message.state === "ON")) {
+			this.state = message.state === "ON";
+			this.emit("state")
+		}
 		super.updateComponent(message);
 		if (typeof this.autoOffTimer !== "undefined") {
 			if (this.state) {
