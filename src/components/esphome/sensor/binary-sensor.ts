@@ -1,11 +1,15 @@
 import { router } from "../../../router";
 import type { Automation, Trigger } from "../../../types";
+import type { BinarySensor } from "../../interfaces/binary-sensor";
 import {
 	GenericESPHomeSensor,
 	type GenericESPHomeSensorOptions,
 } from "./generic-sensor";
 
-export class BinarySensorESPHome extends GenericESPHomeSensor {
+export class BinarySensorESPHome
+	extends GenericESPHomeSensor
+	implements BinarySensor
+{
 	state: boolean;
 	private updater: Automation;
 
@@ -31,7 +35,10 @@ export class BinarySensorESPHome extends GenericESPHomeSensor {
 	}
 
 	updateComponent(message: string) {
-		this.state = message === "ON";
+		if (this.state !== (message === "ON")) {
+			this.state = message === "ON";
+			this.emit("state", this.state);
+		}
 		super.updateComponent(message);
 	}
 }

@@ -1,8 +1,12 @@
 import { router } from "../../../router";
+import type { BinarySensor } from "../../interfaces/binary-sensor";
 import type { InboundZigbeeInfo } from "../zigbee";
 import { GenericZigbeeSensor } from "./sensor";
 
-export class PresenceSensorZigbee extends GenericZigbeeSensor {
+export class PresenceSensorZigbee
+	extends GenericZigbeeSensor
+	implements BinarySensor
+{
 	occupancy?: boolean;
 	trigger = {
 		occupied: { topic: this.triggerTopic, payload: "ON" },
@@ -13,6 +17,7 @@ export class PresenceSensorZigbee extends GenericZigbeeSensor {
 	updateComponent(message: PresenceSensorZigbeeComponentInfo): void {
 		if (this.occupancy === !message.occupancy) {
 			this.triggerItself();
+			this.emit("state", message.occupancy);
 		}
 		this.occupancy = message.occupancy;
 		super.updateComponent(message);

@@ -51,7 +51,7 @@ export class SwitchESPHome extends ESPHomeComponent implements Switch {
 	private updateComponent(message: string) {
 		if (this.state !== (message === "ON")) {
 			this.state = message === "ON";
-			this.emit("state");
+			this.emit("state", this.state);
 		}
 	}
 }

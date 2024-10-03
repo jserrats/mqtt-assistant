@@ -52,7 +52,7 @@ export class LightZigbee extends ZigbeeComponent implements Switch {
 	updateComponent(message: InboundLightZigbeeInfo): void {
 		if (this.state !== (message.state === "ON")) {
 			this.state = message.state === "ON";
-			this.emit("state");
+			this.emit("state", this.state);
 		}
 		this.brightness = message.brightness;
 		super.updateComponent(message);
