@@ -50,7 +50,10 @@ export class LightZigbee extends ZigbeeComponent implements ISwitch {
 	}
 
 	updateComponent(message: InboundLightZigbeeInfo): void {
-		this.state = message.state === "ON";
+		if (this.state !== (message.state === "ON")) {
+			this.state = message.state === "ON";
+			this.emit("state");
+		}
 		this.brightness = message.brightness;
 		super.updateComponent(message);
 	}

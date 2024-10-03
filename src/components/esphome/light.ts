@@ -47,6 +47,9 @@ export class LightESPHome extends ESPHomeComponent implements ISwitch {
 	}
 
 	private updateComponent(message: string) {
-		this.state = JSON.parse(message).state === "ON";
+		if (this.state !== (JSON.parse(message).state === "ON")) {
+			this.state = JSON.parse(message).state === "ON";
+			this.emit("state");
+		}
 	}
 }
