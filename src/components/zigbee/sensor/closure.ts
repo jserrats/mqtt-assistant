@@ -6,7 +6,7 @@ export class ClosureSensorZigbee
 	extends GenericZigbeeSensor
 	implements BinarySensor
 {
-	contact: boolean | undefined;
+	contact: boolean;
 	private inverted = false;
 	trigger = {
 		whenClosed: { topic: this.triggerTopic, payload: "CLOSED" },
@@ -25,9 +25,6 @@ export class ClosureSensorZigbee
 	}
 
 	updateComponent(message: ClosureSensorZigbeeComponentInfo): void {
-		if (this.contact === undefined) {
-			this.contact = false;
-		}
 		if (this.contact !== !(message.contact === this.inverted)) {
 			this.contact = !this.contact;
 			this.triggerItself(this.contact);
