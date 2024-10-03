@@ -39,8 +39,8 @@ class PowerZigbee extends ZigbeeComponent implements ISwitch {
 	}
 
 	updateComponent(message: InboundPowerZigbeeInfo): void {
+		if (this.state !== (message.state === "ON")) { this.emit("state") }
 		this.state = message.state === "ON";
-		this.emit("state");
 		super.updateComponent(message);
 		if (typeof this.autoOffTimer !== "undefined") {
 			if (this.state) {
@@ -61,7 +61,7 @@ type PowerZigbeeOptions = {
 /**
  * TRADFRI control outlet
  */
-export class PowerE1603 extends PowerZigbee {}
+export class PowerE1603 extends PowerZigbee { }
 
 type InboundPowerZigbeeInfo = {
 	state: string;
