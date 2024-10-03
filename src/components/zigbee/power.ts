@@ -1,3 +1,4 @@
+import type { ISwitch } from "../switch";
 import { Timer, type TimerLength } from "../timer";
 import { type InboundZigbeeInfo, ZigbeeComponent } from "./zigbee";
 
@@ -39,7 +40,7 @@ class PowerZigbee extends ZigbeeComponent implements ISwitch {
 
 	updateComponent(message: InboundPowerZigbeeInfo): void {
 		this.state = message.state === "ON";
-		this.emit('state')
+		this.emit("state");
 		super.updateComponent(message);
 		if (typeof this.autoOffTimer !== "undefined") {
 			if (this.state) {

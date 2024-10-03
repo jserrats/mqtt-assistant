@@ -1,3 +1,4 @@
+import type { ISwitch } from "../switch";
 import { type InboundZigbeeInfo, ZigbeeComponent } from "./zigbee";
 
 export class LightZigbee extends ZigbeeComponent implements ISwitch {
