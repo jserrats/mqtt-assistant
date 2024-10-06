@@ -1,6 +1,6 @@
 import type { Trigger } from "../../types";
 
 export interface BinarySensor {
-	state?: boolean;
+	state: boolean;
 	trigger: Record<string, Trigger>;
 }

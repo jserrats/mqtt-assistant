@@ -8,6 +8,7 @@ export class PresenceSensorZigbee
 	implements BinarySensor
 {
 	occupancy?: boolean;
+	state: boolean;
 	trigger = {
 		occupied: { topic: this.triggerTopic, payload: "ON" },
 		cleared: { topic: this.triggerTopic, payload: "OFF" },
@@ -15,11 +16,12 @@ export class PresenceSensorZigbee
 	};
 
 	updateComponent(message: PresenceSensorZigbeeComponentInfo): void {
-		if (this.occupancy === !message.occupancy) {
+		if (this.occupancy !== message.occupancy) {
 			this.triggerItself();
 			this.emit("state", message.occupancy);
 		}
 		this.occupancy = message.occupancy;
+		this.state = this.occupancy;
 		super.updateComponent(message);
 	}
 
