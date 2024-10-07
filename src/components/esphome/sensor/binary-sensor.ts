@@ -43,6 +43,7 @@ export class BinarySensorESPHome
 	}
 }
 
+// TODO: deprecate this
 export class ContactSensorESPHome extends BinarySensorESPHome {
 	contact = false;
 

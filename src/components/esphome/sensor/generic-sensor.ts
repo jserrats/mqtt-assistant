@@ -19,6 +19,7 @@ export class GenericESPHomeSensor extends ESPHomeComponent {
 	}
 
 	protected updateComponent(message: string): void {
+		// TODO: deprecate callbacks
 		if (typeof this.updateCallback !== "undefined") {
 			this.updateCallback(this);
 		}
