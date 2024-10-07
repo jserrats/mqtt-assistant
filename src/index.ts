@@ -7,5 +7,6 @@ export {
 	Alarm,
 	telegram,
 	Weather,
+	assistant
 } from "./components";
 export { getEnvVariable } from "./environment";
