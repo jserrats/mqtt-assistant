@@ -55,9 +55,9 @@ describe("PresenceSensorZigbee", () => {
 			sensor.topic,
 			JSON.stringify({ occupancy: true } as PresenceSensorZigbeeComponentInfo),
 		);
-		console.log(sensor.occupancy);
 		expect(sensor.occupancy).toBeTruthy();
-		// expect(mockCallbackTrue).toHaveBeenCalled();
+
+		expect(mockCallbackTrue).toHaveBeenCalled();
 
 		sensor.once("state", mockCallbackFalse);
 
@@ -66,6 +66,6 @@ describe("PresenceSensorZigbee", () => {
 			JSON.stringify({ occupancy: false } as PresenceSensorZigbeeComponentInfo),
 		);
 		expect(sensor.occupancy).toBeFalsy();
-		// expect(mockCallbackFalse).toHaveBeenCalled();
+		expect(mockCallbackFalse).toHaveBeenCalled();
 	});
 });

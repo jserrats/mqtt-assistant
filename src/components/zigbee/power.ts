@@ -1,3 +1,4 @@
+import type { Sensor } from "../interfaces/sensor";
 import type { Switch } from "../interfaces/switch";
 import { Timer, type TimerLength } from "../timer";
 import { type InboundZigbeeInfo, ZigbeeComponent } from "./zigbee";
@@ -69,11 +70,14 @@ type InboundPowerZigbeeInfo = {
 	state: string;
 } & InboundZigbeeInfo;
 
-export class WattPowerZigbee extends PowerZigbee {
+export class WattPowerZigbee extends PowerZigbee implements Sensor {
 	power = 0;
+	value: number;
 	updateComponent(message: InboundWattPowerZigbeeInfo): void {
 		this.power = message.power;
+		this.value = message.power;
 		super.updateComponent(message);
+		this.emit("state", this.value);
 	}
 }
 
