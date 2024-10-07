@@ -72,11 +72,12 @@ type InboundPowerZigbeeInfo = {
 
 export class WattPowerZigbee extends PowerZigbee implements Sensor {
 	power = 0;
-	value: number;
+	value = 0;
 	updateComponent(message: InboundWattPowerZigbeeInfo): void {
 		this.power = message.power;
 		this.value = message.power;
 		super.updateComponent(message);
+		// TODO: rename value to state
 		this.emit("state", this.value);
 	}
 }
