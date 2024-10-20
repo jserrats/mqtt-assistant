@@ -1,6 +1,6 @@
 import { client } from "../../../mqtt";
 import { router } from "../../../router";
-import { WattPowerZigbee } from "../power";
+import { PowerZigbee } from "../power";
 
 jest.mock("../../../../src/mqtt", () => ({
 	client: {
@@ -13,10 +13,10 @@ jest.mock("../../../../src/mqtt", () => ({
 jest.useFakeTimers();
 
 describe("Power", () => {
-	let wattPower: WattPowerZigbee;
+	let wattPower: PowerZigbee;
 
 	beforeAll(async () => {
-		wattPower = new WattPowerZigbee("test1", { autoOff: { hours: 4 } });
+		wattPower = new PowerZigbee("test1", { autoOff: { hours: 4 } });
 	});
 
 	afterEach(async () => {
@@ -36,13 +36,13 @@ describe("Power", () => {
 		expect(wattPower.state).toBe(false);
 	});
 
-	it("should update power", async () => {
-		client.publish(
-			wattPower.topic,
-			JSON.stringify({ power: 43.57, state: "OFF" }),
-		);
-		expect(wattPower.power).toBe(43.57);
-	});
+	// it("should update power", async () => {
+	// 	client.publish(
+	// 		wattPower.topic,
+	// 		JSON.stringify({ power: 43.57, state: "OFF" }),
+	// 	);
+	// 	expect(wattPower.power).toBe(43.57);
+	// });
 
 	it("should turn on/off", async () => {
 		wattPower.setOn();
