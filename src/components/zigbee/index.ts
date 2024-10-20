@@ -7,5 +7,5 @@ export {
 	PowerSensorZigbee,
 } from "./sensor";
 export { RemoteE2002, RemoteE1812, RemoteTS0044, RemoteE2201 } from "./remote";
-export { PowerE1603, WattPowerZigbee } from "./power";
+export { PowerE1603, PowerZigbee } from "./power";
 export { ZigbeeMonitor } from "./zigbee";
