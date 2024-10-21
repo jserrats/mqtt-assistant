@@ -20,6 +20,7 @@ client.on("connect", () => {
 		}
 	});
 	client.subscribe(`${topic.ESPHOME_TOPIC}#`);
+	client.subscribe(`${topic.BASE_TOPIC}#`);
 });
 
 client.on("message", (topic, message) => {
