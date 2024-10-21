@@ -2,13 +2,12 @@ import { CustomBinarySensor } from "../custom-binary-sensor";
 
 jest.mock("../../../../mqtt", () => ({
 	client: {
-		publish: jest.fn((newTopic: string, newPayload: string) => { }),
+		publish: jest.fn((newTopic: string, newPayload: string) => {}),
 	},
 }));
 
 describe("CustomBinarySensor", () => {
 	it("should update state correctly", async () => {
-
 		const mockCallbackTrue = jest.fn((callback) => {
 			expect(callback).toBeTruthy();
 		});
@@ -19,7 +18,7 @@ describe("CustomBinarySensor", () => {
 		const sensor = new CustomBinarySensor<number>("test", (value) => {
 			return value > 10;
 		});
-		
+
 		expect(sensor.state).toBeUndefined();
 
 		sensor.once("state", mockCallbackTrue);
