@@ -3,7 +3,7 @@ import { BinaryMQTTSensor } from "../binary-sensor";
 
 jest.mock("../../../mqtt", () => ({
 	client: {
-		publish: jest.fn((newTopic: string, newPayload: string) => { }),
+		publish: jest.fn((newTopic: string, newPayload: string) => {}),
 	},
 }));
 
@@ -32,7 +32,7 @@ describe("BinaryMQTTSensor", () => {
 		router.route(sensor.trigger.on.topic, sensor.trigger.on.payload);
 		expect(sensor.state).toBeTruthy();
 		expect(mockCallbackTrue).toHaveBeenCalled();
-		
+
 		sensor.once("state", mockCallbackFalse);
 		router.route(sensor.trigger.off.topic, sensor.trigger.off.payload);
 		expect(sensor.state).toBeFalsy();

@@ -8,19 +8,12 @@ export class LightZigbee extends ZigbeeComponent implements Switch {
 
 	setBrightness(level: number) {
 		if (level > 0 && level < 255) {
-			this.brightness = level;
-		}
-		// apply new brightness only if the light is already on
-		if (this.state) {
-			this.set(true);
+			this.set(this.state, { brightness: level } as LightOptions);
 		}
 	}
 
 	setOn(options?: LightOptions) {
-		if (typeof options?.brightness !== "undefined") {
-			this.setBrightness(options.brightness);
-		}
-		this.set(true);
+		this.set(true, options);
 	}
 
 	setOff() {
@@ -31,22 +24,18 @@ export class LightZigbee extends ZigbeeComponent implements Switch {
 		this.set("toggle");
 	}
 
-	protected set(order: boolean | "toggle") {
+	protected set(order: boolean | "toggle", options?: LightOptions) {
 		if (typeof order === "boolean") {
 			this.client.publish(
 				this.setTopic,
 				JSON.stringify({
 					state: order ? "ON" : "OFF",
-					...this.getOptions(),
+					...options,
 				}),
 			);
 		} else {
 			this.client.publish(this.setTopic, "TOGGLE");
 		}
-	}
-
-	protected getOptions() {
-		return { brightness: this.brightness };
 	}
 
 	updateComponent(message: InboundLightZigbeeInfo): void {
@@ -64,20 +53,19 @@ export class LightZigbee extends ZigbeeComponent implements Switch {
  */
 export class TemperatureLightZigbee extends LightZigbee {
 	public colorTemp;
+	private static maxColorTemp = 454;
+	private static minColorTemp = 250;
 
 	/**Sets Light color temp in mired scale. @param colorTemp 250 (normal) to 454 (warm)*/
 	setColorTemp(colorTemp: number) {
-		if (colorTemp > 249 && colorTemp < 455) {
-			this.colorTemp = colorTemp;
-		}
-
-		this.client.publish(
-			this.setTopic,
-			JSON.stringify({
-				state: this.state ? "ON" : "OFF",
+		if (
+			colorTemp > TemperatureLightZigbee.minColorTemp &&
+			colorTemp < TemperatureLightZigbee.maxColorTemp
+		) {
+			this.set(this.state, {
 				color_temp: colorTemp,
-			}),
-		);
+			} as InboundTemperatureLightZigbeeInfo);
+		}
 	}
 
 	/**
@@ -86,16 +74,14 @@ export class TemperatureLightZigbee extends LightZigbee {
 	 * @param colorTemp (250-454)
 	 */
 	setOn(options?: TemperatureLightOptions) {
-		if (typeof options?.colorTemp !== "undefined") {
-			this.setColorTemp(options.colorTemp);
+		if (
+			(typeof options?.color_temp !== "undefined" &&
+				options?.color_temp > TemperatureLightZigbee.minColorTemp &&
+				options?.color_temp < TemperatureLightZigbee.maxColorTemp) ||
+			typeof options?.color_temp === "undefined"
+		) {
+			super.setOn(options);
 		}
-		const brightness: number | undefined = options?.brightness;
-
-		super.setOn({ brightness });
-	}
-
-	protected getOptions() {
-		return { color_temp: this.colorTemp, ...super.getOptions() };
 	}
 
 	updateComponent(message: InboundTemperatureLightZigbeeInfo): void {
@@ -118,5 +104,5 @@ type LightOptions = {
 };
 
 export type TemperatureLightOptions = {
-	colorTemp?: number;
+	color_temp?: number;
 } & LightOptions;

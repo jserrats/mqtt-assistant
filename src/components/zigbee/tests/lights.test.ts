@@ -29,6 +29,7 @@ describe("LightZigbee", () => {
 	});
 
 	it("should update status", async () => {
+		expect(light.state).toBeUndefined();
 		router.route(
 			light.topic,
 			JSON.stringify({ state: "ON" } as InboundLightZigbeeInfo),
@@ -42,6 +43,7 @@ describe("LightZigbee", () => {
 	});
 
 	it("should update brightness", async () => {
+		expect(light.brightness).toBeUndefined();
 		router.route(
 			light.topic,
 			JSON.stringify({ brightness: 50 } as InboundLightZigbeeInfo),
@@ -57,6 +59,20 @@ describe("LightZigbee", () => {
 		expect(
 			JSON.parse((client.publish as jest.Mock).mock.calls[0][1]).state,
 		).toStrictEqual("ON");
+	});
+
+	it("should turn on with options", async () => {
+		expect(light.state).toBeFalsy();
+		light.setOn({ brightness: 70 });
+		expect((client.publish as jest.Mock).mock.calls[0][0]).toStrictEqual(
+			`${light.topic}/set`,
+		);
+		expect(
+			JSON.parse((client.publish as jest.Mock).mock.calls[0][1]).state,
+		).toStrictEqual("ON");
+		expect(
+			JSON.parse((client.publish as jest.Mock).mock.calls[0][1]).brightness,
+		).toStrictEqual(70);
 	});
 
 	it("should turn off", async () => {
@@ -78,11 +94,15 @@ describe("LightZigbee", () => {
 	});
 });
 
-describe("LightZigbee", () => {
+describe("TemperatureLightZigbee", () => {
 	let light: TemperatureLightZigbee;
 
 	beforeAll(async () => {
 		light = new TemperatureLightZigbee("test1");
+	});
+
+	afterEach(async () => {
+		(client.publish as jest.Mock).mockClear();
 	});
 
 	it("should update color temp", async () => {
@@ -100,7 +120,31 @@ describe("LightZigbee", () => {
 		expect((client.publish as jest.Mock).mock.calls[0][0]).toStrictEqual(
 			`${light.topic}/set`,
 		);
-		console.log((client.publish as jest.Mock).mock.calls[0][1]);
+		expect(
+			JSON.parse((client.publish as jest.Mock).mock.calls[0][1]).color_temp,
+		).toStrictEqual(300);
+	});
+
+	it("should turn on", async () => {
+		light.setOn();
+
+		expect((client.publish as jest.Mock).mock.calls[0][0]).toStrictEqual(
+			`${light.topic}/set`,
+		);
+		expect(
+			JSON.parse((client.publish as jest.Mock).mock.calls[0][1]).state,
+		).toStrictEqual("ON");
+	});
+
+	it("should turn on with options", async () => {
+		expect(light.state).toBeFalsy();
+		light.setOn({ color_temp: 300 });
+		expect((client.publish as jest.Mock).mock.calls[0][0]).toStrictEqual(
+			`${light.topic}/set`,
+		);
+		expect(
+			JSON.parse((client.publish as jest.Mock).mock.calls[0][1]).state,
+		).toStrictEqual("ON");
 		expect(
 			JSON.parse((client.publish as jest.Mock).mock.calls[0][1]).color_temp,
 		).toStrictEqual(300);
