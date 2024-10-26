@@ -70,8 +70,14 @@ export class TemperatureLightZigbee extends LightZigbee {
 		if (colorTemp > 249 && colorTemp < 455) {
 			this.colorTemp = colorTemp;
 		}
-		// apply new color only if the light is already on
-		this.set(this.state);
+
+		this.client.publish(
+			this.setTopic,
+			JSON.stringify({
+				state: this.state ? "ON" : "OFF",
+				color_temp: colorTemp,
+			}),
+		);
 	}
 
 	/**
