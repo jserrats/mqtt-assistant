@@ -1,4 +1,4 @@
-export { LightZigbee, TemperatureLightZigbee as LightLED1623G12 } from "./light";
+export { LightZigbee, TemperatureLightZigbee } from "./light";
 export { Timer } from "../timer";
 export {
 	PresenceSensorZigbee,
