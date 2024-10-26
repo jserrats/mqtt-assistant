@@ -63,7 +63,7 @@ export class LightZigbee extends ZigbeeComponent implements Switch {
  * TRADFRI bulb E26/27, white spectrum, globe, opal, 1055/1100/1160 lm
  */
 export class TemperatureLightZigbee extends LightZigbee {
-	protected colorTemp = 250;
+	public colorTemp;
 
 	/**Sets Light color temp in mired scale. @param colorTemp 250 (normal) to 454 (warm)*/
 	setColorTemp(colorTemp: number) {
@@ -71,9 +71,7 @@ export class TemperatureLightZigbee extends LightZigbee {
 			this.colorTemp = colorTemp;
 		}
 		// apply new color only if the light is already on
-		if (this.state) {
-			this.set(true);
-		}
+		this.set(this.state);
 	}
 
 	/**
@@ -105,7 +103,7 @@ export type InboundLightZigbeeInfo = {
 	brightness: number;
 } & InboundZigbeeInfo;
 
-type InboundTemperatureLightZigbeeInfo = {
+export type InboundTemperatureLightZigbeeInfo = {
 	color_temp: number;
 } & InboundLightZigbeeInfo;
 
@@ -113,6 +111,6 @@ type LightOptions = {
 	brightness?: number;
 };
 
-type TemperatureLightOptions = {
+export type TemperatureLightOptions = {
 	colorTemp?: number;
 } & LightOptions;

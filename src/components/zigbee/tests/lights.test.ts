@@ -1,6 +1,11 @@
 import { client } from "../../../mqtt";
 import { router } from "../../../router";
-import { type InboundLightZigbeeInfo, LightZigbee } from "../light";
+import {
+	type InboundLightZigbeeInfo,
+	type InboundTemperatureLightZigbeeInfo,
+	LightZigbee,
+	TemperatureLightZigbee,
+} from "../light";
 
 jest.mock("../../../../src/mqtt", () => ({
 	client: {
@@ -70,5 +75,34 @@ describe("LightZigbee", () => {
 			`${light.topic}/set`,
 			"TOGGLE",
 		]);
+	});
+});
+
+describe("LightZigbee", () => {
+	let light: TemperatureLightZigbee;
+
+	beforeAll(async () => {
+		light = new TemperatureLightZigbee("test1");
+	});
+
+	it("should update color temp", async () => {
+		expect(light.colorTemp).toBeUndefined();
+
+		router.route(
+			light.topic,
+			JSON.stringify({ color_temp: 300 } as InboundTemperatureLightZigbeeInfo),
+		);
+		expect(light.colorTemp).toEqual(300);
+	});
+
+	it("should publish color temp", async () => {
+		light.setColorTemp(300);
+		expect((client.publish as jest.Mock).mock.calls[0][0]).toStrictEqual(
+			`${light.topic}/set`,
+		);
+		console.log((client.publish as jest.Mock).mock.calls[0][1]);
+		expect(
+			JSON.parse((client.publish as jest.Mock).mock.calls[0][1]).color_temp,
+		).toStrictEqual(300);
 	});
 });
