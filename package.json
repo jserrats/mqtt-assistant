@@ -6,7 +6,7 @@
 	"types": "./dist/index.d.ts",
 	"scripts": {
 		"test": "jest --setupFiles dotenv/config",
-		"build": "rm -r dist/ && tsc",
+		"build": "rm -r dist/; tsc",
 		"prepublish": "tsc",
 		"lint": "npx @biomejs/biome check --fix --unsafe"
 	},
