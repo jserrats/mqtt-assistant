@@ -48,9 +48,6 @@ export class LightZigbee extends ZigbeeComponent implements Switch {
 	}
 }
 
-/**
- * TRADFRI bulb E26/27, white spectrum, globe, opal, 1055/1100/1160 lm
- */
 export class TemperatureLightZigbee extends LightZigbee {
 	public colorTemp;
 	private static maxColorTemp = 454;
@@ -106,3 +103,10 @@ type LightOptions = {
 export type TemperatureLightOptions = {
 	color_temp?: number;
 } & LightOptions;
+
+/**
+ * TRADFRI bulb E26/27, white spectrum, globe, opal, 1055/1100/1160 lm
+ */
+export class LightLED1623G12 extends TemperatureLightZigbee {
+
+}
