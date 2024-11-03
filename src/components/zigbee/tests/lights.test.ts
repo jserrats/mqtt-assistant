@@ -156,7 +156,6 @@ describe("TemperatureLightZigbee", () => {
 		expect((client.publish as jest.Mock).mock.calls[0][0]).toStrictEqual(
 			`${light.topic}/set`,
 		);
-		console.log((client.publish as jest.Mock).mock.calls[0][1])
 		expect(
 			JSON.parse((client.publish as jest.Mock).mock.calls[0][1]).state,
 		).toStrictEqual("ON");
