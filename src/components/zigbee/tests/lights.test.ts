@@ -136,7 +136,7 @@ describe("TemperatureLightZigbee", () => {
 		).toStrictEqual("ON");
 	});
 
-	it("should turn on with options", async () => {
+	it("should turn on with temp options", async () => {
 		expect(light.state).toBeFalsy();
 		light.setOn({ color_temp: 300 });
 		expect((client.publish as jest.Mock).mock.calls[0][0]).toStrictEqual(
@@ -148,5 +148,23 @@ describe("TemperatureLightZigbee", () => {
 		expect(
 			JSON.parse((client.publish as jest.Mock).mock.calls[0][1]).color_temp,
 		).toStrictEqual(300);
+	});
+
+	it("should turn on with all options", async () => {
+		expect(light.state).toBeFalsy();
+		light.setOn({ color_temp: 300, brightness: 50 });
+		expect((client.publish as jest.Mock).mock.calls[0][0]).toStrictEqual(
+			`${light.topic}/set`,
+		);
+		console.log((client.publish as jest.Mock).mock.calls[0][1])
+		expect(
+			JSON.parse((client.publish as jest.Mock).mock.calls[0][1]).state,
+		).toStrictEqual("ON");
+		expect(
+			JSON.parse((client.publish as jest.Mock).mock.calls[0][1]).color_temp,
+		).toStrictEqual(300);
+		expect(
+			JSON.parse((client.publish as jest.Mock).mock.calls[0][1]).brightness,
+		).toStrictEqual(50);
 	});
 });
