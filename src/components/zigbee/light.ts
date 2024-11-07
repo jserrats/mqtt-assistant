@@ -6,8 +6,8 @@ export class LightZigbee extends ZigbeeComponent implements Switch {
 	protected setTopic = `${this.topic}/set`;
 	public state: boolean;
 	public brightness = 254;
-	private static maxBrightness = 254
-	private static minBrightness = 5
+	private static maxBrightness = 254;
+	private static minBrightness = 5;
 
 	setBrightness(level: number) {
 		if (this.validBrightnessValue(level)) {
@@ -17,13 +17,16 @@ export class LightZigbee extends ZigbeeComponent implements Switch {
 
 	setOn(options?: LightOptions) {
 		if (options !== undefined) {
-			if (options.brightness !== undefined && this.validBrightnessValue(options.brightness) || options.brightness === undefined) {
+			if (
+				(options.brightness !== undefined &&
+					this.validBrightnessValue(options.brightness)) ||
+				options.brightness === undefined
+			) {
 				this.set(true, options);
 			}
 		} else {
 			this.set(true);
 		}
-
 	}
 
 	setOff() {
@@ -49,12 +52,16 @@ export class LightZigbee extends ZigbeeComponent implements Switch {
 	}
 
 	private validBrightnessValue(value: number): boolean {
-		if (value > LightZigbee.maxBrightness && value < LightZigbee.minBrightness) {
-			telegram.warning(`Brightness value ${value} out of bounds for light ${this.name}`)
-			return false
-		} else {
-			return true
+		if (
+			value > LightZigbee.maxBrightness &&
+			value < LightZigbee.minBrightness
+		) {
+			telegram.warning(
+				`Brightness value ${value} out of bounds for light ${this.name}`,
+			);
+			return false;
 		}
+		return true;
 	}
 	updateComponent(message: InboundLightZigbeeInfo): void {
 		if (this.state !== (message.state === "ON")) {
@@ -97,7 +104,9 @@ export class TemperatureLightZigbee extends LightZigbee {
 		) {
 			super.setOn(options);
 		} else {
-			telegram.warning(`Warm value ${options} out of bounds for light ${this.name}`)
+			telegram.warning(
+				`Warm value ${options} out of bounds for light ${this.name}`,
+			);
 		}
 	}
 
@@ -127,6 +136,4 @@ export type TemperatureLightOptions = {
 /**
  * TRADFRI bulb E26/27, white spectrum, globe, opal, 1055/1100/1160 lm
  */
-export class LightLED1623G12 extends TemperatureLightZigbee {
-
-}
+export class LightLED1623G12 extends TemperatureLightZigbee {}

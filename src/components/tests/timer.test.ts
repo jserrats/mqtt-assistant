@@ -15,17 +15,19 @@ jest.useFakeTimers();
 
 describe("Timer", () => {
 	it("should trigger when the timer ends", async () => {
-		const timer = new Timer();
+		const timer = new Timer({ seconds: 10 });
 		const mockCallback = jest.fn();
-		timer.setTimeout({ seconds: 10 }, mockCallback);
+		timer.on("timeout", () => {
+			mockCallback();
+		});
+		timer.start();
 		jest.runOnlyPendingTimers();
 		expect(mockCallback).toHaveBeenCalled();
 	});
 
 	it("should publish countdown time", async () => {
-		const timer = new Timer();
-		const mockCallback = jest.fn();
-		timer.setTimeout({ seconds: 10 }, mockCallback, { publishTopic: "test" });
+		const timer = new Timer({ seconds: 10 }, "test");
+		timer.start();
 		jest.runOnlyPendingTimers();
 		expect((client.publish as jest.Mock).mock.calls).toHaveLength(40);
 	});
@@ -34,5 +36,29 @@ describe("Timer", () => {
 		expect(secondsToHms(60 * 60 * 2 - 1)).toStrictEqual("1h 59m");
 		expect(secondsToHms(60 * 60 - 1)).toStrictEqual("59m 59s");
 		expect(secondsToHms(59)).toStrictEqual("59s");
+	});
+
+	it("should trigger when the timer is canceled", async () => {
+		const timer = new Timer({ seconds: 10 });
+		const mockCallback = jest.fn();
+		timer.on("cancel", () => {
+			mockCallback();
+		});
+		timer.start();
+		timer.cancel();
+		expect(mockCallback).toHaveBeenCalled();
+	});
+
+	it("should cancel when triggered", async () => {
+		const timer = new Timer({ seconds: 10 });
+		const trigger = { payload: "1234", topic: "1234" };
+		const mockCallback = jest.fn();
+		timer.on("cancel", () => {
+			mockCallback();
+		});
+		timer.addCancelTriggers(trigger);
+		timer.start();
+		router.route(trigger.topic, trigger.payload);
+		expect(mockCallback).toHaveBeenCalled();
 	});
 });

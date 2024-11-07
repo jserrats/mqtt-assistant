@@ -8,35 +8,57 @@ export class Timer extends Component {
 	private intervalID: NodeJS.Timeout = setInterval(() => {});
 	private length = 0;
 	private seconds = 0;
-	private cancelCallback: CallableFunction = () => {};
-	private publishTopic = "";
+	private publishTopic: string;
 
-	setTimeout(
-		period: TimerLength,
-		callback: CallableFunction,
-		options?: Options,
-	) {
-		this.cancelTimeout();
+	constructor(period: TimerLength, publish?: string) {
+		super();
 		this.setLength(period);
-		if (typeof options !== "undefined") {
-			if (typeof options.cancelTrigger !== "undefined") {
-				this.setCancelTrigger(options.cancelTrigger);
-			}
-			if (typeof options.publishTopic !== "undefined") {
-				this.publishTopic = `${BASE_TOPIC}timer/${options.publishTopic}`;
-				this.intervalID = setInterval(() => {
-					this.seconds = this.seconds + 1;
-					this.publishTime();
-				}, 1000);
-			}
-			if (typeof options.cancelCallback !== "undefined") {
-				this.cancelCallback = options.cancelCallback;
-			}
+		this.publishTopic = `${BASE_TOPIC}timer/${publish}`;
+	}
+	public start() {
+		this.cancel();
+		if (this.publishTopic !== undefined) {
+			this.intervalID = setInterval(() => {
+				this.seconds = this.seconds + 1;
+				this.publishTime();
+			}, 1000);
 		}
 		this.timeoutID = setTimeout(() => {
 			clearInterval(this.intervalID);
-			callback();
+			this.emit("timeout");
 		}, this.length);
+	}
+
+	public cancel() {
+		clearTimeout(this.timeoutID);
+		this.emit("cancel");
+		if (this.publishTopic !== "") {
+			this.seconds = 0;
+			this.publishTime();
+		}
+		clearInterval(this.intervalID);
+	}
+
+	public addCancelTriggers(trigger: Trigger | Trigger[]) {
+		if (typeof trigger !== "undefined") {
+			if (Array.isArray(trigger)) {
+				trigger.forEach((element) => {
+					router.addAutomation({
+						trigger: element,
+						callback: () => {
+							this.cancel();
+						},
+					});
+				});
+			} else {
+				router.addAutomation({
+					trigger: trigger,
+					callback: () => {
+						this.cancel();
+					},
+				});
+			}
+		}
 	}
 
 	private publishTime() {
@@ -55,15 +77,6 @@ export class Timer extends Component {
 		);
 	}
 
-	public cancelTimeout() {
-		clearTimeout(this.timeoutID);
-		if (this.publishTopic !== "") {
-			this.seconds = 0;
-			this.publishTime();
-		}
-		clearInterval(this.intervalID);
-	}
-
 	private setLength(period: TimerLength) {
 		let seconds = 0;
 		if (typeof period.seconds !== "undefined") {
@@ -77,42 +90,12 @@ export class Timer extends Component {
 		}
 		this.length = seconds * 1000;
 	}
-
-	private setCancelTrigger(trigger: Trigger | Trigger[]) {
-		if (typeof trigger !== "undefined") {
-			if (Array.isArray(trigger)) {
-				trigger.forEach((element) => {
-					router.addAutomation({
-						trigger: element,
-						callback: () => {
-							this.cancelTimeout();
-							this.cancelCallback();
-						},
-					});
-				});
-			} else {
-				router.addAutomation({
-					trigger: trigger,
-					callback: () => {
-						this.cancelTimeout();
-						this.cancelCallback();
-					},
-				});
-			}
-		}
-	}
 }
 
 export type TimerLength = {
 	seconds?: number;
 	minutes?: number;
 	hours?: number;
-};
-
-type Options = {
-	cancelTrigger?: Trigger | Trigger[];
-	cancelCallback?: CallableFunction;
-	publishTopic?: string;
 };
 
 export function secondsToHms(inSeconds: number) {

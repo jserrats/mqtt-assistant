@@ -1,21 +1,9 @@
-import type { Sensor } from "../interfaces/sensor";
 import type { Switch } from "../interfaces/switch";
-import { Timer, type TimerLength } from "../timer";
 import { type InboundZigbeeInfo, ZigbeeComponent } from "./zigbee";
 
-export class PowerZigbee extends ZigbeeComponent implements Switch {
+export class SwitchZigbee extends ZigbeeComponent implements Switch {
 	setTopic = `${this.topic}/set`;
 	state: boolean;
-	autoOffTimer: TimerLength;
-	timer: Timer;
-
-	constructor(name: string, options?: PowerZigbeeOptions) {
-		super(name);
-		if (typeof options !== "undefined") {
-			this.autoOffTimer = options.autoOff;
-			this.timer = new Timer();
-		}
-	}
 
 	setOn() {
 		this.set(true);
@@ -39,48 +27,20 @@ export class PowerZigbee extends ZigbeeComponent implements Switch {
 		this.client.publish(this.setTopic, text_order);
 	}
 
-	updateComponent(message: InboundPowerZigbeeInfo): void {
+	updateComponent(message: InboundSwitchZigbeeInfo): void {
 		if (this.state !== (message.state === "ON")) {
 			this.state = message.state === "ON";
 			this.emit("state", this.state);
 		}
 		super.updateComponent(message);
-		if (typeof this.autoOffTimer !== "undefined") {
-			if (this.state) {
-				this.timer.setTimeout(this.autoOffTimer, () => {
-					this.setOff();
-				});
-			} else {
-				this.timer.cancelTimeout();
-			}
-		}
 	}
 }
-
-type PowerZigbeeOptions = {
-	autoOff?: TimerLength;
-};
 
 /**
  * TRADFRI control outlet
  */
-export class PowerE1603 extends PowerZigbee {}
+export class SwitchE1603 extends SwitchZigbee { }
 
-type InboundPowerZigbeeInfo = {
+type InboundSwitchZigbeeInfo = {
 	state: string;
 } & InboundZigbeeInfo;
-
-// export class WattPowerZigbee extends PowerZigbee implements Sensor {
-// 	power = 0;
-// 	state = 0;
-// 	updateComponent(message: InboundWattPowerZigbeeInfo): void {
-// 		this.power = message.power;
-// 		this.state = message.power;
-// 		super.updateComponent(message);
-// 		this.emit("state", this.state);
-// 	}
-// }
-
-// type InboundWattPowerZigbeeInfo = {
-// 	power: number;
-// } & InboundPowerZigbeeInfo;
