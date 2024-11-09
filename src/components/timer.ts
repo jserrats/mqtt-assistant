@@ -4,8 +4,8 @@ import type { Trigger } from "../types";
 import { Component } from "./component";
 
 export class Timer extends Component {
-	private timeoutID: NodeJS.Timeout = setTimeout(() => {});
-	private intervalID: NodeJS.Timeout = setInterval(() => {});
+	private timeoutID: NodeJS.Timeout = setTimeout(() => { });
+	private intervalID: NodeJS.Timeout = setInterval(() => { });
 	private length = 0;
 	private seconds = 0;
 	private publishTopic: string;
@@ -13,10 +13,10 @@ export class Timer extends Component {
 	constructor(period: TimerLength, publish?: string) {
 		super();
 		this.setLength(period);
-		this.publishTopic = `${BASE_TOPIC}timer/${publish}`;
+		this.publishTopic = publish ? `${BASE_TOPIC}timer/${publish}` : undefined;
 	}
 	public start() {
-		this.cancel();
+		this.internalCancel();
 		if (this.publishTopic !== undefined) {
 			this.intervalID = setInterval(() => {
 				this.seconds = this.seconds + 1;
@@ -30,9 +30,13 @@ export class Timer extends Component {
 	}
 
 	public cancel() {
-		clearTimeout(this.timeoutID);
 		this.emit("cancel");
-		if (this.publishTopic !== "") {
+		this.internalCancel()
+	}
+
+	private internalCancel() {
+		clearTimeout(this.timeoutID);
+		if (this.publishTopic !== undefined) {
 			this.seconds = 0;
 			this.publishTime();
 		}

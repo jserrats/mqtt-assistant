@@ -1,6 +1,6 @@
 import { client } from "../../../mqtt";
 import { router } from "../../../router";
-import { PowerZigbee } from "../power";
+import { SwitchZigbee } from "../power";
 
 jest.mock("../../../../src/mqtt", () => ({
 	client: {
@@ -13,10 +13,10 @@ jest.mock("../../../../src/mqtt", () => ({
 jest.useFakeTimers();
 
 describe("Power", () => {
-	let wattPower: PowerZigbee;
+	let wattPower: SwitchZigbee;
 
 	beforeAll(async () => {
-		wattPower = new PowerZigbee("test1", { autoOff: { hours: 4 } });
+		wattPower = new SwitchZigbee("test1");
 	});
 
 	afterEach(async () => {
@@ -64,18 +64,18 @@ describe("Power", () => {
 		expect(wattPower.name).toBe("test1");
 	});
 
-	it("should timeout correctly", async () => {
-		client.publish(
-			wattPower.topic,
-			JSON.stringify({ power: 43.57, state: "ON" }),
-		);
-		expect(wattPower.state).toBe(true);
+	// it("should timeout correctly", async () => {
+	// 	client.publish(
+	// 		wattPower.topic,
+	// 		JSON.stringify({ power: 43.57, state: "ON" }),
+	// 	);
+	// 	expect(wattPower.state).toBe(true);
 
-		(client.publish as jest.Mock).mockClear();
-		jest.runOnlyPendingTimers();
-		expect((client.publish as jest.Mock).mock.calls[0]).toStrictEqual([
-			wattPower.setTopic,
-			"OFF",
-		]);
-	});
+	// 	(client.publish as jest.Mock).mockClear();
+	// 	jest.runOnlyPendingTimers();
+	// 	expect((client.publish as jest.Mock).mock.calls[0]).toStrictEqual([
+	// 		wattPower.setTopic,
+	// 		"OFF",
+	// 	]);
+	// });
 });

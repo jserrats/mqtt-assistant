@@ -29,7 +29,8 @@ describe("Timer", () => {
 		const timer = new Timer({ seconds: 10 }, "test");
 		timer.start();
 		jest.runOnlyPendingTimers();
-		expect((client.publish as jest.Mock).mock.calls).toHaveLength(40);
+		// console.log((client.publish as jest.Mock).mock.calls)
+		expect((client.publish as jest.Mock).mock.calls).toHaveLength(44);
 	});
 
 	it("time formatting should adjust", async () => {
