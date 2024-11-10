@@ -1,11 +1,9 @@
 import { router } from "../../../../../router";
-import {
-	ClosureSensorZigbee,
-} from "../closure";
+import { ClosureSensorZigbee } from "../closure";
 
 jest.mock("../../../../../mqtt", () => ({
 	client: {
-		publish: jest.fn((newTopic: string, newPayload: string) => { }),
+		publish: jest.fn((newTopic: string, newPayload: string) => {}),
 	},
 }));
 
@@ -14,11 +12,11 @@ describe("ClosureSensorZigbee", () => {
 		const mockCallback = jest.fn();
 
 		const sensor = new ClosureSensorZigbee("test");
-		sensor.closure.on('state', (value) => { expect(value).toBeTruthy(); mockCallback() })
-		router.route(
-			sensor.topic,
-			JSON.stringify({ closure: true }),
-		);
+		sensor.closure.on("state", (value) => {
+			expect(value).toBeTruthy();
+			mockCallback();
+		});
+		router.route(sensor.topic, JSON.stringify({ closure: true }));
 
 		expect(mockCallback).toHaveBeenCalled();
 	});
@@ -26,15 +24,9 @@ describe("ClosureSensorZigbee", () => {
 	it("should update the closure correctly", async () => {
 		const sensor = new ClosureSensorZigbee("test2");
 		expect(sensor.closure.state).toBeUndefined();
-		router.route(
-			sensor.topic,
-			JSON.stringify({ closure: true }),
-		);
+		router.route(sensor.topic, JSON.stringify({ closure: true }));
 		expect(sensor.closure.state).toBeTruthy();
-		router.route(
-			sensor.topic,
-			JSON.stringify({ closure: false }),
-		);
+		router.route(sensor.topic, JSON.stringify({ closure: false }));
 		expect(sensor.closure.state).toBeFalsy();
 	});
 
@@ -42,16 +34,10 @@ describe("ClosureSensorZigbee", () => {
 		const sensor = new ClosureSensorZigbee("test3", true);
 		expect(sensor.closure.state).toBeUndefined();
 
-		router.route(
-			sensor.topic,
-			JSON.stringify({ closure: true }),
-		);
+		router.route(sensor.topic, JSON.stringify({ closure: true }));
 		expect(sensor.closure.state).toBeFalsy();
 
-		router.route(
-			sensor.topic,
-			JSON.stringify({ closure: false }),
-		);
+		router.route(sensor.topic, JSON.stringify({ closure: false }));
 		expect(sensor.closure.state).toBeTruthy();
 	});
 
@@ -59,7 +45,6 @@ describe("ClosureSensorZigbee", () => {
 	// it("should emit the correct states", async () => {
 	// 	const mockCallbackTrue = jest.fn();
 	// 	const mockCallbackFalse = jest.fn();
-
 
 	// 	const sensor = new ClosureSensorZigbee("test");
 

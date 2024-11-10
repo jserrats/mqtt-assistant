@@ -4,13 +4,13 @@ import { router } from "../../router";
 import type { Trigger } from "../../types";
 import { Component } from "../component";
 import { telegram } from "../telegram";
+import { exposes } from "./exposes";
 import { ExposesZigbee } from "./exposes/base";
-import { exposes } from "./exposes"
 
 export class ZigbeeDevice extends Component {
 	topic: string;
 	name: string;
-	linkquality = new exposes.ExposesLinkQuality()
+	linkquality = new exposes.ExposesLinkQuality();
 
 	constructor(name: string) {
 		super();
@@ -39,7 +39,7 @@ export class ZigbeeDevice extends Component {
 	protected updateExposes(message: Object): void {
 		for (const key in this) {
 			if (this[key] instanceof ExposesZigbee) {
-				this[key].updateExposes(message)
+				this[key].updateExposes(message);
 			}
 		}
 	}

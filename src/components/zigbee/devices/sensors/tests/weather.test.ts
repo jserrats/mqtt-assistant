@@ -1,11 +1,9 @@
 import { router } from "../../../../../router";
-import {
-	WeatherSensorZigbee,
-} from "../weather";
+import { WeatherSensorZigbee } from "../weather";
 
 jest.mock("../../../../../mqtt", () => ({
 	client: {
-		publish: jest.fn((newTopic: string, newPayload: string) => { }),
+		publish: jest.fn((newTopic: string, newPayload: string) => {}),
 	},
 }));
 
@@ -13,14 +11,11 @@ describe("WeatherSensorZigbee", () => {
 	it("should trigger the observe", async () => {
 		const mockCallback = jest.fn();
 
-		const sensor = new WeatherSensorZigbee("test")
-		sensor.temperature.on('temperature', () => {
-			mockCallback()
-		})
-		router.route(
-			sensor.topic,
-			JSON.stringify({ temperature: 10 }),
-		);
+		const sensor = new WeatherSensorZigbee("test");
+		sensor.temperature.on("temperature", () => {
+			mockCallback();
+		});
+		router.route(sensor.topic, JSON.stringify({ temperature: 10 }));
 		expect(mockCallback).toHaveBeenCalled();
 	});
 

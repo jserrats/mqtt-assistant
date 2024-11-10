@@ -3,16 +3,18 @@ import { ZigbeeDevice } from "../../zigbee";
 
 export class SwitchZigbee extends ZigbeeDevice {
 	setTopic = `${this.topic}/set`;
-	protected _state = new exposes.ExposesSwitch()
-	public state: boolean
+	protected _state = new exposes.ExposesSwitch();
+	public state: boolean;
 
 	constructor(name: string) {
-		super(name)
-		this._state.on('state', (value) => { this.state = value })
+		super(name);
+		this._state.on("state", (value) => {
+			this.state = value;
+		});
 	}
-	
+
 	setOn(options?: Object) {
-		this.set(true, options)
+		this.set(true, options);
 	}
 	setOff() {
 		this.set(false);
@@ -23,7 +25,6 @@ export class SwitchZigbee extends ZigbeeDevice {
 	}
 
 	protected set(order: boolean | "toggle", options?: Object) {
-
 		if (typeof order === "boolean") {
 			this.client.publish(
 				this.setTopic,
@@ -41,4 +42,4 @@ export class SwitchZigbee extends ZigbeeDevice {
 /**
  * TRADFRI control outlet
  */
-export class SwitchE1603 extends SwitchZigbee { }
+export class SwitchE1603 extends SwitchZigbee {}

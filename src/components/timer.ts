@@ -4,8 +4,8 @@ import type { Trigger } from "../types";
 import { Component } from "./component";
 
 export class Timer extends Component {
-	private timeoutID: NodeJS.Timeout = setTimeout(() => { });
-	private intervalID: NodeJS.Timeout = setInterval(() => { });
+	private timeoutID: NodeJS.Timeout = setTimeout(() => {});
+	private intervalID: NodeJS.Timeout = setInterval(() => {});
 	private length = 0;
 	private seconds = 0;
 	private publishTopic: string;
@@ -31,7 +31,7 @@ export class Timer extends Component {
 
 	public cancel() {
 		this.emit("cancel");
-		this.internalCancel()
+		this.internalCancel();
 	}
 
 	private internalCancel() {
