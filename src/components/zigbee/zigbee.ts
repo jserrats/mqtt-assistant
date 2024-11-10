@@ -4,20 +4,24 @@ import { router } from "../../router";
 import type { Trigger } from "../../types";
 import { Component } from "../component";
 import { telegram } from "../telegram";
-export class ZigbeeComponent extends Component {
+import { ExposesZigbee } from "./exposes/base";
+import { exposes } from "./exposes"
+
+export class ZigbeeDevice extends Component {
 	topic: string;
-	linkquality = 0;
 	name: string;
+	linkquality = new exposes.ExposesLinkQuality()
 
 	constructor(name: string) {
 		super();
 		this.name = name;
 		this.topic = ZIGBEE2MQTT_TOPIC + name;
+
 		router.addAutomation({
 			trigger: { topic: this.topic, payload: "*" },
 			callback: (message: Trigger) => {
 				try {
-					this.updateComponent(JSON.parse(message.payload));
+					this.updateExposes(JSON.parse(message.payload));
 				} catch (error) {
 					let error_message = "Unknown Error";
 					if (error instanceof Error) error_message = error.message;
@@ -32,15 +36,16 @@ export class ZigbeeComponent extends Component {
 		});
 	}
 
-	protected updateComponent(message: InboundZigbeeInfo) {
-		this.linkquality = message.linkquality;
+	protected updateExposes(message: Object): void {
+		for (const key in this) {
+			if (this[key] instanceof ExposesZigbee) {
+				this[key].updateExposes(message)
+			}
+		}
 	}
 }
 
-export type InboundZigbeeInfo = {
-	linkquality: number;
-};
-
+// TODO: move this to its own file
 // For this to work is necessary to go to zigbee2mqtt > Settings > Availability > Enable
 export class ZigbeeMonitor extends Component {
 	offlineDevices: string[] = [];

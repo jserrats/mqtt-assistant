@@ -1,7 +1,7 @@
 import { Trigger } from "../../types";
-import { ZigbeeComponent } from "./zigbee";
+import { ZigbeeDevice } from "./zigbee";
 
-export class RemoteZigbee extends ZigbeeComponent {
+export class RemoteZigbee extends ZigbeeDevice {
 	actionTopic = `${this.topic}/action`;
 }
 /**
