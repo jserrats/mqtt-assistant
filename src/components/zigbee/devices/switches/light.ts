@@ -1,4 +1,4 @@
-import { exposes } from "../exposes";
+import { exposes } from "../../exposes";
 import { SwitchZigbee } from "./switch";
 
 export class LightZigbee extends SwitchZigbee {

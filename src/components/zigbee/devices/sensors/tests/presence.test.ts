@@ -1,9 +1,9 @@
-import { router } from "../../../../router";
+import { router } from "../../../../../router";
 import {
     PresenceSensorZigbee,
 } from "../presence";
 
-jest.mock("../../../../mqtt", () => ({
+jest.mock("../../../../../mqtt", () => ({
     client: {
         publish: jest.fn((newTopic: string, newPayload: string) => { }),
     },

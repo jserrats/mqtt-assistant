@@ -1,5 +1,5 @@
-import { exposes } from "../exposes";
-import { ZigbeeDevice } from "../zigbee";
+import { exposes } from "../../exposes";
+import { ZigbeeDevice } from "../../zigbee";
 
 export class PowerSensorZigbee extends ZigbeeDevice {
 	power = new exposes.ExposesPower()

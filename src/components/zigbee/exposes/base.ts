@@ -1,5 +1,5 @@
 import { EventEmitter } from "node:events";
-import { SwitchZigbee } from "../devices/switch";
+import { SwitchZigbee } from "../devices/switches/switch";
 import { telegram } from "../../telegram";
 
 // TODO: add units

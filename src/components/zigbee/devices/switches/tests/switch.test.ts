@@ -1,8 +1,8 @@
-import { client } from "../../../../mqtt";
-import { router } from "../../../../router";
+import { client } from "../../../../../mqtt";
+import { router } from "../../../../../router";
 import { SwitchZigbee } from "../switch";
 
-jest.mock("../../../../../src/mqtt", () => ({
+jest.mock("../../../../../mqtt", () => ({
     client: {
         publish: jest.fn((newTopic: string, newPayload: string) => {
             router.route(newTopic, newPayload);

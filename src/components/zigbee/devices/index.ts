@@ -1,4 +1,4 @@
-export { PresenceSensorZigbee } from "./presence";
+export { PresenceSensorZigbee } from "./sensors/presence";
 export { ClosureSensorZigbee } from "./closure";
-export { WeatherSensorZigbee } from "./weather";
-export { PowerSensorZigbee } from "./power";
+export { WeatherSensorZigbee } from "./sensors/weather";
+export { PowerSensorZigbee } from "./sensors/power";
