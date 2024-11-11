@@ -1,4 +1,4 @@
-import { PowerSensorZigbee } from "../..";
+import { PowerSensorZigbee } from "./base";
 
 /**
  * Electricity energy monitor

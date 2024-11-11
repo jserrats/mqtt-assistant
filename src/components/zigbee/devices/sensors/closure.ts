@@ -1,4 +1,4 @@
-import { ClosureSensorZigbee } from "../..";
+import { ClosureSensorZigbee } from "./base";
 
 /**
  * Door sensor
