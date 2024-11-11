@@ -1,6 +1,6 @@
 import { client } from "../../../../../mqtt";
 import { router } from "../../../../../router";
-import { SwitchZigbee } from "../switch";
+import { SwitchZigbee } from "../base";
 
 jest.mock("../../../../../mqtt", () => ({
 	client: {

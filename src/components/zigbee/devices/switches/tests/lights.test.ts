@@ -4,8 +4,7 @@ import {
 	BrightLightZigbee,
 	LightZigbee,
 	TemperatureLightZigbee,
-	// TemperatureLightZigbee,
-} from "../light";
+} from "../base";
 
 jest.mock("../../../../../mqtt", () => ({
 	client: {

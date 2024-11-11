@@ -1,4 +1,3 @@
-export { PresenceSensorZigbee } from "./sensors/presence";
-export { ClosureSensorZigbee } from "./closure";
-export { WeatherSensorZigbee } from "./sensors/weather";
-export { PowerSensorZigbee } from "./sensors/power";
+export * as remotes from "./remotes/remotes";
+export * as switches from "./switches/switches";
+export * as lights from "./switches/lights";

@@ -10,9 +10,14 @@ export {
 	WeatherSensorZigbee,
 	PowerSensorZigbee,
 } from "./devices";
-export { RemoteE2002, RemoteE1812, RemoteTS0044, RemoteE2201 } from "./remote";
+export {
+	RemoteE2002,
+	RemoteE1812,
+	RemoteTS0044,
+	RemoteE2201,
+} from "./devices/remotes/base";
 export {
 	SwitchE1603 as PowerE1603,
 	SwitchZigbee as PowerZigbee,
-} from "./devices/switches/switch";
+} from "./devices/switches/base";
 export { ZigbeeMonitor } from "./zigbee";

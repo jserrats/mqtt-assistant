@@ -1,5 +1,5 @@
 import { router } from "../../../../../router";
-import { WeatherSensorZigbee } from "../weather";
+import { AirSensorZigbee } from "../base";
 
 jest.mock("../../../../../mqtt", () => ({
 	client: {
@@ -7,11 +7,11 @@ jest.mock("../../../../../mqtt", () => ({
 	},
 }));
 
-describe("WeatherSensorZigbee", () => {
+describe("AirSensorZigbee", () => {
 	it("should trigger the observe", async () => {
 		const mockCallback = jest.fn();
 
-		const sensor = new WeatherSensorZigbee("test");
+		const sensor = new AirSensorZigbee("test");
 		sensor.temperature.on("temperature", () => {
 			mockCallback();
 		});
@@ -20,7 +20,7 @@ describe("WeatherSensorZigbee", () => {
 	});
 
 	it("should update the temperature & humidity correctly", async () => {
-		const sensor = new WeatherSensorZigbee("test2");
+		const sensor = new AirSensorZigbee("test2");
 		expect(sensor.temperature.state).toBeUndefined();
 		expect(sensor.humidity.state).toBeUndefined();
 

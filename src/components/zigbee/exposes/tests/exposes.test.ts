@@ -22,8 +22,9 @@ describe("Exposes", () => {
 	it("Numeric - should trigger the callback", async () => {
 		const mockCallback = jest.fn();
 		const exposes = new ExposesTemperature();
-		exposes.on("temperature", (value) => {
-			mockCallback(), expect(value).toStrictEqual(10);
+		exposes.on(ExposesTemperature.exposes, (value) => {
+			mockCallback();
+			expect(value).toStrictEqual(10);
 		});
 		exposes.updateExposes({ temperature: 10 });
 		expect(mockCallback).toHaveBeenCalled();
@@ -42,7 +43,8 @@ describe("Exposes", () => {
 		const mockCallback = jest.fn();
 		const exposes = new ExposesOccupancy();
 		exposes.on("occupancy", (value) => {
-			mockCallback(), expect(value).toStrictEqual(false);
+			mockCallback();
+			expect(value).toStrictEqual(false);
 		});
 		exposes.updateExposes({ occupancy: false });
 		expect(mockCallback).toHaveBeenCalled();
@@ -70,7 +72,8 @@ describe("Exposes", () => {
 		const mockCallback = jest.fn();
 		const exposes = new ExposesSwitch();
 		exposes.on("state", (value) => {
-			mockCallback(), expect(value).toStrictEqual(false);
+			mockCallback();
+			expect(value).toStrictEqual(false);
 		});
 		exposes.updateExposes({ state: "OFF" });
 		expect(mockCallback).toHaveBeenCalled();

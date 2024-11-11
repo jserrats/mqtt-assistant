@@ -1,10 +1,10 @@
-import { exposes } from "../../exposes";
-import { ZigbeeDevice } from "../../zigbee";
+import { PowerSensorZigbee } from "../..";
 
-export class PowerSensorZigbee extends ZigbeeDevice {
-	power = new exposes.ExposesPower();
-	voltage = new exposes.ExposesVoltage();
-	current = new exposes.ExposesCurrent();
-}
-
+/**
+ * Electricity energy monitor
+ *
+ * Tuya
+ *
+ * https://www.zigbee2mqtt.io/devices/PJ-1203-W.html#tuya-pj-1203-w
+ */
 export class PJ_1203_W extends PowerSensorZigbee {}

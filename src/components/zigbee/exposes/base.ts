@@ -1,6 +1,6 @@
 import { EventEmitter } from "node:events";
 import { telegram } from "../../telegram";
-import type { SwitchZigbee } from "../devices/switches/switch";
+import type { SwitchZigbee } from "../devices/switches/base";
 
 // TODO: add units
 export class ExposesZigbee<T> extends EventEmitter {

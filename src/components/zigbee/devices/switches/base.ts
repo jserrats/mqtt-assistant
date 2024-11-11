@@ -39,7 +39,13 @@ export class SwitchZigbee extends ZigbeeDevice {
 	}
 }
 
-/**
- * TRADFRI control outlet
- */
-export class SwitchE1603 extends SwitchZigbee {}
+export class LightZigbee extends SwitchZigbee {}
+
+export class BrightLightZigbee extends LightZigbee {
+	brightness = new exposes.ExposesBrightness(this, 254, 5);
+}
+
+export class TemperatureLightZigbee extends SwitchZigbee {
+	colorTemp = new exposes.ExposesColorTemperature(this, 454, 250);
+	brightness = new exposes.ExposesBrightness(this, 254, 5);
+}

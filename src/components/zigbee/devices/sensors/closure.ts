@@ -1,11 +1,10 @@
-import { exposes } from "../../exposes";
-import { ZigbeeDevice } from "../../zigbee";
+import { ClosureSensorZigbee } from "../..";
 
-export class ClosureSensorZigbee extends ZigbeeDevice {
-	closure: exposes.ExposesClosure;
-
-	constructor(name: string, inverted?) {
-		super(name);
-		this.closure = new exposes.ExposesClosure(inverted);
-	}
-}
+/**
+ * Door sensor
+ *
+ * Tuya
+ *
+ * https://www.zigbee2mqtt.io/devices/TS0203.html#tuya-ts0203
+ */
+export class TS0203 extends ClosureSensorZigbee {}

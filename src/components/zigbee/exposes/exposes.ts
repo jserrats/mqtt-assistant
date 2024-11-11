@@ -1,3 +1,4 @@
+import { RemoteZigbee } from "../devices/remotes/base";
 import {
 	ExposesBoolean,
 	ExposesNumber,
@@ -20,6 +21,10 @@ export class ExposesSwitch extends ExposesBoolean {
 		}
 		return this.state;
 	}
+}
+
+export class ExposesAction extends ExposesString {
+	static exposes = "action";
 }
 
 export class ExposesLinkQuality extends ExposesNumber {
@@ -56,6 +61,10 @@ export class ExposesVoltage extends ExposesNumber {
 
 export class ExposesOccupancy extends ExposesBoolean {
 	static exposes = "occupancy";
+}
+
+export class ExposesVibration extends ExposesBoolean {
+	static exposes = "vibration";
 }
 
 export class ExposesClosure extends ExposesBoolean {

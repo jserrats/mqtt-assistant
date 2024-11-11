@@ -1,5 +1,5 @@
 import { router } from "../../../../../router";
-import { PowerSensorZigbee } from "../power";
+import { PowerSensorZigbee } from "../base";
 
 jest.mock("../../../../../mqtt", () => ({
 	client: {
