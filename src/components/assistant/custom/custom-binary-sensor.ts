@@ -1,21 +1,15 @@
-import { GenericMQTTSensor } from "../generic-sensor";
+import { BaseMQTTSensor } from "../base";
 
-export class CustomBinarySensor<Type> extends GenericMQTTSensor {
-	state: boolean;
-	private logic: (message: Type) => boolean;
+export class CustomSensor<Type extends number | string | boolean> extends BaseMQTTSensor<Type> {
+	private logic: (message: string) => Type;
 
-	trigger = {
-		on: { topic: this.stateTopic, payload: "ON" },
-		off: { topic: this.stateTopic, payload: "OFF" },
-		all: { topic: this.stateTopic, payload: "*" },
-	};
-
-	constructor(name: string, logic: (message: Type) => boolean) {
+	constructor(name: string, logic: (message: string) => Type) {
 		super(name);
 		this.logic = logic;
 	}
 
-	updateComponent(message: Type) {
+	updateComponent(message: string) {
+
 		const state = this.logic(message);
 
 		if (state !== this.state) {
@@ -23,7 +17,8 @@ export class CustomBinarySensor<Type> extends GenericMQTTSensor {
 			this.state = state;
 		}
 
-		this.client.publish(this.stateTopic, this.state ? "ON" : "OFF", {
+		const publishState: string = typeof state === "boolean" ? state ? "ON" : "OFF" : state.toString()
+		this.client.publish(this.stateTopic, publishState, {
 			retain: true,
 		});
 	}

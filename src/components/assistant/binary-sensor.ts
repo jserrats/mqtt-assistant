@@ -1,32 +1,11 @@
-import { router } from "../../router";
-import type { Automation, Trigger } from "../../types";
-import { GenericMQTTSensor } from "./generic-sensor";
 
-export class BinaryMQTTSensor extends GenericMQTTSensor {
-	state: boolean;
-	private updater: Automation;
+import { BaseMQTTSensor } from "./base";
 
-	trigger = {
-		on: { topic: this.stateTopic, payload: "ON" },
-		off: { topic: this.stateTopic, payload: "OFF" },
-		all: { topic: this.stateTopic, payload: "*" },
-	};
-
-	constructor(name: string) {
-		super(name);
-		this.updater = {
-			trigger: { topic: this.stateTopic, payload: "*" },
-			callback: (message: Trigger) => {
-				this.updateComponent(message.payload);
-			},
-		};
-		router.addAutomation(this.updater);
-	}
-
+export class BinaryMQTTSensor extends BaseMQTTSensor<boolean> {
 	updateComponent(message: string) {
 		if (this.state !== (message === "ON")) {
 			this.state = message === "ON";
-			this.emit("state", this.state);
+			super.updateComponent(message);
 		}
 	}
 }

@@ -1,4 +1,5 @@
 import { router } from "../../../router";
+import { BASE_TOPIC } from "../../../topics";
 import { BinaryMQTTSensor } from "../binary-sensor";
 
 jest.mock("../../../mqtt", () => ({
@@ -11,9 +12,9 @@ describe("BinaryMQTTSensor", () => {
 	it("should update state correctly", async () => {
 		const sensor = new BinaryMQTTSensor("test");
 		expect(sensor.state).toBeUndefined();
-		router.route(sensor.trigger.on.topic, sensor.trigger.on.payload);
+		router.route(`${BASE_TOPIC}test`, "ON");
 		expect(sensor.state).toBeTruthy();
-		router.route(sensor.trigger.off.topic, sensor.trigger.off.payload);
+		router.route(`${BASE_TOPIC}test`, "OFF");
 		expect(sensor.state).toBeFalsy();
 	});
 
@@ -25,12 +26,12 @@ describe("BinaryMQTTSensor", () => {
 		expect(sensor.state).toBeUndefined();
 
 		sensor.on("state", mockCallbackTrue);
-		router.route(sensor.trigger.on.topic, sensor.trigger.on.payload);
+		router.route(`${BASE_TOPIC}test3`, "ON");
 		expect(sensor.state).toBeTruthy();
 		expect(mockCallbackTrue).toHaveBeenCalled();
 
 		sensor.on("state", mockCallbackFalse);
-		router.route(sensor.trigger.off.topic, sensor.trigger.off.payload);
+		router.route(`${BASE_TOPIC}test3`, "OFF");
 		expect(sensor.state).toBeFalsy();
 		expect(mockCallbackFalse).toHaveBeenCalled();
 	});
