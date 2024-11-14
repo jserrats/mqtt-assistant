@@ -1,4 +1,3 @@
-
 import { BaseMQTTSensor } from "./base";
 
 export class BinaryMQTTSensor extends BaseMQTTSensor<boolean> {

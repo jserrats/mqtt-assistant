@@ -1,6 +1,8 @@
 import { BaseMQTTSensor } from "../base";
 
-export class CustomSensor<Type extends number | string | boolean> extends BaseMQTTSensor<Type> {
+export class CustomSensor<
+	Type extends number | string | boolean,
+> extends BaseMQTTSensor<Type> {
 	private logic: (message: string) => Type;
 
 	constructor(name: string, logic: (message: string) => Type) {
@@ -9,7 +11,6 @@ export class CustomSensor<Type extends number | string | boolean> extends BaseMQ
 	}
 
 	updateComponent(message: string) {
-
 		const state = this.logic(message);
 
 		if (state !== this.state) {
@@ -17,7 +18,8 @@ export class CustomSensor<Type extends number | string | boolean> extends BaseMQ
 			this.state = state;
 		}
 
-		const publishState: string = typeof state === "boolean" ? state ? "ON" : "OFF" : state.toString()
+		const publishState: string =
+			typeof state === "boolean" ? (state ? "ON" : "OFF") : state.toString();
 		this.client.publish(this.stateTopic, publishState, {
 			retain: true,
 		});

@@ -1,12 +1,12 @@
-import { BASE_TOPIC } from "../../topics";
-import { Component } from "../component";
 import { router } from "../../router";
+import { BASE_TOPIC } from "../../topics";
 import type { Trigger } from "../../types";
+import { Component } from "../component";
 
 export class BaseMQTTSensor<T> extends Component {
 	protected stateTopic: string;
 	public name: string;
-	public state: T
+	public state: T;
 
 	constructor(name: string) {
 		super();
@@ -17,7 +17,7 @@ export class BaseMQTTSensor<T> extends Component {
 			callback: (message: Trigger) => {
 				this.updateComponent(message.payload);
 			},
-		})
+		});
 	}
 
 	protected updateComponent(message: string) {
