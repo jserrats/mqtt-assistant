@@ -1,12 +1,8 @@
 import { router } from "../../router";
 import type { Automation, Trigger } from "../../types";
-import type { BinarySensor } from "../interfaces/binary-sensor";
 import { GenericMQTTSensor } from "./generic-sensor";
 
-export class BinaryMQTTSensor
-	extends GenericMQTTSensor
-	implements BinarySensor
-{
+export class BinaryMQTTSensor extends GenericMQTTSensor {
 	state: boolean;
 	private updater: Automation;
 

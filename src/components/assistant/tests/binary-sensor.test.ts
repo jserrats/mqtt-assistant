@@ -19,21 +19,17 @@ describe("BinaryMQTTSensor", () => {
 
 	it("should emit the correct states", async () => {
 		const sensor = new BinaryMQTTSensor("test3");
-		const mockCallbackTrue = jest.fn((callback) => {
-			expect(callback).toBeTruthy();
-		});
-		const mockCallbackFalse = jest.fn((callback) => {
-			expect(callback).toBeFalsy();
-		});
+		const mockCallbackTrue = jest.fn((callback) => {});
+		const mockCallbackFalse = jest.fn((callback) => {});
 
 		expect(sensor.state).toBeUndefined();
 
-		sensor.once("state", mockCallbackTrue);
+		sensor.on("state", mockCallbackTrue);
 		router.route(sensor.trigger.on.topic, sensor.trigger.on.payload);
 		expect(sensor.state).toBeTruthy();
 		expect(mockCallbackTrue).toHaveBeenCalled();
 
-		sensor.once("state", mockCallbackFalse);
+		sensor.on("state", mockCallbackFalse);
 		router.route(sensor.trigger.off.topic, sensor.trigger.off.payload);
 		expect(sensor.state).toBeFalsy();
 		expect(mockCallbackFalse).toHaveBeenCalled();

@@ -1,5 +1,5 @@
 import {
-	ExposesClosure,
+	ExposesContact,
 	ExposesOccupancy,
 	ExposesSwitch,
 	ExposesTemperature,
@@ -51,11 +51,11 @@ describe("Exposes", () => {
 	});
 
 	it("Closure - should invert", async () => {
-		const exposes = new ExposesClosure(true);
+		const exposes = new ExposesContact(true);
 		expect(exposes.state).toBeUndefined();
-		exposes.updateExposes({ closure: false });
+		exposes.updateExposes({ contact: false });
 		expect(exposes.state).toBeTruthy();
-		exposes.updateExposes({ closure: true });
+		exposes.updateExposes({ contact: true });
 		expect(exposes.state).toBeFalsy();
 	});
 

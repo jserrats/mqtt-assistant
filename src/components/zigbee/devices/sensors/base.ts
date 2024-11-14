@@ -7,11 +7,11 @@ export class AirSensorZigbee extends ZigbeeDevice {
 }
 
 export class ClosureSensorZigbee extends ZigbeeDevice {
-	closure: exposes.ExposesClosure;
+	contact: exposes.ExposesContact;
 
 	constructor(name: string, inverted?) {
 		super(name);
-		this.closure = new exposes.ExposesClosure(inverted);
+		this.contact = new exposes.ExposesContact(inverted);
 	}
 }
 

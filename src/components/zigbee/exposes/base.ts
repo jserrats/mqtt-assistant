@@ -1,13 +1,20 @@
-import { EventEmitter } from "node:events";
+import { randomUUID } from "node:crypto";
+import { SimplerEventEmitter } from "../../component";
 import { telegram } from "../../telegram";
 import type { SwitchZigbee } from "../devices/switches/base";
 
 // TODO: add units
-export class ExposesZigbee<T> extends EventEmitter {
-	state: T;
+export class ExposesZigbee<T> extends SimplerEventEmitter {
+	public state: T;
 	static exposes: string;
 	protected _exposes: string = (this.constructor as typeof ExposesZigbee<T>)
 		.exposes;
+
+	// TODO: add automatic events list
+	// constructor() {
+	// 	super()
+	// 	this.events[this._exposes] = randomUUID()
+	// }
 
 	updateExposes(message: object): void {
 		if (this.state === undefined || message[this._exposes] !== this.state) {

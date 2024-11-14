@@ -1,10 +1,6 @@
-import type { BinarySensor } from "../../interfaces/binary-sensor";
 import { GenericMQTTSensor } from "../generic-sensor";
 
-export class CustomBinarySensor<Type>
-	extends GenericMQTTSensor
-	implements BinarySensor
-{
+export class CustomBinarySensor<Type> extends GenericMQTTSensor {
 	state: boolean;
 	private logic: (message: Type) => boolean;
 

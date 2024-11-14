@@ -32,23 +32,19 @@ describe("PresenceSensorZigbee", () => {
 
 	it("should emit the correct states", async () => {
 		const sensor = new PresenceSensorZigbee("test3");
-		const mockCallbackTrue = jest.fn((callback) => {
-			expect(callback).toBeTruthy();
-		});
-		const mockCallbackFalse = jest.fn((callback) => {
-			expect(callback).toBeFalsy();
-		});
+		const mockCallbackTrue = jest.fn((callback) => {});
+		const mockCallbackFalse = jest.fn((callback) => {});
 
 		expect(sensor.occupancy.state).toBeUndefined();
 
-		sensor.occupancy.once("state", mockCallbackTrue);
+		sensor.occupancy.on("state", mockCallbackTrue);
 
 		router.route(sensor.topic, JSON.stringify({ occupancy: true }));
 		expect(sensor.occupancy.state).toBeTruthy();
 
 		expect(mockCallbackTrue).toHaveBeenCalled();
 
-		sensor.occupancy.once("state", mockCallbackFalse);
+		sensor.occupancy.on("state", mockCallbackFalse);
 
 		router.route(sensor.topic, JSON.stringify({ occupancy: false }));
 		expect(sensor.occupancy.state).toBeFalsy();

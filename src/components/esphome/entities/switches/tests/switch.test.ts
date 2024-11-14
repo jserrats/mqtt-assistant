@@ -1,8 +1,9 @@
-import { client } from "../../../mqtt";
-import { router } from "../../../router";
+import { client } from "../../../../../mqtt";
+import { router } from "../../../../../router";
+import { ESPHOME_TOPIC } from "../../../../../topics";
 import { SwitchESPHome } from "../switch";
 
-jest.mock("../../../mqtt", () => ({
+jest.mock("../../../../../mqtt", () => ({
 	client: {
 		publish: jest.fn((newTopic: string, newPayload: string) => {}),
 	},
@@ -22,10 +23,10 @@ describe("SwitchESPHome", () => {
 	it("should update status", async () => {
 		expect(switchEsphome.state).toBe(undefined);
 
-		router.route(switchEsphome.trigger.on.topic, "ON");
+		router.route(`${ESPHOME_TOPIC}/test1/switch/test1/state`, "ON");
 		expect(switchEsphome.state).toBeTruthy();
 
-		router.route(switchEsphome.trigger.off.topic, "OFF");
+		router.route(`${ESPHOME_TOPIC}/test1/switch/test1/state`, "OFF");
 		expect(switchEsphome.state).toBe(false);
 	});
 

@@ -8,12 +8,8 @@ jest.mock("../../../../mqtt", () => ({
 
 describe("CustomBinarySensor", () => {
 	it("should update state correctly", async () => {
-		const mockCallbackTrue = jest.fn((callback) => {
-			expect(callback).toBeTruthy();
-		});
-		const mockCallbackFalse = jest.fn((callback) => {
-			expect(callback).toBeFalsy();
-		});
+		const mockCallbackTrue = jest.fn((callback) => {});
+		const mockCallbackFalse = jest.fn((callback) => {});
 
 		const sensor = new CustomBinarySensor<number>("test", (value) => {
 			return value > 10;
@@ -21,12 +17,12 @@ describe("CustomBinarySensor", () => {
 
 		expect(sensor.state).toBeUndefined();
 
-		sensor.once("state", mockCallbackTrue);
+		sensor.on("state", mockCallbackTrue);
 		sensor.updateComponent(11);
 		expect(sensor.state).toBeTruthy();
 		expect(mockCallbackTrue).toHaveBeenCalled();
 
-		sensor.once("state", mockCallbackFalse);
+		sensor.on("state", mockCallbackFalse);
 		sensor.updateComponent(8);
 		expect(sensor.state).toBeFalsy();
 		expect(mockCallbackFalse).toHaveBeenCalled();

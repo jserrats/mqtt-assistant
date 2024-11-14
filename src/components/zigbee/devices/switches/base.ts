@@ -1,7 +1,8 @@
+import type { Switch } from "../../../interfaces/switch";
 import { exposes } from "../../exposes";
 import { ZigbeeDevice } from "../../zigbee";
 
-export class SwitchZigbee extends ZigbeeDevice {
+export class SwitchZigbee extends ZigbeeDevice implements Switch {
 	setTopic = `${this.topic}/set`;
 	protected _state = new exposes.ExposesSwitch();
 	public state: boolean;

@@ -12,33 +12,33 @@ describe("ClosureSensorZigbee", () => {
 		const mockCallback = jest.fn();
 
 		const sensor = new ClosureSensorZigbee("test");
-		sensor.closure.on("state", (value) => {
+		sensor.contact.on("state", (value) => {
 			expect(value).toBeTruthy();
 			mockCallback();
 		});
-		router.route(sensor.topic, JSON.stringify({ closure: true }));
+		router.route(sensor.topic, JSON.stringify({ contact: true }));
 
 		expect(mockCallback).toHaveBeenCalled();
 	});
 
 	it("should update the closure correctly", async () => {
 		const sensor = new ClosureSensorZigbee("test2");
-		expect(sensor.closure.state).toBeUndefined();
-		router.route(sensor.topic, JSON.stringify({ closure: true }));
-		expect(sensor.closure.state).toBeTruthy();
-		router.route(sensor.topic, JSON.stringify({ closure: false }));
-		expect(sensor.closure.state).toBeFalsy();
+		expect(sensor.contact.state).toBeUndefined();
+		router.route(sensor.topic, JSON.stringify({ contact: true }));
+		expect(sensor.contact.state).toBeTruthy();
+		router.route(sensor.topic, JSON.stringify({ contact: false }));
+		expect(sensor.contact.state).toBeFalsy();
 	});
 
 	it("should also update the closure correctly if inverted", async () => {
 		const sensor = new ClosureSensorZigbee("test3", true);
-		expect(sensor.closure.state).toBeUndefined();
+		expect(sensor.contact.state).toBeUndefined();
 
-		router.route(sensor.topic, JSON.stringify({ closure: true }));
-		expect(sensor.closure.state).toBeFalsy();
+		router.route(sensor.topic, JSON.stringify({ contact: true }));
+		expect(sensor.contact.state).toBeFalsy();
 
-		router.route(sensor.topic, JSON.stringify({ closure: false }));
-		expect(sensor.closure.state).toBeTruthy();
+		router.route(sensor.topic, JSON.stringify({ contact: false }));
+		expect(sensor.contact.state).toBeTruthy();
 	});
 
 	//TODO: fix this test

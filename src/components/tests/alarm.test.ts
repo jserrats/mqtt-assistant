@@ -1,7 +1,9 @@
 import { client } from "../../mqtt";
 import { router } from "../../router";
 import { Alarm } from "../alarm";
-import { ClosureSensorZigbee } from "../zigbee/devices/sensors/closure";
+import type { BinarySensorESPHome } from "../esphome/entities/sensors/binary-sensor";
+import { ClosureSensorZigbee } from "../zigbee/devices/sensors/base";
+import type { ExposesContact } from "../zigbee/exposes/exposes";
 
 jest.mock("../../../src/mqtt", () => ({
 	client: {
@@ -14,11 +16,16 @@ jest.mock("../../../src/mqtt", () => ({
 describe("Alarm", () => {
 	let alarm: Alarm;
 	const calls: Record<string, string> = {};
-	const sensors: ClosureSensorZigbee[] = [];
+	const sensors: (ExposesContact | BinarySensorESPHome)[] = [];
+	const topics: string[] = [];
 
 	beforeAll(async () => {
 		[...Array(3).keys()].forEach((element: number) => {
-			sensors.push(new ClosureSensorZigbee(`testSensor${Number.toString()}`));
+			const newSensor = new ClosureSensorZigbee(
+				`testSensor${Number.toString()}`,
+			);
+			sensors.push(newSensor.contact);
+			topics.push(newSensor.topic);
 		});
 
 		alarm = new Alarm("TestAlarm", sensors);
@@ -29,7 +36,7 @@ describe("Alarm", () => {
 	});
 
 	it("should start false", async () => {
-		expect(alarm.safe).toBe(false);
+		expect(alarm.state).toBeFalsy();
 	});
 
 	it("should set true if all sensors close", async () => {
@@ -37,10 +44,10 @@ describe("Alarm", () => {
 			contact: true,
 			linkquality: 10,
 		};
-		sensors.forEach((sensor) => {
-			client.publish(sensor.topic, JSON.stringify(payload));
+		topics.forEach((topic) => {
+			client.publish(topic, JSON.stringify(payload));
 		});
-		expect(alarm.safe).toBe(true);
+		expect(alarm.state).toBeTruthy();
 	});
 
 	it("should be false if one sensor opens", async () => {
@@ -48,7 +55,7 @@ describe("Alarm", () => {
 			contact: false,
 			linkquality: 10,
 		};
-		client.publish(sensors[0].topic, JSON.stringify(payload));
-		expect(alarm.safe).toBe(false);
+		client.publish(topics[0], JSON.stringify(payload));
+		expect(alarm.state).toBe(false);
 	});
 });

@@ -1,24 +1,20 @@
-import { router } from "../router";
 import { BASE_TOPIC } from "../topics";
 import { Component } from "./component";
-import type { ContactSensorESPHome } from "./esphome/sensor/binary-sensor";
-import type { ClosureSensorZigbee } from "./zigbee/devices/closure";
+import type { BinarySensorESPHome } from "./esphome/entities/sensors/binary-sensor";
+import type { ExposesContact } from "./zigbee/exposes/exposes";
 
 export class Alarm extends Component {
 	private sensors: ContactSensors;
 	private topic: string;
-	safe = true;
+	state: boolean;
 
 	constructor(name: string, contactSensors: ContactSensors) {
 		super();
 		this.topic = `${BASE_TOPIC}alarms/${name}`;
 		this.sensors = contactSensors;
 		this.sensors.forEach((sensor) => {
-			router.addAutomation({
-				trigger: sensor.trigger.all,
-				callback: () => {
-					this.updateState();
-				},
+			sensor.on("state", () => {
+				this.updateState();
 			});
 		});
 		this.updateState();
@@ -27,16 +23,16 @@ export class Alarm extends Component {
 	updateState() {
 		let output = true;
 		this.sensors.forEach((sensor) => {
-			output =
-				output && (sensor.contact === undefined ? false : sensor.contact);
+			output = output && (sensor.state === undefined ? false : sensor.state);
 		});
-		this.safe = output;
+		this.state = output;
 		this.publishState();
 	}
 
 	publishState() {
-		this.client.publish(this.topic, this.safe ? "SAFE" : "UNSAFE");
+		//TODO: standarize this output
+		this.client.publish(this.topic, this.state ? "SAFE" : "UNSAFE");
 	}
 }
 
-type ContactSensors = Array<ClosureSensorZigbee | ContactSensorESPHome>;
+type ContactSensors = Array<ExposesContact | BinarySensorESPHome>;

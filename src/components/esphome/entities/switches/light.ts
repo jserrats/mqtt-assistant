@@ -1,9 +1,9 @@
-import { router } from "../../router";
-import type { Automation, Trigger } from "../../types";
-import type { Switch } from "../interfaces/switch";
-import { ESPHomeComponent } from "./esphome";
+import { router } from "../../../../router";
+import type { Automation, Trigger } from "../../../../types";
+import type { Switch } from "../../../interfaces/switch";
+import { ESPHomeDevice } from "../../esphome";
 
-export class LightESPHome extends ESPHomeComponent implements Switch {
+export class LightESPHome extends ESPHomeDevice implements Switch {
 	commandTopic: string;
 	state = false;
 	updater: Automation;

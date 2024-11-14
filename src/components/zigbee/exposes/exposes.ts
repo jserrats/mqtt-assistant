@@ -1,4 +1,3 @@
-import { RemoteZigbee } from "../devices/remotes/base";
 import {
 	ExposesBoolean,
 	ExposesNumber,
@@ -67,8 +66,8 @@ export class ExposesVibration extends ExposesBoolean {
 	static exposes = "vibration";
 }
 
-export class ExposesClosure extends ExposesBoolean {
-	static exposes = "closure";
+export class ExposesContact extends ExposesBoolean {
+	static exposes = "contact";
 	private inverted = false;
 
 	constructor(inverted?) {
@@ -81,10 +80,10 @@ export class ExposesClosure extends ExposesBoolean {
 	updateExposes(message: Object): void {
 		let tmp: boolean;
 		if (this.inverted) {
-			tmp = !message[ExposesClosure.exposes];
+			tmp = !message[ExposesContact.exposes];
 		} else {
-			tmp = message[ExposesClosure.exposes];
+			tmp = message[ExposesContact.exposes];
 		}
-		super.updateExposes({ closure: tmp });
+		super.updateExposes({ contact: tmp });
 	}
 }
