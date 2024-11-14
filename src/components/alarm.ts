@@ -13,7 +13,7 @@ export class Alarm extends Component {
 		this.topic = `${BASE_TOPIC}alarms/${name}`;
 		this.sensors = contactSensors;
 		this.sensors.forEach((sensor) => {
-			sensor.on("state", () => {
+			sensor.on(sensor.events.state, () => {
 				this.updateState();
 			});
 		});

@@ -16,7 +16,7 @@ export class ExposesSwitch extends ExposesBoolean {
 		if (this.state === undefined || tmp !== this.state) {
 			this.state = tmp;
 			this.emit(ExposesSwitch.exposes, tmp);
-			this.emit("state", tmp);
+			this.emit(this.events.state, tmp);
 		}
 		return this.state;
 	}

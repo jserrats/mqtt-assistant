@@ -71,7 +71,7 @@ describe("Exposes", () => {
 	it("Switch - should trigger the callback", async () => {
 		const mockCallback = jest.fn();
 		const exposes = new ExposesSwitch();
-		exposes.on("state", (value) => {
+		exposes.on(exposes.events.state, (value) => {
 			mockCallback();
 			expect(value).toStrictEqual(false);
 		});

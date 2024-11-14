@@ -14,7 +14,7 @@ export class CustomSensor<
 		const state = this.logic(message);
 
 		if (state !== this.state) {
-			this.emit("state", state);
+			this.emit(this.events.state, state);
 			this.state = state;
 		}
 

@@ -9,7 +9,7 @@ export class SwitchZigbee extends ZigbeeDevice implements Switch {
 
 	constructor(name: string) {
 		super(name);
-		this._state.on("state", (value) => {
+		this._state.on(this._state.events.state, (value) => {
 			this.state = value;
 		});
 	}

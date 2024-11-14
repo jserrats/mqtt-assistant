@@ -16,6 +16,7 @@ export class SimplerEventEmitter {
 		this.emiter.emit(eventName, ...args);
 	}
 }
+
 export class Component extends SimplerEventEmitter {
 	protected client: MqttClient;
 

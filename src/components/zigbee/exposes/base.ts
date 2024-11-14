@@ -1,26 +1,26 @@
 import { randomUUID } from "node:crypto";
 import { SimplerEventEmitter } from "../../component";
+import type { Stateful } from "../../interfaces/stateful";
 import { telegram } from "../../telegram";
 import type { SwitchZigbee } from "../devices/switches/base";
 
 // TODO: add units
-export class ExposesZigbee<T> extends SimplerEventEmitter {
+export class ExposesZigbee<T extends boolean | number | string>
+	extends SimplerEventEmitter
+	implements Stateful
+{
 	public state: T;
 	static exposes: string;
 	protected _exposes: string = (this.constructor as typeof ExposesZigbee<T>)
 		.exposes;
 
-	// TODO: add automatic events list
-	// constructor() {
-	// 	super()
-	// 	this.events[this._exposes] = randomUUID()
-	// }
+	public events = { state: randomUUID() };
 
 	updateExposes(message: object): void {
 		if (this.state === undefined || message[this._exposes] !== this.state) {
 			this.state = message[this._exposes];
 			this.emit(this._exposes, message[this._exposes]);
-			this.emit("state", message[this._exposes]);
+			this.emit(this.events.state, message[this._exposes]);
 		}
 	}
 }

@@ -12,7 +12,7 @@ describe("ClosureSensorZigbee", () => {
 		const mockCallback = jest.fn();
 
 		const sensor = new ClosureSensorZigbee("test");
-		sensor.contact.on("state", (value) => {
+		sensor.contact.on(sensor.contact.events.state, (value) => {
 			expect(value).toBeTruthy();
 			mockCallback();
 		});

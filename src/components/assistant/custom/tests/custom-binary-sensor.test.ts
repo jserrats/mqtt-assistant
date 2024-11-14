@@ -17,12 +17,12 @@ describe("CustomBinarySensor", () => {
 
 		expect(sensor.state).toBeUndefined();
 
-		sensor.on("state", mockCallbackTrue);
+		sensor.on(sensor.events.state, mockCallbackTrue);
 		sensor.updateComponent("11");
 		expect(sensor.state).toBeTruthy();
 		expect(mockCallbackTrue).toHaveBeenCalled();
 
-		sensor.on("state", mockCallbackFalse);
+		sensor.on(sensor.events.state, mockCallbackFalse);
 		sensor.updateComponent("8");
 		expect(sensor.state).toBeFalsy();
 		expect(mockCallbackFalse).toHaveBeenCalled();

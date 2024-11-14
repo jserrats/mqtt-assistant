@@ -22,7 +22,7 @@ describe("BinarySensorESPHome", () => {
 		const mockCallback = jest.fn();
 		const sensor = new BinarySensorESPHome("test", "test");
 		expect(sensor.state).toBeUndefined();
-		sensor.on("state", () => {
+		sensor.on(sensor.events.state, () => {
 			mockCallback();
 		});
 		router.route(`${ESPHOME_TOPIC}/test/binary_sensor/test/state`, "ON");

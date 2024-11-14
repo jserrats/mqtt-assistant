@@ -20,7 +20,7 @@ describe("SensorESPHome", () => {
 		const mockCallback = jest.fn();
 
 		const sensor = new SensorESPHome("test", "test");
-		sensor.on("state", mockCallback);
+		sensor.on(sensor.events.state, mockCallback);
 		router.route(`${ESPHOME_TOPIC}/test/sensor/test/state`, "1234");
 		expect(mockCallback).toHaveBeenCalled();
 	});

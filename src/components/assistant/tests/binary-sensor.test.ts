@@ -25,12 +25,12 @@ describe("BinaryMQTTSensor", () => {
 
 		expect(sensor.state).toBeUndefined();
 
-		sensor.on("state", mockCallbackTrue);
+		sensor.on(sensor.events.state, mockCallbackTrue);
 		router.route(`${BASE_TOPIC}test3`, "ON");
 		expect(sensor.state).toBeTruthy();
 		expect(mockCallbackTrue).toHaveBeenCalled();
 
-		sensor.on("state", mockCallbackFalse);
+		sensor.on(sensor.events.state, mockCallbackFalse);
 		router.route(`${BASE_TOPIC}test3`, "OFF");
 		expect(sensor.state).toBeFalsy();
 		expect(mockCallbackFalse).toHaveBeenCalled();

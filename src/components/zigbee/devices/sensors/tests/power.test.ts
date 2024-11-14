@@ -13,7 +13,7 @@ describe("PowerSensorZigbee", () => {
 
 		const sensor = new PowerSensorZigbee("test");
 		expect(sensor.power).toBeDefined();
-		sensor.power.on("power", mockCallback);
+		sensor.power.on(sensor.power.events.state, mockCallback);
 		router.route(sensor.topic, JSON.stringify({ power: 10 }));
 		expect(mockCallback).toHaveBeenCalled();
 	});

@@ -5,26 +5,17 @@ import { ESPHomeDevice } from "../../esphome";
 
 export class LightESPHome extends ESPHomeDevice implements Switch {
 	commandTopic: string;
-	state = false;
-	updater: Automation;
-
-	trigger = {
-		on: { topic: "", payload: "*OFF*" },
-		off: { topic: "", payload: "*ON*" },
-	};
+	state: boolean;
 
 	constructor(name: string, component: string) {
 		super(name, component, "light");
 		this.commandTopic = `${this.baseTopic}/light/${component}/command`;
-		this.trigger.on.topic = this.stateTopic;
-		this.trigger.off.topic = this.stateTopic;
-		this.updater = {
+		router.addAutomation({
 			trigger: { topic: this.stateTopic, payload: "*" },
 			callback: (message: Trigger) => {
 				this.updateComponent(message.payload);
 			},
-		};
-		router.addAutomation(this.updater);
+		});
 	}
 
 	setOn() {
@@ -46,10 +37,10 @@ export class LightESPHome extends ESPHomeDevice implements Switch {
 		);
 	}
 
-	private updateComponent(message: string) {
+	protected updateComponent(message: string) {
 		if (this.state !== (JSON.parse(message).state === "ON")) {
 			this.state = JSON.parse(message).state === "ON";
-			this.emit("state", this.state);
+			this.emit(this.events.state, this.state);
 		}
 	}
 }
