@@ -3,7 +3,7 @@ import { ClosureSensorZigbee } from "../base";
 
 jest.mock("../../../../../mqtt", () => ({
 	client: {
-		publish: jest.fn((newTopic: string, newPayload: string) => {}),
+		publish: jest.fn((newTopic: string, newPayload: string) => { }),
 	},
 }));
 
@@ -41,25 +41,24 @@ describe("ClosureSensorZigbee", () => {
 		expect(sensor.contact.state).toBeTruthy();
 	});
 
-	//TODO: fix this test
-	// it("should emit the correct states", async () => {
-	// 	const mockCallbackTrue = jest.fn();
-	// 	const mockCallbackFalse = jest.fn();
+	// TODO: fix this test
+	it("should emit the correct states", async () => {
+		const mockCallbackTrue = jest.fn();
+		const mockCallbackFalse = jest.fn();
 
-	// 	const sensor = new ClosureSensorZigbee("test");
+		const sensor = new ClosureSensorZigbee("test4");
 
-	// 	sensor.closure.once('state', (value) => { expect(value).toBeTruthy(); mockCallbackTrue() })
-	// 	router.route(
-	// 		sensor.topic,
-	// 		JSON.stringify({ closure: true }),
-	// 	);
-	// 	expect(mockCallbackTrue).toHaveBeenCalled();
+		sensor.contact.on(sensor.contact.events.state, (value) => { if (value) { mockCallbackTrue() } else { mockCallbackFalse() } })
+		router.route(
+			sensor.topic,
+			JSON.stringify({ contact: true }),
+		);
+		expect(mockCallbackTrue).toHaveBeenCalled();
 
-	// 	sensor.closure.once('state', (value) => { expect(value).toBeFalsy(); mockCallbackFalse() })
-	// 	router.route(
-	// 		sensor.topic,
-	// 		JSON.stringify({ closure: false }),
-	// 	);
-	// 	expect(mockCallbackFalse).toHaveBeenCalled();
-	// });
+		router.route(
+			sensor.topic,
+			JSON.stringify({ contact: false }),
+		);
+		expect(mockCallbackFalse).toHaveBeenCalled();
+	});
 });
