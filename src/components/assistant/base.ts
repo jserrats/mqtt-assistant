@@ -21,6 +21,5 @@ export class BaseMQTTSensor<T extends boolean | string | number>
 	}
 
 	protected updateComponent(message: string) {
-		this.emit(this.events.state, this.state);
 	}
 }

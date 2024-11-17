@@ -30,8 +30,17 @@ export class Component extends SimplerEventEmitter {
 }
 
 export class StatefulComponent<T extends string | number | boolean> extends Component implements Stateful {
-	state: T
+	private _state: T
 	public events = { state: randomUUID() };
+
+	get state(): T {
+		return this._state
+	}
+
+	protected set state(newState: T) {
+		this._state = newState
+		this.emit(this.events.state, newState)
+	}
 
 	public newTimeStateEvent(time: TimerLength, logic: (state: T) => boolean) {
 		let timer: NodeJS.Timeout

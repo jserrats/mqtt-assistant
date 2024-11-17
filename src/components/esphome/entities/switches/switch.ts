@@ -37,7 +37,6 @@ export class SwitchESPHome
 	protected updateComponent(message: string) {
 		if (this.state !== (message === "ON")) {
 			this.state = message === "ON";
-			this.emit(this.events.state, this.state);
 		}
 	}
 }
