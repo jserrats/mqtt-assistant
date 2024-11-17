@@ -17,10 +17,12 @@ describe("Timer", () => {
 	it("should trigger when the timer ends", async () => {
 		const timer = new Timer({ seconds: 10 });
 		const mockCallback = jest.fn();
-		timer.on("timeout", () => {
+		timer.on(timer.events.timeout, () => {
 			mockCallback();
 		});
+		expect(timer.isRunning).toBeFalsy()
 		timer.start();
+		expect(timer.isRunning).toBeTruthy()
 		jest.runOnlyPendingTimers();
 		expect(mockCallback).toHaveBeenCalled();
 	});
@@ -42,7 +44,7 @@ describe("Timer", () => {
 	it("should trigger when the timer is canceled", async () => {
 		const timer = new Timer({ seconds: 10 });
 		const mockCallback = jest.fn();
-		timer.on("cancel", () => {
+		timer.on(timer.events.cancel, () => {
 			mockCallback();
 		});
 		timer.start();
@@ -54,7 +56,7 @@ describe("Timer", () => {
 		const timer = new Timer({ seconds: 10 });
 		const trigger = { payload: "1234", topic: "1234" };
 		const mockCallback = jest.fn();
-		timer.on("cancel", () => {
+		timer.on(timer.events.cancel, () => {
 			mockCallback();
 		});
 		timer.addCancelTriggers(trigger);

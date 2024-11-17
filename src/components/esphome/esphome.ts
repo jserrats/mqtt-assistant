@@ -1,16 +1,13 @@
 import { router } from "../../router";
 import { ESPHOME_TOPIC } from "../../topics";
 import type { Trigger } from "../../types";
-import { Component } from "../component";
+import { StatefulComponent } from "../component";
 
-export class ESPHomeDevice extends Component {
+export class ESPHomeDevice<T extends string | number | boolean> extends StatefulComponent<T> {
 	protected baseTopic: string;
 	protected stateTopic: string;
 
-	/**
-	 * Human readable name
-	 */
-	name: string;
+	public name: string;
 
 	constructor(
 		name: string,
@@ -29,5 +26,5 @@ export class ESPHomeDevice extends Component {
 		});
 	}
 
-	protected updateComponent(message: string) {}
+	protected updateComponent(message: string) { }
 }

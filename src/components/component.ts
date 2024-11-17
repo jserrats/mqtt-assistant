@@ -2,6 +2,9 @@ import type { UUID } from "node:crypto";
 import { EventEmitter } from "node:events";
 import type { MqttClient } from "mqtt";
 import { client } from "../mqtt";
+import { Stateful } from "./interfaces/stateful";
+import { randomUUID } from "node:crypto";
+import { Timer, TimerLength } from "./timer";
 
 export class SimplerEventEmitter {
 	private emiter = new EventEmitter();
@@ -23,5 +26,38 @@ export class Component extends SimplerEventEmitter {
 	constructor() {
 		super();
 		this.client = client;
+	}
+}
+
+export class StatefulComponent<T extends string | number | boolean> extends Component implements Stateful {
+	state: T
+	public events = { state: randomUUID() };
+
+	public newTimeStateEvent(time: TimerLength, logic: (state: T) => boolean) {
+		let timer: NodeJS.Timeout
+		const newTimeoutEvent = randomUUID()
+
+		let seconds = 0;
+		if (typeof time.seconds !== "undefined") {
+			seconds = time.seconds;
+		}
+		if (typeof time.minutes !== "undefined") {
+			seconds = time.minutes * 60 + seconds;
+		}
+		if (typeof time.hours !== "undefined") {
+			seconds = time.hours * 3600 + seconds;
+		}
+		let miliseconds = seconds * 1000;
+
+		this.on(this.events.state, (state) => {
+			if (logic(state)) {
+				timer = setTimeout(() => { this.emit(newTimeoutEvent) }, miliseconds)
+			} else {
+				clearTimeout(timer);
+			}
+		})
+		// this.timers.push(timer)
+
+		return newTimeoutEvent
 	}
 }

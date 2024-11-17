@@ -1,20 +1,14 @@
-import { randomUUID } from "node:crypto";
-import { SimplerEventEmitter } from "../../component";
-import type { Stateful } from "../../interfaces/stateful";
+import { StatefulComponent } from "../../component";
 import { telegram } from "../../telegram";
 import type { SwitchZigbee } from "../devices/switches/base";
 
 // TODO: add units
 export class ExposesZigbee<T extends boolean | number | string>
-	extends SimplerEventEmitter
-	implements Stateful
+	extends StatefulComponent<T>
 {
-	public state: T;
 	static exposes: string;
 	protected _exposes: string = (this.constructor as typeof ExposesZigbee<T>)
 		.exposes;
-
-	public events = { state: randomUUID() };
 
 	updateExposes(message: object): void {
 		if (this.state === undefined || message[this._exposes] !== this.state) {
