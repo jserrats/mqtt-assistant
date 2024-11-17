@@ -65,7 +65,7 @@ export class RemoteTS0044 extends RemoteZigbee {
  * https://www.zigbee2mqtt.io/devices/E2201.html#ikea-e2201
  */
 export class RemoteE2201 extends RemoteZigbee {
-	trigger = {
+	public button = {
 		topClick: "on",
 		bottomClick: "off",
 		holdTopClick: "brightness_move_up",
