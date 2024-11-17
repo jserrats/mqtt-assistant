@@ -1,4 +1,4 @@
-import { CustomSensor } from "../custom-binary-sensor";
+import { CustomSensor } from "../custom-sensor";
 
 jest.mock("../../../../mqtt", () => ({
 	client: {
