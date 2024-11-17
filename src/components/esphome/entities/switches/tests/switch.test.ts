@@ -5,7 +5,7 @@ import { SwitchESPHome } from "../switch";
 
 jest.mock("../../../../../mqtt", () => ({
 	client: {
-		publish: jest.fn((newTopic: string, newPayload: string) => {}),
+		publish: jest.fn((newTopic: string, newPayload: string) => { }),
 	},
 }));
 
@@ -21,13 +21,19 @@ describe("SwitchESPHome", () => {
 	});
 
 	it("should update status", async () => {
-		expect(switchEsphome.state).toBe(undefined);
+		const mockCallbackTrue = jest.fn();
+		const mockCallbackFalse = jest.fn();
 
+		switchEsphome.on(switchEsphome.events.state, (state) => { if (state) { mockCallbackTrue() } else { mockCallbackFalse() } })
+
+		expect(switchEsphome.state).toBe(undefined);
 		router.route(`${ESPHOME_TOPIC}/test1/switch/test1/state`, "ON");
 		expect(switchEsphome.state).toBeTruthy();
+		expect(mockCallbackTrue).toHaveBeenCalled()
 
 		router.route(`${ESPHOME_TOPIC}/test1/switch/test1/state`, "OFF");
 		expect(switchEsphome.state).toBe(false);
+		expect(mockCallbackFalse).toHaveBeenCalled()
 	});
 
 	it("should turn on/off", async () => {
