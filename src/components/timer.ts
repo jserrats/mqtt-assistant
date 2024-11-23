@@ -1,20 +1,20 @@
+import { randomUUID } from "node:crypto";
 import { router } from "../router";
 import { BASE_TOPIC } from "../topics";
 import type { Trigger } from "../types";
 import { Component } from "./component";
-import { randomUUID } from "node:crypto";
 
 export class Timer extends Component {
-	private timeoutID: NodeJS.Timeout = setTimeout(() => { });
-	private intervalID: NodeJS.Timeout = setInterval(() => { });
+	private timeoutID: NodeJS.Timeout = setTimeout(() => {});
+	private intervalID: NodeJS.Timeout = setInterval(() => {});
 	private length = 0;
 	private seconds = 0;
 	private publishTopic: string;
-	public isRunning = false
+	public isRunning = false;
 	public events = {
 		timeout: randomUUID(),
-		cancel: randomUUID()
-	}
+		cancel: randomUUID(),
+	};
 
 	constructor(period: TimerLength, publish?: string) {
 		super();
@@ -33,7 +33,7 @@ export class Timer extends Component {
 			clearInterval(this.intervalID);
 			this.emit(this.events.timeout);
 		}, this.length);
-		this.isRunning = true
+		this.isRunning = true;
 	}
 
 	public cancel() {
@@ -43,7 +43,7 @@ export class Timer extends Component {
 
 	private internalCancel() {
 		clearTimeout(this.timeoutID);
-		this.isRunning = false
+		this.isRunning = false;
 		if (this.publishTopic !== undefined) {
 			this.seconds = 0;
 			this.publishTime();

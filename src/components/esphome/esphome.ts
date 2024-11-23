@@ -3,7 +3,9 @@ import { ESPHOME_TOPIC } from "../../topics";
 import type { Trigger } from "../../types";
 import { StatefulComponent } from "../component";
 
-export class ESPHomeDevice<T extends string | number | boolean> extends StatefulComponent<T> {
+export class ESPHomeDevice<
+	T extends string | number | boolean,
+> extends StatefulComponent<T> {
 	protected baseTopic: string;
 	protected stateTopic: string;
 
@@ -26,5 +28,5 @@ export class ESPHomeDevice<T extends string | number | boolean> extends Stateful
 		});
 	}
 
-	protected updateComponent(message: string) { }
+	protected updateComponent(message: string) {}
 }

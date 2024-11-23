@@ -20,9 +20,9 @@ describe("Timer", () => {
 		timer.on(timer.events.timeout, () => {
 			mockCallback();
 		});
-		expect(timer.isRunning).toBeFalsy()
+		expect(timer.isRunning).toBeFalsy();
 		timer.start();
-		expect(timer.isRunning).toBeTruthy()
+		expect(timer.isRunning).toBeTruthy();
 		jest.runOnlyPendingTimers();
 		expect(mockCallback).toHaveBeenCalled();
 	});

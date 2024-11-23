@@ -3,7 +3,7 @@ import { ClosureSensorZigbee } from "../base";
 
 jest.mock("../../../../../mqtt", () => ({
 	client: {
-		publish: jest.fn((newTopic: string, newPayload: string) => { }),
+		publish: jest.fn((newTopic: string, newPayload: string) => {}),
 	},
 }));
 
@@ -48,17 +48,17 @@ describe("ClosureSensorZigbee", () => {
 
 		const sensor = new ClosureSensorZigbee("test4");
 
-		sensor.contact.on(sensor.contact.events.state, (value) => { if (value) { mockCallbackTrue() } else { mockCallbackFalse() } })
-		router.route(
-			sensor.topic,
-			JSON.stringify({ contact: true }),
-		);
+		sensor.contact.on(sensor.contact.events.state, (value) => {
+			if (value) {
+				mockCallbackTrue();
+			} else {
+				mockCallbackFalse();
+			}
+		});
+		router.route(sensor.topic, JSON.stringify({ contact: true }));
 		expect(mockCallbackTrue).toHaveBeenCalled();
 
-		router.route(
-			sensor.topic,
-			JSON.stringify({ contact: false }),
-		);
+		router.route(sensor.topic, JSON.stringify({ contact: false }));
 		expect(mockCallbackFalse).toHaveBeenCalled();
 	});
 });

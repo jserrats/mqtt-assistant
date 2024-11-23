@@ -1,11 +1,12 @@
+import { randomUUID } from "node:crypto";
 import { StatefulComponent } from "../../component";
 import { telegram } from "../../telegram";
 import type { SwitchZigbee } from "../devices/switches/base";
 
 // TODO: add units
-export class ExposesZigbee<T extends boolean | number | string>
-	extends StatefulComponent<T>
-{
+export class ExposesZigbee<
+	T extends boolean | number | string,
+> extends StatefulComponent<T> {
 	static exposes: string;
 	protected _exposes: string = (this.constructor as typeof ExposesZigbee<T>)
 		.exposes;
@@ -14,7 +15,6 @@ export class ExposesZigbee<T extends boolean | number | string>
 		if (this.state === undefined || message[this._exposes] !== this.state) {
 			this.state = message[this._exposes];
 			this.emit(this._exposes, message[this._exposes]);
-			this.emit(this.events.state, message[this._exposes]);
 		}
 	}
 }
@@ -23,7 +23,24 @@ export class ExposesNumber extends ExposesZigbee<number> {}
 
 export class ExposesString extends ExposesZigbee<string> {}
 
-export class ExposesBoolean extends ExposesZigbee<boolean> {}
+export class ExposesBoolean extends ExposesZigbee<boolean> {
+	// TODO: implement boolean events
+	// public events = {
+	// 	/** Emitted when the state property of the object is updated
+	// 	*/
+	// 	state: randomUUID(),
+	// 	/** Emitted when the state property of the object is true
+	// 	*/
+	// 	on: randomUUID(),
+	// 	/** Emitted when the state property of the object is false
+	// 	*/
+	// 	off: randomUUID()
+	// };
+	// protected set state(newState: boolean) {
+	// 	super.state = newState
+	// 	this.emit(newState ? this.events.on : this.events.off, newState)
+	// }
+}
 
 export class ExposesSeteableNumber extends ExposesNumber {
 	private device: SwitchZigbee;

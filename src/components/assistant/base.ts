@@ -3,8 +3,9 @@ import { BASE_TOPIC } from "../../topics";
 import type { Trigger } from "../../types";
 import { StatefulComponent } from "../component";
 
-export class BaseMQTTSensor<T extends boolean | string | number>
-	extends StatefulComponent<T> {
+export class BaseMQTTSensor<
+	T extends boolean | string | number,
+> extends StatefulComponent<T> {
 	protected stateTopic: string;
 	public name: string;
 
@@ -20,6 +21,5 @@ export class BaseMQTTSensor<T extends boolean | string | number>
 		});
 	}
 
-	protected updateComponent(message: string) {
-	}
+	protected updateComponent(message: string) {}
 }
