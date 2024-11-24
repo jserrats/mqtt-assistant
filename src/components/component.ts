@@ -55,8 +55,7 @@ export const globalEventManager = new GlobalEventManager();
 
 export class StatefulComponent<T extends string | number | boolean>
 	extends Component
-	implements Stateful
-{
+	implements Stateful {
 	private _state: T;
 	public events = {
 		/** Emited when the state property of the object is updated
@@ -69,8 +68,11 @@ export class StatefulComponent<T extends string | number | boolean>
 	}
 
 	protected set state(newState: T) {
+		const oldState = this.state
 		this._state = newState;
-		this.emit(this.events.state, newState);
+		if (oldState !== newState || (newState !== undefined && oldState === undefined)) {
+			this.emit(this.events.state, newState);
+		}
 	}
 
 	public newTimeStateEvent(time: TimerLength, logic: (state: T) => boolean) {

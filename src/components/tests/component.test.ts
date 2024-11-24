@@ -19,6 +19,21 @@ class TestClass extends StatefulComponent<boolean> {
 }
 
 describe("StatefulComponent", () => {
+    it("should emit after state change", async () => {
+		const statefulComponent = new TestClass();
+		const mockCallback = jest.fn();
+		statefulComponent.on(statefulComponent.events.state,
+			mockCallback,
+		);
+		expect(mockCallback).not.toHaveBeenCalled();
+		statefulComponent.setState(true);
+		statefulComponent.setState(true);
+		expect(mockCallback).toHaveBeenCalledTimes(1);
+		statefulComponent.setState(false);
+		statefulComponent.setState(false);
+		expect(mockCallback).toHaveBeenCalledTimes(2);
+	});
+
 	it("should emit after being in the state", async () => {
 		const statefulComponent = new TestClass();
 		const mockCallback = jest.fn();
@@ -30,12 +45,8 @@ describe("StatefulComponent", () => {
 		);
 		expect(mockCallback).not.toHaveBeenCalled();
 		statefulComponent.setState(true);
-		statefulComponent.emit(
-			statefulComponent.events.state,
-			statefulComponent.state,
-		);
 		jest.runOnlyPendingTimers();
-		expect(mockCallback).toHaveBeenCalled();
+		expect(mockCallback).toHaveBeenCalledTimes(1);
 	});
 
 	it("should not emit", async () => {
@@ -62,10 +73,6 @@ describe("globalEventManager", () => {
 		globalEventManager.on(statefulComponent.events.state, mockCallback);
 		expect(mockCallback).not.toHaveBeenCalled();
 		statefulComponent.setState(true);
-		statefulComponent.emit(
-			statefulComponent.events.state,
-			statefulComponent.state,
-		);
-		expect(mockCallback).toHaveBeenCalled();
+		expect(mockCallback).toHaveBeenCalledTimes(1);
 	});
 });
