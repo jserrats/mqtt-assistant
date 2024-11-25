@@ -1,7 +1,7 @@
-import { client } from "../../mqtt";
 import { router } from "../../router";
 import { StatefulComponent } from "../component";
 import { globalEventManager } from "../component";
+
 jest.mock("../../../src/mqtt", () => ({
 	client: {
 		publish: jest.fn((newTopic: string, newPayload: string) => {

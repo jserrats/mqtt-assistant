@@ -8,11 +8,11 @@ import { RemoteZigbee } from "./base";
  */
 export class RemoteE2002 extends RemoteZigbee {
 	public button = {
-		up: "on",
-		down: "off",
-		holdDown: "brightness_move_down",
-		left: "arrow_left_click",
-		right: "arrow_right_click",
+		up: "on" + this.remoteId,
+		down: "off" + this.remoteId,
+		holdDown: "brightness_move_down" + this.remoteId,
+		left: "arrow_left_click" + this.remoteId,
+		right: "arrow_right_click" + this.remoteId,
 	};
 }
 
@@ -24,7 +24,7 @@ export class RemoteE2002 extends RemoteZigbee {
  */
 export class RemoteE1812 extends RemoteZigbee {
 	public button = {
-		click: "on",
+		click: "on" + this.remoteId,
 	};
 }
 
@@ -40,21 +40,21 @@ export class RemoteTS0044 extends RemoteZigbee {
 	//-------
 	// 3 | 4
 	public button = {
-		topLeftSingleClick: "1_single",
-		topLeftDoubleClick: "1_double",
-		topLeftHold: "1_hold",
+		topLeftSingleClick: "1_single" + this.remoteId,
+		topLeftDoubleClick: "1_double" + this.remoteId,
+		topLeftHold: "1_hold" + this.remoteId,
 
-		topRightSingleClick: "2_single",
-		topRightDoubleClick: "2_double",
-		topRightHold: "2_hold",
+		topRightSingleClick: "2_single" + this.remoteId,
+		topRightDoubleClick: "2_double" + this.remoteId,
+		topRightHold: "2_hold" + this.remoteId,
 
-		bottomLeftSingleClick: "3_single",
-		bottomLeftDoubleClick: "3_double",
-		bottomLeftHold: "3_hold",
+		bottomLeftSingleClick: "3_single" + this.remoteId,
+		bottomLeftDoubleClick: "3_double" + this.remoteId,
+		bottomLeftHold: "3_hold" + this.remoteId,
 
-		bottomRightSingleClick: "4_single",
-		bottomRightDoubleClick: "4_double",
-		bottomRightHold: "4_hold",
+		bottomRightSingleClick: "4_single" + this.remoteId,
+		bottomRightDoubleClick: "4_double" + this.remoteId,
+		bottomRightHold: "4_hold" + this.remoteId,
 	};
 }
 
@@ -66,9 +66,9 @@ export class RemoteTS0044 extends RemoteZigbee {
  */
 export class RemoteE2201 extends RemoteZigbee {
 	public button = {
-		topClick: "on",
-		bottomClick: "off",
-		holdTopClick: "brightness_move_up",
-		holdBottomClick: "brightness_move_down",
+		topClick: "on" + this.remoteId,
+		bottomClick: "off" + this.remoteId,
+		holdTopClick: "brightness_move_up" + this.remoteId,
+		holdBottomClick: "brightness_move_down" + this.remoteId,
 	};
 }

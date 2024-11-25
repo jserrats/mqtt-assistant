@@ -1,4 +1,3 @@
-import { randomUUID } from "node:crypto";
 import { StatefulComponent } from "../../component";
 import { telegram } from "../../telegram";
 import type { SwitchZigbee } from "../devices/switches/base";
@@ -19,9 +18,9 @@ export class ExposesZigbee<
 	}
 }
 
-export class ExposesNumber extends ExposesZigbee<number> {}
+export class ExposesNumber extends ExposesZigbee<number> { }
 
-export class ExposesString extends ExposesZigbee<string> {}
+export class ExposesString extends ExposesZigbee<string> { }
 
 export class ExposesBoolean extends ExposesZigbee<boolean> {
 	// TODO: implement boolean events
