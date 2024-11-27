@@ -5,7 +5,7 @@ import { LightESPHome } from "../light";
 
 jest.mock("../../../../../mqtt", () => ({
 	client: {
-		publish: jest.fn((newTopic: string, newPayload: string) => {}),
+		publish: jest.fn((newTopic: string, newPayload: string) => { }),
 	},
 }));
 
@@ -34,11 +34,11 @@ describe("LightESPHome", () => {
 
 		expect(lightEsphome.state).toBe(undefined);
 
-		router.route(`${ESPHOME_TOPIC}/test1/light/test1/state`, "ON");
+		router.route(`${ESPHOME_TOPIC}/test1/light/test1/state`, "{\"state\":\"ON\"}");
 		expect(lightEsphome.state).toBeTruthy();
 		expect(mockCallbackTrue).toHaveBeenCalled();
 
-		router.route(`${ESPHOME_TOPIC}/test1/light/test1/state`, "OFF");
+		router.route(`${ESPHOME_TOPIC}/test1/light/test1/state`, "{\"state\":\"OFF\"}");
 		expect(lightEsphome.state).toBe(false);
 		expect(mockCallbackFalse).toHaveBeenCalled();
 	});
@@ -47,7 +47,7 @@ describe("LightESPHome", () => {
 		lightEsphome.setOn();
 		expect((client.publish as jest.Mock).mock.calls[0]).toStrictEqual([
 			lightEsphome.commandTopic,
-			"ON",
+			"{\"state\":\"ON\"}",
 		]);
 	});
 
@@ -55,7 +55,7 @@ describe("LightESPHome", () => {
 		lightEsphome.toggle();
 		expect((client.publish as jest.Mock).mock.calls[0]).toStrictEqual([
 			lightEsphome.commandTopic,
-			"TOGGLE",
+			"{\"state\":\"TOGGLE\"}",
 		]);
 	});
 });

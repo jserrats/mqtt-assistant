@@ -3,8 +3,7 @@ import { BaseESPHomeSensor } from "../sensors/base";
 
 export class BaseSwitchESPHome
 	extends BaseESPHomeSensor<boolean>
-	implements Switch
-{
+	implements Switch {
 	commandTopic: string;
 
 	setOn() {
@@ -19,19 +18,19 @@ export class BaseSwitchESPHome
 		this.set("toggle");
 	}
 
-	private set(order: boolean | "toggle") {
-		let text_order: string;
-		if (typeof order === "boolean") {
-			text_order = order ? "ON" : "OFF";
-		} else {
-			text_order = "TOGGLE";
-		}
-		this.client.publish(this.commandTopic, text_order);
+	protected set(order: boolean | "toggle") {
 	}
 
 	protected updateComponent(message: string) {
-		if (this.state !== (message === "ON")) {
-			this.state = message === "ON";
+		let state: boolean;
+		try {
+			state = JSON.parse(message).state === "ON"
+		} catch (e) {
+			state = message === "ON"
+		} finally {
+			if (this.state !== state) {
+				this.state = state;
+			}
 		}
 	}
 }
