@@ -19,6 +19,16 @@ describe("Remote", () => {
 		expect(mockCallback).toHaveBeenCalledTimes(1);
 	});
 
+	it("remote - should not emit when action is empty", async () => {
+		const mockCallback = jest.fn();
+		const remote = new RemoteE1812("test");
+		remote.on(remote.button.click, () => {
+			mockCallback();
+		});
+		router.route(remote.topic, JSON.stringify({ action: "" }));
+		expect(mockCallback).toHaveBeenCalledTimes(0);
+	});
+
 	it("should work well with globalEvents", async () => {
 		const mockCallback = jest.fn();
 		const testRemote = new RemoteE2002("test2");

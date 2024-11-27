@@ -11,7 +11,7 @@ export class RemoteZigbee extends ZigbeeDevice {
 		super(name);
 		this.action.on(this.action.events.state, (value) => {
 			for (const button in this.button) {
-				if (this.button[button].startsWith(value)) {
+				if (this.button[button].startsWith(value) && value !== "") {
 					this.emit(this.button[button]);
 					return;
 				}
