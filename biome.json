@@ -2,7 +2,9 @@
 	"linter": {
 		"rules": {
 			"complexity": {
-				"noForEach": "off"
+				"noForEach": "off",
+				"noStaticOnlyClass": "off",
+				"noBannedTypes": "off"
 			}
 		}
 	}
