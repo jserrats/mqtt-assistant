@@ -14,8 +14,8 @@ class TestState extends StatefulComponent<number> {
 }
 describe("CustomSensor", () => {
 	it("Boolean - should update state correctly", async () => {
-		const mockCallbackTrue = jest.fn((callback) => {});
-		const mockCallbackFalse = jest.fn((callback) => {});
+		const mockCallbackTrue = jest.fn();
+		const mockCallbackFalse = jest.fn();
 		const stateful = new TestState();
 		const sensor = new CustomSensor<boolean>("test", stateful, (state) => {
 			return (state as number) > 10;
@@ -23,15 +23,22 @@ describe("CustomSensor", () => {
 
 		expect(sensor.state).toBeUndefined();
 
-		sensor.on(sensor.events.state, mockCallbackTrue);
+		sensor.on(sensor.events.state, (state) => {
+			if (state) {
+				mockCallbackTrue();
+			} else {
+				mockCallbackFalse();
+			}
+		});
 
 		stateful.setState(11);
 		expect(sensor.state).toBeTruthy();
-		expect(mockCallbackTrue).toHaveBeenCalled();
+		expect(mockCallbackTrue).toHaveBeenCalledTimes(1);
+		expect(mockCallbackFalse).toHaveBeenCalledTimes(0);
 
-		sensor.on(sensor.events.state, mockCallbackFalse);
 		stateful.setState(8);
 		expect(sensor.state).toBeFalsy();
-		expect(mockCallbackFalse).toHaveBeenCalled();
+		expect(mockCallbackFalse).toHaveBeenCalledTimes(1);
+		expect(mockCallbackTrue).toHaveBeenCalledTimes(1);
 	});
 });

@@ -26,12 +26,11 @@ export class CustomSensor<
 
 		if (state !== this.state) {
 			this.state = state;
+			const publishState: string =
+				typeof state === "boolean" ? (state ? "ON" : "OFF") : state.toString();
+			this.client.publish(this.stateTopic, publishState, {
+				retain: true,
+			});
 		}
-
-		const publishState: string =
-			typeof state === "boolean" ? (state ? "ON" : "OFF") : state.toString();
-		this.client.publish(this.stateTopic, publishState, {
-			retain: true,
-		});
 	}
 }
