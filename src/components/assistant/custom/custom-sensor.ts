@@ -16,12 +16,12 @@ export class CustomSensor<
 	) {
 		super(name);
 		observed.on(observed.events.state, (state) => {
-			this.updateComponent(state);
+			this.calculateState(state);
 		});
 		this.logic = logic;
 	}
 
-	updateComponent(message: boolean | string | number) {
+	protected calculateState(message: boolean | string | number) {
 		const state = this.logic(message);
 
 		if (state !== this.state) {
