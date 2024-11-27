@@ -19,12 +19,10 @@ class TestClass extends StatefulComponent<boolean> {
 }
 
 describe("StatefulComponent", () => {
-    it("should emit after state change", async () => {
+	it("should emit after state change", async () => {
 		const statefulComponent = new TestClass();
 		const mockCallback = jest.fn();
-		statefulComponent.on(statefulComponent.events.state,
-			mockCallback,
-		);
+		statefulComponent.on(statefulComponent.events.state, mockCallback);
 		expect(mockCallback).not.toHaveBeenCalled();
 		statefulComponent.setState(true);
 		statefulComponent.setState(true);

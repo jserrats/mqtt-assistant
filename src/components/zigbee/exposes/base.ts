@@ -18,9 +18,9 @@ export class ExposesZigbee<
 	}
 }
 
-export class ExposesNumber extends ExposesZigbee<number> { }
+export class ExposesNumber extends ExposesZigbee<number> {}
 
-export class ExposesString extends ExposesZigbee<string> { }
+export class ExposesString extends ExposesZigbee<string> {}
 
 export class ExposesBoolean extends ExposesZigbee<boolean> {
 	// TODO: implement boolean events
