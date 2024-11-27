@@ -1,3 +1,4 @@
+import { StatefulComponent } from "../../../component";
 import { CustomSensor } from "../custom-sensor";
 
 jest.mock("../../../../mqtt", () => ({
@@ -6,24 +7,30 @@ jest.mock("../../../../mqtt", () => ({
 	},
 }));
 
-describe("CustomBinarySensor", () => {
+class TestState extends StatefulComponent<number> {
+	setState(newState: number) {
+		this.state = newState;
+	}
+}
+describe("CustomSensor", () => {
 	it("Boolean - should update state correctly", async () => {
 		const mockCallbackTrue = jest.fn((callback) => {});
 		const mockCallbackFalse = jest.fn((callback) => {});
-
-		const sensor = new CustomSensor<boolean>("test", (value) => {
-			return Number.parseInt(value) > 10;
+		const stateful = new TestState();
+		const sensor = new CustomSensor<boolean>("test", stateful, (state) => {
+			return (state as number) > 10;
 		});
 
 		expect(sensor.state).toBeUndefined();
 
 		sensor.on(sensor.events.state, mockCallbackTrue);
-		sensor.updateComponent("11");
+
+		stateful.setState(11);
 		expect(sensor.state).toBeTruthy();
 		expect(mockCallbackTrue).toHaveBeenCalled();
 
 		sensor.on(sensor.events.state, mockCallbackFalse);
-		sensor.updateComponent("8");
+		stateful.setState(8);
 		expect(sensor.state).toBeFalsy();
 		expect(mockCallbackFalse).toHaveBeenCalled();
 	});

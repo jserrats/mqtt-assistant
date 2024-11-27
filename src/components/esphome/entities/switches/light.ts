@@ -13,6 +13,9 @@ export class LightESPHome extends BaseSwitchESPHome {
 		} else {
 			text_order = "TOGGLE";
 		}
-		this.client.publish(this.commandTopic, JSON.stringify({ state: text_order }));
+		this.client.publish(
+			this.commandTopic,
+			JSON.stringify({ state: text_order }),
+		);
 	}
 }

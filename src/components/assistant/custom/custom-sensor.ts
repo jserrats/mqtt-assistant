@@ -1,16 +1,27 @@
+import type { StatefulComponent } from "../../component";
 import { BaseMQTTSensor } from "../base";
 
 export class CustomSensor<
 	Type extends number | string | boolean,
 > extends BaseMQTTSensor<Type> {
-	private logic: (message: string) => Type;
+	private logic: (message: boolean | string | number) => Type;
 
-	constructor(name: string, logic: (message: string) => Type) {
+	constructor(
+		name: string,
+		observed:
+			| StatefulComponent<number>
+			| StatefulComponent<string>
+			| StatefulComponent<boolean>,
+		logic: (state: boolean | string | number) => Type,
+	) {
 		super(name);
+		observed.on(observed.events.state, (state) => {
+			this.updateComponent(state);
+		});
 		this.logic = logic;
 	}
 
-	updateComponent(message: string) {
+	updateComponent(message: boolean | string | number) {
 		const state = this.logic(message);
 
 		if (state !== this.state) {
