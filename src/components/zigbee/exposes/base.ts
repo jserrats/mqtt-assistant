@@ -18,9 +18,14 @@ export class ExposesZigbee<
 	}
 }
 
-export class ExposesNumber extends ExposesZigbee<number> {}
+export class ExposesNumber extends ExposesZigbee<number> {
+	public units: string
+	toString() {
+		return `${this.state} ${this.units}`
+	}
+}
 
-export class ExposesString extends ExposesZigbee<string> {}
+export class ExposesString extends ExposesZigbee<string> { }
 
 export class ExposesBoolean extends ExposesZigbee<boolean> {
 	// TODO: implement boolean events
@@ -63,7 +68,7 @@ export class ExposesSeteableNumber extends ExposesNumber {
 	private isValidValue(value: number): boolean {
 		if (value > this.max && value < this.min) {
 			telegram.warning(
-				`Brightness value ${value} out of bounds for light ${this.device.name}`,
+				`Value ${value} out of bounds for device ${this.device.name}`,
 			);
 			return false;
 		}

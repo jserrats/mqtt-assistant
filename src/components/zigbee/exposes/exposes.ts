@@ -26,10 +26,12 @@ export class ExposesAction extends ExposesString {
 
 export class ExposesLinkQuality extends ExposesNumber {
 	static exposes = "linkquality";
+	public units = "LQI"
 }
 
 export class ExposesBrightness extends ExposesSeteableNumber {
 	static exposes = "brightness";
+	static unit = "%";
 }
 
 export class ExposesColorTemperature extends ExposesSeteableNumber {
@@ -38,22 +40,27 @@ export class ExposesColorTemperature extends ExposesSeteableNumber {
 
 export class ExposesTemperature extends ExposesNumber {
 	static exposes = "temperature";
+	public units = "°C"
 }
 
 export class ExposesHumidity extends ExposesNumber {
 	static exposes = "humidity";
+	public units = "%"
 }
 
 export class ExposesCurrent extends ExposesNumber {
 	static exposes = "current";
+	public units = "A"
 }
 
 export class ExposesPower extends ExposesNumber {
 	static exposes = "power";
+	public units = "W"
 }
 
 export class ExposesVoltage extends ExposesNumber {
 	static exposes = "voltage";
+	public units = "V"
 }
 
 export class ExposesOccupancy extends ExposesBoolean {
