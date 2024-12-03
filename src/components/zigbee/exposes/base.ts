@@ -1,8 +1,8 @@
 import { StatefulComponent } from "../../component";
+import { NumericSensor } from "../../interfaces/numeric-sensor";
 import { telegram } from "../../telegram";
 import type { SwitchZigbee } from "../devices/switches/base";
 
-// TODO: add units
 export class ExposesZigbee<
 	T extends boolean | number | string,
 > extends StatefulComponent<T> {
@@ -18,10 +18,10 @@ export class ExposesZigbee<
 	}
 }
 
-export class ExposesNumber extends ExposesZigbee<number> {
-	public units: string
+export class ExposesNumber extends ExposesZigbee<number> implements NumericSensor {
+	public unit: string
 	toString() {
-		return `${this.state} ${this.units}`
+		return `${this.state} ${this.unit}`
 	}
 }
 
