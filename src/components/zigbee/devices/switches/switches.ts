@@ -14,7 +14,7 @@ export class E1603 extends SwitchZigbee {}
  * https://www.zigbee2mqtt.io/devices/BSD29_1.html#tuya-bsd29_1
  */
 export class BSD29_1 extends SwitchZigbee {
-	power = new exposes.ExposesPower();
-	current = new exposes.ExposesCurrent();
-	voltage = new exposes.ExposesVoltage();
+	power = new exposes.ExposesPower(this);
+	current = new exposes.ExposesCurrent(this);
+	voltage = new exposes.ExposesVoltage(this);
 }

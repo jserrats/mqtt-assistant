@@ -26,7 +26,7 @@ export class ExposesAction extends ExposesString {
 
 export class ExposesLinkQuality extends ExposesNumber {
 	static exposes = "linkquality";
-	public unit = "LQI"
+	public unit = "LQI";
 }
 
 export class ExposesBrightness extends ExposesSeteableNumber {
@@ -40,27 +40,27 @@ export class ExposesColorTemperature extends ExposesSeteableNumber {
 
 export class ExposesTemperature extends ExposesNumber {
 	static exposes = "temperature";
-	public unit = "°C"
+	public unit = "°C";
 }
 
 export class ExposesHumidity extends ExposesNumber {
 	static exposes = "humidity";
-	public unit = "%"
+	public unit = "%";
 }
 
 export class ExposesCurrent extends ExposesNumber {
 	static exposes = "current";
-	public unit = "A"
+	public unit = "A";
 }
 
 export class ExposesPower extends ExposesNumber {
 	static exposes = "power";
-	public unit = "W"
+	public unit = "W";
 }
 
 export class ExposesVoltage extends ExposesNumber {
 	static exposes = "voltage";
-	public unit = "V"
+	public unit = "V";
 }
 
 export class ExposesOccupancy extends ExposesBoolean {
@@ -75,8 +75,8 @@ export class ExposesContact extends ExposesBoolean {
 	static exposes = "contact";
 	private inverted = false;
 
-	constructor(inverted?) {
-		super();
+	constructor(parentDevice, inverted?) {
+		super(parentDevice);
 		if (inverted !== undefined) {
 			this.inverted = inverted;
 		}

@@ -1,13 +1,15 @@
-import { NumericSensor } from "../../../interfaces/numeric-sensor";
+import type { NumericSensor } from "../../../interfaces/numeric-sensor";
 import { BaseESPHomeSensor } from "./base";
 
-export class SensorESPHome extends BaseESPHomeSensor<number> implements NumericSensor {
-
+export class SensorESPHome
+	extends BaseESPHomeSensor<number>
+	implements NumericSensor
+{
 	public unit: string;
 
 	constructor(name: string, component: string, unit?: string) {
 		super(name, component, "sensor");
-		this.unit = unit
+		this.unit = unit;
 	}
 
 	protected updateComponent(message: string) {

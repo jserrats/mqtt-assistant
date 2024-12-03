@@ -1,5 +1,6 @@
 import { client } from "../../../mqtt";
 import { router } from "../../../router";
+import { AirSensorZigbee } from "../devices/sensors/base";
 import { ZigbeeDevice } from "../zigbee";
 
 jest.mock("../../../../src/mqtt", () => ({
@@ -26,5 +27,10 @@ describe("ZigbeeComponent", () => {
 		expect(() => {
 			router.route(zigbeeComponent.topic, "asdf");
 		}).not.toThrow();
+	});
+
+	it("should assign a name to the exposes", async () => {
+		const sensor = new AirSensorZigbee("test");
+		expect(sensor.temperature.name).toEqual("test:temperature");
 	});
 });

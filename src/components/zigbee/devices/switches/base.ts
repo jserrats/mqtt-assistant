@@ -4,7 +4,7 @@ import { ZigbeeDevice } from "../../zigbee";
 
 export class SwitchZigbee extends ZigbeeDevice implements Switch {
 	setTopic = `${this.topic}/set`;
-	protected _state = new exposes.ExposesSwitch();
+	protected _state = new exposes.ExposesSwitch(this);
 	public state: boolean;
 
 	constructor(name: string) {

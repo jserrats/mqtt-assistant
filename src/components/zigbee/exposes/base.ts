@@ -1,14 +1,26 @@
 import { StatefulComponent } from "../../component";
-import { NumericSensor } from "../../interfaces/numeric-sensor";
+import type { NumericSensor } from "../../interfaces/numeric-sensor";
 import { telegram } from "../../telegram";
 import type { SwitchZigbee } from "../devices/switches/base";
+import type { ZigbeeDevice } from "../zigbee";
 
 export class ExposesZigbee<
 	T extends boolean | number | string,
 > extends StatefulComponent<T> {
+	public name;
 	static exposes: string;
 	protected _exposes: string = (this.constructor as typeof ExposesZigbee<T>)
 		.exposes;
+
+	constructor(parentDevice?: ZigbeeDevice) {
+		super();
+		if (parentDevice !== undefined) {
+			this.name = `${parentDevice.name}:${this._exposes}`;
+			this.on(this.events.state, (value) => {
+				parentDevice.emit(this.events.state, value);
+			});
+		}
+	}
 
 	updateExposes(message: object): void {
 		if (this.state === undefined || message[this._exposes] !== this.state) {
@@ -18,14 +30,17 @@ export class ExposesZigbee<
 	}
 }
 
-export class ExposesNumber extends ExposesZigbee<number> implements NumericSensor {
-	public unit: string
+export class ExposesNumber
+	extends ExposesZigbee<number>
+	implements NumericSensor
+{
+	public unit: string;
 	toString() {
-		return `${this.state} ${this.unit}`
+		return `${this.state} ${this.unit}`;
 	}
 }
 
-export class ExposesString extends ExposesZigbee<string> { }
+export class ExposesString extends ExposesZigbee<string> {}
 
 export class ExposesBoolean extends ExposesZigbee<boolean> {
 	// TODO: implement boolean events
@@ -53,7 +68,7 @@ export class ExposesSeteableNumber extends ExposesNumber {
 	min: number;
 
 	constructor(device: SwitchZigbee, max, min) {
-		super();
+		super(device);
 		this.max = max;
 		this.min = min;
 		this.device = device;

@@ -7,7 +7,7 @@ import {
 
 jest.mock("../../../../mqtt", () => ({
 	client: {
-		publish: jest.fn((newTopic: string, newPayload: string) => { }),
+		publish: jest.fn((newTopic: string, newPayload: string) => {}),
 	},
 }));
 
@@ -51,7 +51,7 @@ describe("Exposes", () => {
 	});
 
 	it("Closure - should invert", async () => {
-		const exposes = new ExposesContact(true);
+		const exposes = new ExposesContact(undefined, true);
 		expect(exposes.state).toBeUndefined();
 		exposes.updateExposes({ contact: false });
 		expect(exposes.state).toBeTruthy();
@@ -82,6 +82,6 @@ describe("Exposes", () => {
 	it("Exposes should have a toString()", async () => {
 		const exposes = new ExposesTemperature();
 		exposes.updateExposes({ temperature: 10 });
-		expect(exposes.toString()).toEqual("10 °C")
+		expect(exposes.toString()).toEqual("10 °C");
 	});
 });

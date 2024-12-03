@@ -9,7 +9,7 @@ import { ExposesZigbee } from "./exposes/base";
 export class ZigbeeDevice extends Component {
 	topic: string;
 	name: string;
-	linkquality = new exposes.ExposesLinkQuality();
+	linkquality = new exposes.ExposesLinkQuality(this);
 
 	constructor(name: string) {
 		super();

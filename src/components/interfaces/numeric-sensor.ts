@@ -1,7 +1,7 @@
-import { Stateful } from "./stateful";
+import type { Stateful } from "./stateful";
 
 export interface NumericSensor extends Stateful {
-    get state(): number;
-    unit: string
-    toString()
+	get state(): number;
+	unit: string;
+	toString();
 }
