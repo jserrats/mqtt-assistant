@@ -13,11 +13,13 @@ export class SimplerEventEmitter {
 
 	on(eventName: string | symbol, listener: (...args: any[]) => void) {
 		this.emiter.on(eventName, listener);
+		return this;
 	}
 
 	emit(eventName: string | symbol, ...args: any) {
-		this.emiter.emit(eventName, ...args);
+		const value = this.emiter.emit(eventName, ...args);
 		globalEventManager.emit(eventName, ...args);
+		return value;
 	}
 }
 
