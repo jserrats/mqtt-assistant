@@ -18,3 +18,10 @@ export class BSD29_1 extends SwitchZigbee {
 	current = new exposes.ExposesCurrent(this);
 	voltage = new exposes.ExposesVoltage(this);
 }
+
+/**
+ * Zigbee USB power switch
+ * 
+ * https://www.zigbee2mqtt.io/devices/XMSJ.html#tuya-xmsj
+ */
+export class XMSJ extends SwitchZigbee {}
