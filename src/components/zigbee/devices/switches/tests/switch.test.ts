@@ -50,4 +50,28 @@ describe("Switch", () => {
 	it("should be named", async () => {
 		expect(switchDevice.name).toBe("test1");
 	});
+
+	it("should emit the correct states", async () => {
+		const mockCallbackTrue = jest.fn();
+		const mockCallbackFalse = jest.fn();
+
+		switchDevice.on(switchDevice.events.state, (value) => {
+			if (value) {
+				mockCallbackTrue();
+			} else {
+				mockCallbackFalse();
+			}
+		});
+
+		expect(mockCallbackTrue).toHaveBeenCalledTimes(0);
+		expect(mockCallbackFalse).toHaveBeenCalledTimes(0);
+
+		client.publish(switchDevice.topic, JSON.stringify({ state: "ON" }));
+		expect(mockCallbackTrue).toHaveBeenCalledTimes(1);
+		expect(mockCallbackFalse).toHaveBeenCalledTimes(0);
+
+		client.publish(switchDevice.topic, JSON.stringify({ state: "OFF" }));
+		expect(mockCallbackTrue).toHaveBeenCalledTimes(1);
+		expect(mockCallbackFalse).toHaveBeenCalledTimes(1);
+	});
 });

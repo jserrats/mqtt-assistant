@@ -21,7 +21,7 @@ export class BSD29_1 extends SwitchZigbee {
 
 /**
  * Zigbee USB power switch
- * 
+ *
  * https://www.zigbee2mqtt.io/devices/XMSJ.html#tuya-xmsj
  */
 export class XMSJ extends SwitchZigbee {}

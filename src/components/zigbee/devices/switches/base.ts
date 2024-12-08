@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import type { Switch } from "../../../interfaces/switch";
 import { exposes } from "../../exposes";
 import { ZigbeeDevice } from "../../zigbee";
@@ -6,11 +7,15 @@ export class SwitchZigbee extends ZigbeeDevice implements Switch {
 	setTopic = `${this.topic}/set`;
 	protected _state = new exposes.ExposesSwitch(this);
 	public state: boolean;
+	public events = {
+		state: randomUUID(),
+	};
 
 	constructor(name: string) {
 		super(name);
 		this._state.on(this._state.events.state, (value) => {
 			this.state = value;
+			this.emit(this.events.state, this.state);
 		});
 	}
 

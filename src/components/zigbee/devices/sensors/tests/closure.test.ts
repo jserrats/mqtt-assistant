@@ -41,7 +41,6 @@ describe("ClosureSensorZigbee", () => {
 		expect(sensor.contact.state).toBeTruthy();
 	});
 
-	// TODO: fix this test
 	it("should emit the correct states", async () => {
 		const mockCallbackTrue = jest.fn();
 		const mockCallbackFalse = jest.fn();
