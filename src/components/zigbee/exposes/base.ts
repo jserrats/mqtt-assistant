@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import { StatefulComponent } from "../../component";
 import type {
 	BooleanSensor,
@@ -50,23 +51,30 @@ export class ExposesString
 
 export class ExposesBoolean
 	extends ExposesZigbee<boolean>
-	implements BooleanSensor {
-	// TODO: implement boolean events
-	// public events = {
-	// 	/** Emitted when the state property of the object is updated
-	// 	*/
-	// 	state: randomUUID(),
-	// 	/** Emitted when the state property of the object is true
-	// 	*/
-	// 	on: randomUUID(),
-	// 	/** Emitted when the state property of the object is false
-	// 	*/
-	// 	off: randomUUID()
-	// };
-	// protected set state(newState: boolean) {
-	// 	super.state = newState
-	// 	this.emit(newState ? this.events.on : this.events.off, newState)
-	// }
+	implements BooleanSensor
+{
+	public events = {
+		/** Emitted when the state property of the object is updated
+		 */
+		state: randomUUID(),
+		/** Emitted when the state property of the object is true
+		 */
+		on: randomUUID(),
+		/** Emitted when the state property of the object is false
+		 */
+		off: randomUUID(),
+	};
+
+	constructor(parentDevice?) {
+		super(parentDevice);
+		this.on(this.events.state, () => {
+			if (this.state) {
+				this.emit(this.events.on);
+			} else {
+				this.emit(this.events.off);
+			}
+		});
+	}
 }
 
 export class ExposesSeteableNumber extends ExposesNumber {

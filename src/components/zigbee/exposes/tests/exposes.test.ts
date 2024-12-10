@@ -42,12 +42,37 @@ describe("Exposes", () => {
 	it("Boolean - should trigger the callback", async () => {
 		const mockCallback = jest.fn();
 		const exposes = new ExposesOccupancy();
+		//TODO: migrate event
 		exposes.on("occupancy", (value) => {
 			mockCallback();
 			expect(value).toStrictEqual(false);
 		});
 		exposes.updateExposes({ occupancy: false });
 		expect(mockCallback).toHaveBeenCalled();
+	});
+
+	it("Boolean - should trigger boolean specific events", async () => {
+		const mockCallbackTrue = jest.fn();
+		const mockCallbackFalse = jest.fn();
+		const exposes = new ExposesOccupancy();
+		exposes.on(exposes.events.on, (value) => {
+			mockCallbackTrue();
+			expect(exposes.state).toStrictEqual(true);
+		});
+		exposes.on(exposes.events.off, (value) => {
+			mockCallbackFalse();
+			expect(exposes.state).toStrictEqual(false);
+		});
+		expect(mockCallbackTrue).toHaveBeenCalledTimes(0);
+		expect(mockCallbackFalse).toHaveBeenCalledTimes(0);
+
+		exposes.updateExposes({ occupancy: false });
+		expect(mockCallbackTrue).toHaveBeenCalledTimes(0);
+		expect(mockCallbackFalse).toHaveBeenCalledTimes(1);
+
+		exposes.updateExposes({ occupancy: true });
+		expect(mockCallbackTrue).toHaveBeenCalledTimes(1);
+		expect(mockCallbackFalse).toHaveBeenCalledTimes(1);
 	});
 
 	it("Closure - should invert", async () => {
