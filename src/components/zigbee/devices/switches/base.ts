@@ -1,4 +1,9 @@
 import { randomUUID } from "node:crypto";
+import type {
+	BrightLight,
+	Light,
+	TemperatureLight,
+} from "../../../interfaces/light";
 import type { Switch } from "../../../interfaces/switch";
 import { exposes } from "../../exposes";
 import { ZigbeeDevice } from "../../zigbee";
@@ -45,13 +50,16 @@ export class SwitchZigbee extends ZigbeeDevice implements Switch {
 	}
 }
 
-export class LightZigbee extends SwitchZigbee {}
+export class LightZigbee extends SwitchZigbee implements Light {}
 
-export class BrightLightZigbee extends LightZigbee {
+export class BrightLightZigbee extends LightZigbee implements BrightLight {
 	brightness = new exposes.ExposesBrightness(this, 254, 5);
 }
 
-export class TemperatureLightZigbee extends SwitchZigbee {
+export class TemperatureLightZigbee
+	extends SwitchZigbee
+	implements TemperatureLight
+{
 	colorTemp = new exposes.ExposesColorTemperature(this, 454, 250);
 	brightness = new exposes.ExposesBrightness(this, 254, 5);
 }

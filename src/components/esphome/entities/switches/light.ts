@@ -1,6 +1,7 @@
+import type { Light } from "../../../interfaces/light";
 import { BaseSwitchESPHome } from "./base";
 
-export class LightESPHome extends BaseSwitchESPHome {
+export class LightESPHome extends BaseSwitchESPHome implements Light {
 	constructor(name: string, component: string) {
 		super(name, component, "light");
 		this.commandTopic = `${this.baseTopic}/light/${component}/command`;
@@ -19,3 +20,4 @@ export class LightESPHome extends BaseSwitchESPHome {
 		);
 	}
 }
+//TODO: control brightness

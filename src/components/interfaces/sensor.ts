@@ -6,3 +6,11 @@ export interface NumericSensor extends Stateful {
 	name: string;
 	toString();
 }
+
+export interface BooleanSensor extends Stateful {
+	get state(): boolean;
+}
+
+export interface StringSensor extends Stateful {
+	get state(): string;
+}

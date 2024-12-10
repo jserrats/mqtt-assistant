@@ -1,6 +1,10 @@
+import type { BooleanSensor } from "../../../interfaces/sensor";
 import { BaseESPHomeSensor } from "./base";
 
-export class BinarySensorESPHome extends BaseESPHomeSensor<boolean> {
+export class BinarySensorESPHome
+	extends BaseESPHomeSensor<boolean>
+	implements BooleanSensor
+{
 	constructor(name: string, component: string) {
 		super(name, component, "binary_sensor");
 	}

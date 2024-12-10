@@ -1,5 +1,9 @@
 import { StatefulComponent } from "../../component";
-import type { NumericSensor } from "../../interfaces/numeric-sensor";
+import type {
+	BooleanSensor,
+	NumericSensor,
+	StringSensor,
+} from "../../interfaces/sensor";
 import { telegram } from "../../telegram";
 import type { SwitchZigbee } from "../devices/switches/base";
 import type { ZigbeeDevice } from "../zigbee";
@@ -40,9 +44,13 @@ export class ExposesNumber
 	}
 }
 
-export class ExposesString extends ExposesZigbee<string> {}
+export class ExposesString
+	extends ExposesZigbee<string>
+	implements StringSensor {}
 
-export class ExposesBoolean extends ExposesZigbee<boolean> {
+export class ExposesBoolean
+	extends ExposesZigbee<boolean>
+	implements BooleanSensor {
 	// TODO: implement boolean events
 	// public events = {
 	// 	/** Emitted when the state property of the object is updated
