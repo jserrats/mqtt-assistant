@@ -11,9 +11,8 @@ export interface NumericSensor extends Stateful {
 export interface BooleanSensor extends Stateful {
 	events: {
 		state: UUID;
-		//TODO: add this to esphome and assistant sensors
-		// on: UUID,
-		// off: UUID
+		on: UUID;
+		off: UUID;
 	};
 	get state(): boolean;
 }

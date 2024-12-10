@@ -29,4 +29,28 @@ describe("BinarySensorESPHome", () => {
 		expect(sensor.state).toBeTruthy();
 		expect(mockCallback).toHaveBeenCalled();
 	});
+
+	it("should trigger boolean specific events", async () => {
+		const mockCallbackTrue = jest.fn();
+		const mockCallbackFalse = jest.fn();
+		const sensor = new BinarySensorESPHome("test", "test");
+		sensor.on(sensor.events.on, (value) => {
+			mockCallbackTrue();
+			expect(sensor.state).toStrictEqual(true);
+		});
+		sensor.on(sensor.events.off, (value) => {
+			mockCallbackFalse();
+			expect(sensor.state).toStrictEqual(false);
+		});
+		expect(mockCallbackTrue).toHaveBeenCalledTimes(0);
+		expect(mockCallbackFalse).toHaveBeenCalledTimes(0);
+
+		router.route(`${ESPHOME_TOPIC}/test/binary_sensor/test/state`, "OFF");
+		expect(mockCallbackTrue).toHaveBeenCalledTimes(0);
+		expect(mockCallbackFalse).toHaveBeenCalledTimes(1);
+
+		router.route(`${ESPHOME_TOPIC}/test/binary_sensor/test/state`, "ON");
+		expect(mockCallbackTrue).toHaveBeenCalledTimes(1);
+		expect(mockCallbackFalse).toHaveBeenCalledTimes(1);
+	});
 });
