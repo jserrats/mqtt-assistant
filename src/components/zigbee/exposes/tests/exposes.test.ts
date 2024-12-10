@@ -22,7 +22,7 @@ describe("Exposes", () => {
 	it("Numeric - should trigger the callback", async () => {
 		const mockCallback = jest.fn();
 		const exposes = new ExposesTemperature();
-		exposes.on(ExposesTemperature.exposes, (value) => {
+		exposes.on(exposes.events.state, (value) => {
 			mockCallback();
 			expect(value).toStrictEqual(10);
 		});
@@ -42,8 +42,7 @@ describe("Exposes", () => {
 	it("Boolean - should trigger the callback", async () => {
 		const mockCallback = jest.fn();
 		const exposes = new ExposesOccupancy();
-		//TODO: migrate event
-		exposes.on("occupancy", (value) => {
+		exposes.on(exposes.events.state, (value) => {
 			mockCallback();
 			expect(value).toStrictEqual(false);
 		});

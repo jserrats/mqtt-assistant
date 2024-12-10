@@ -30,7 +30,6 @@ export class ExposesZigbee<
 	updateExposes(message: object): void {
 		if (this.state === undefined || message[this._exposes] !== this.state) {
 			this.state = message[this._exposes];
-			this.emit(this._exposes, message[this._exposes]);
 		}
 	}
 }
