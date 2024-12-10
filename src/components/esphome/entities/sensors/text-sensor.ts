@@ -1,20 +1,18 @@
-import type { NumericSensor } from "../../../interfaces/sensor";
+import type { StringSensor } from "../../../interfaces/sensor";
 import { BaseESPHomeSensor } from "./base";
 
-export class SensorESPHome
-	extends BaseESPHomeSensor<number>
-	implements NumericSensor
+//TODO: test this
+export class TextSensorESPHome
+	extends BaseESPHomeSensor<string>
+	implements StringSensor
 {
-	public unit: string;
-
 	constructor(name: string, component: string, unit?: string) {
-		super(name, component, "sensor");
-		this.unit = unit;
+		super(name, component, "text_sensor");
 	}
 
 	protected updateComponent(message: string) {
-		if (this.state === undefined || this.state !== Number(message)) {
-			this.state = Number(message);
+		if (this.state === undefined || this.state !== message) {
+			this.state = message;
 			super.updateComponent(message);
 		}
 	}

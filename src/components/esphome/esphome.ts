@@ -14,7 +14,7 @@ export class ESPHomeDevice<
 	constructor(
 		name: string,
 		component: string,
-		deviceType: "switch" | "light" | "sensor" | "binary_sensor",
+		deviceType: "switch" | "light" | "sensor" | "binary_sensor" | "text_sensor",
 	) {
 		super();
 		this.baseTopic = ESPHOME_TOPIC + name;
