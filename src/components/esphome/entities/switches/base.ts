@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import type { Switch } from "../../../interfaces/switch";
 import { BaseESPHomeSensor } from "../sensors/base";
 
@@ -6,6 +7,11 @@ export class BaseSwitchESPHome
 	implements Switch
 {
 	commandTopic: string;
+	public events = {
+		state: randomUUID(),
+		on: randomUUID(),
+		off: randomUUID(),
+	};
 
 	setOn() {
 		this.set(true);
@@ -30,6 +36,11 @@ export class BaseSwitchESPHome
 		} finally {
 			if (this.state !== state) {
 				this.state = state;
+				if (state) {
+					this.emit(this.events.on);
+				} else {
+					this.emit(this.events.off);
+				}
 			}
 		}
 	}

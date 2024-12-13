@@ -15,15 +15,20 @@ export class SwitchZigbee
 	setTopic = `${this.topic}/set`;
 	protected switch = new exposes.ExposesSwitch(this);
 	public events = {
-		//TODO: add on and off events
 		state: randomUUID(),
-	}; 
+		on: randomUUID(),
+		off: randomUUID(),
+	};
 
 	constructor(name: string) {
 		super(name);
 		this.switch.on(this.switch.events.state, (value) => {
 			this.state = value;
-			//this.emit(this.events.state, this.state);
+			if (value) {
+				this.emit(this.events.on);
+			} else {
+				this.emit(this.events.off);
+			}
 		});
 	}
 

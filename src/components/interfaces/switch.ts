@@ -1,8 +1,8 @@
 import type { UUID } from "node:crypto";
 import type { TimerLength } from "../timer";
-import type { Stateful } from "./stateful";
+import type { BooleanSensor } from "./sensor";
 
-export interface Switch extends Stateful{
+export interface Switch extends BooleanSensor {
 	get state(): boolean;
 	setOn(): void;
 	setOff(): void;
