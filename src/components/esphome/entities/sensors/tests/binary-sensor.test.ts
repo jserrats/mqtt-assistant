@@ -8,13 +8,23 @@ jest.mock("../../../../../mqtt", () => ({
 	},
 }));
 
+//TODO write reusable tests
+class TestBinarySensorESPHome extends BinarySensorESPHome {
+	mockStateUpdate(value: boolean) {
+		router.route(
+			`${ESPHOME_TOPIC}/${this.name.split(":")[0]}/binary_sensor/${this.name.split(":")[1]}/state`,
+			value ? "ON" : "OFF",
+		);
+	}
+}
+
 describe("BinarySensorESPHome", () => {
 	it("should update state correctly", async () => {
-		const sensor = new BinarySensorESPHome("test2", "test2");
+		const sensor = new TestBinarySensorESPHome("test2", "test2");
 		expect(sensor.state).toBeUndefined();
-		router.route(`${ESPHOME_TOPIC}/test2/binary_sensor/test2/state`, "ON");
+		sensor.mockStateUpdate(true);
 		expect(sensor.state).toBeTruthy();
-		router.route(`${ESPHOME_TOPIC}/test2/binary_sensor/test2/state`, "OFF");
+		sensor.mockStateUpdate(false);
 		expect(sensor.state).toBeFalsy();
 	});
 
