@@ -8,7 +8,7 @@ import {
 export class ExposesSwitch extends ExposesBoolean {
 	static exposes = "state";
 
-	updateExposes(message: Object): boolean {
+	_updateExposes(message: Object): boolean {
 		let tmp: boolean;
 		if (message[ExposesSwitch.exposes] !== undefined) {
 			tmp = message[ExposesSwitch.exposes] === "ON";
@@ -82,13 +82,13 @@ export class ExposesContact extends ExposesBoolean {
 		}
 	}
 
-	updateExposes(message: Object): void {
+	_updateExposes(message: Object): void {
 		let tmp: boolean;
 		if (this.inverted) {
 			tmp = !message[ExposesContact.exposes];
 		} else {
 			tmp = message[ExposesContact.exposes];
 		}
-		super.updateExposes({ contact: tmp });
+		super._updateExposes({ contact: tmp });
 	}
 }

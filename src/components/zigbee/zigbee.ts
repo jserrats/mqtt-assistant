@@ -50,7 +50,7 @@ export class StatelessZigbeeDevice extends Component implements ZigbeeDevice {
 	_updateExposes(message: Object): void {
 		for (const key in this) {
 			if (this[key] instanceof ExposesZigbee) {
-				this[key].updateExposes(message);
+				this[key]._updateExposes(message);
 			}
 		}
 	}
@@ -73,7 +73,7 @@ export class StatefulZigbeeDevice<T extends string | number | boolean>
 	_updateExposes(message: Object): void {
 		for (const key in this) {
 			if (this[key] instanceof ExposesZigbee) {
-				this[key].updateExposes(message);
+				this[key]._updateExposes(message);
 			}
 		}
 	}
