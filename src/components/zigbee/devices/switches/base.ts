@@ -6,21 +6,24 @@ import type {
 } from "../../../interfaces/light";
 import type { Switch } from "../../../interfaces/switch";
 import { exposes } from "../../exposes";
-import { ZigbeeDevice } from "../../zigbee";
+import { StatefulZigbeeDevice } from "../../zigbee";
 
-export class SwitchZigbee extends ZigbeeDevice implements Switch {
+export class SwitchZigbee
+	extends StatefulZigbeeDevice<boolean>
+	implements Switch
+{
 	setTopic = `${this.topic}/set`;
-	protected _state = new exposes.ExposesSwitch(this);
-	public state: boolean;
+	protected switch = new exposes.ExposesSwitch(this);
 	public events = {
+		//TODO: add on and off events
 		state: randomUUID(),
-	};
+	}; 
 
 	constructor(name: string) {
 		super(name);
-		this._state.on(this._state.events.state, (value) => {
+		this.switch.on(this.switch.events.state, (value) => {
 			this.state = value;
-			this.emit(this.events.state, this.state);
+			//this.emit(this.events.state, this.state);
 		});
 	}
 

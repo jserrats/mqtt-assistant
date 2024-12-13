@@ -106,8 +106,6 @@ export class StatefulComponent<T extends string | number | boolean>
 				clearTimeout(timer);
 			}
 		});
-		// this.timers.push(timer)
-
 		return newTimeoutEvent;
 	}
 }

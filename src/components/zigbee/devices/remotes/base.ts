@@ -1,8 +1,8 @@
 import { randomUUID } from "node:crypto";
 import { exposes } from "../../exposes";
-import { ZigbeeDevice } from "../../zigbee";
+import { StatelessZigbeeDevice } from "../../zigbee";
 
-export class RemoteZigbee extends ZigbeeDevice {
+export class RemoteZigbee extends StatelessZigbeeDevice {
 	protected action = new exposes.ExposesAction(this);
 	public button: { [key: string]: string };
 	protected remoteId = randomUUID();

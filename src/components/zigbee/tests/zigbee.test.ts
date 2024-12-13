@@ -1,7 +1,7 @@
 import { client } from "../../../mqtt";
 import { router } from "../../../router";
 import { AirSensorZigbee } from "../devices/sensors/base";
-import { ZigbeeDevice } from "../zigbee";
+import { StatelessZigbeeDevice } from "../zigbee";
 
 jest.mock("../../../../src/mqtt", () => ({
 	client: {
@@ -12,10 +12,10 @@ jest.mock("../../../../src/mqtt", () => ({
 }));
 
 describe("ZigbeeComponent", () => {
-	let zigbeeComponent: ZigbeeDevice;
+	let zigbeeComponent: StatelessZigbeeDevice;
 
 	beforeAll(async () => {
-		zigbeeComponent = new ZigbeeDevice("test1");
+		zigbeeComponent = new StatelessZigbeeDevice("test1");
 	});
 
 	afterEach(async () => {
