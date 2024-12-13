@@ -3,10 +3,11 @@ import { randomUUID } from "node:crypto";
 import { EventEmitter } from "node:events";
 import type { MqttClient } from "mqtt";
 import { client } from "../mqtt";
+import type { Eventful } from "./interfaces/eventful";
 import type { Stateful } from "./interfaces/stateful";
-import { Timer, type TimerLength } from "./timer";
+import type { TimerLength } from "./timer";
 
-export class SimplerEventEmitter {
+export class SimplerEventEmitter implements Eventful {
 	private emiter = new EventEmitter();
 
 	public events: Record<string, UUID>;
