@@ -74,18 +74,29 @@ export class Timer extends Component {
 	}
 
 	private publishTime() {
-		this.client.publish(this.publishTopic, this.seconds.toString());
+		this.client.publish(this.publishTopic, this.seconds.toString(), {
+			retain: true,
+		});
 		this.client.publish(
 			`${this.publishTopic}/countdown`,
 			(this.length / 1000 - this.seconds).toString(),
+			{
+				retain: true,
+			},
 		);
 		this.client.publish(
 			`${this.publishTopic}/text`,
 			secondsToHms(this.seconds),
+			{
+				retain: true,
+			},
 		);
 		this.client.publish(
 			`${this.publishTopic}/text_countdown`,
 			secondsToHms(this.length / 1000 - this.seconds),
+			{
+				retain: true,
+			},
 		);
 	}
 
