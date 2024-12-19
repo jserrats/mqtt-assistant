@@ -19,11 +19,11 @@ export class Timer extends Component {
 	constructor(period: TimerLength, publish?: string) {
 		super();
 		this.setLength(period);
-		this.publishTopic = publish ? `${BASE_TOPIC}timer/${publish}` : undefined;
+		this.publishTopic = publish ? `${BASE_TOPIC}timer/${publish}` : "";
 	}
 	public start() {
 		this.internalCancel();
-		if (this.publishTopic !== undefined) {
+		if (this.publishTopic !== "") {
 			this.intervalID = setInterval(() => {
 				this.seconds = this.seconds + 1;
 				this.publishTime();
@@ -44,7 +44,7 @@ export class Timer extends Component {
 	private internalCancel() {
 		clearTimeout(this.timeoutID);
 		this.isRunning = false;
-		if (this.publishTopic !== undefined) {
+		if (this.publishTopic !== "") {
 			this.seconds = 0;
 			this.publishTime();
 		}

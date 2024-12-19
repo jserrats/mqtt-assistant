@@ -5,7 +5,7 @@ export interface NumericSensor extends Stateful {
 	get state(): number;
 	unit: string;
 	name: string;
-	toString();
+	toString(): string;
 }
 
 export interface BooleanSensor extends Stateful {
