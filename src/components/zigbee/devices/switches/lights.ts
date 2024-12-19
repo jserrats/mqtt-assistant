@@ -18,3 +18,10 @@ export class LED2101G4 extends TemperatureLightZigbee {}
  * https://www.zigbee2mqtt.io/devices/YSR-MINI-01_dimmer.html#ysrsai-ysr-mini-01_dimmer
  */
 export class YSR_MINI_01_dimmer extends BrightLightZigbee {}
+
+/**
+ * Zigbee LED Controller WW/CW (pro)
+ * 
+ * https://www.zigbee2mqtt.io/devices/GL-C-006P.html#gledopto-gl-c-006p
+ */
+export class GL_C_006P extends TemperatureLightZigbee {}
