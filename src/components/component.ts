@@ -62,7 +62,7 @@ export class StatefulComponent<T extends string | number | boolean>
 {
 	private _state: T;
 	public events = {
-		/** Emited when the state property of the object is updated
+		/** Emitted when the state property of the object is updated
 		 */
 		state: randomUUID(),
 	};
