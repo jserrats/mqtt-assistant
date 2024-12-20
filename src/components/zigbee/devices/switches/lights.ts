@@ -1,3 +1,4 @@
+import { exposes } from "../../exposes";
 import { BrightLightZigbee, TemperatureLightZigbee } from "./base";
 
 /**
@@ -24,4 +25,6 @@ export class YSR_MINI_01_dimmer extends BrightLightZigbee {}
  *
  * https://www.zigbee2mqtt.io/devices/GL-C-006P.html#gledopto-gl-c-006p
  */
-export class GL_C_006P extends TemperatureLightZigbee {}
+export class GL_C_006P extends TemperatureLightZigbee {
+	colorTemp = new exposes.ExposesColorTemperature(this, 500, 158);
+}
