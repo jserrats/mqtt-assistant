@@ -1,11 +1,16 @@
 import { router } from "../../router";
 import { ESPHOME_TOPIC } from "../../topics";
 import type { Trigger } from "../../types";
-import { StatefulComponent } from "../component";
+import { Component, StatefulComponent } from "../component";
 
-export class ESPHomeDevice<
-	T extends string | number | boolean,
-> extends StatefulComponent<T> {
+interface ESPhomeDevice extends Component {
+	name: string;
+}
+
+export class StatefulESPHomeDevice<T extends string | number | boolean>
+	extends StatefulComponent<T>
+	implements ESPhomeDevice
+{
 	protected baseTopic: string;
 	protected stateTopic: string;
 
@@ -29,4 +34,18 @@ export class ESPHomeDevice<
 	}
 
 	protected updateComponent(message: string) {}
+}
+
+export class StatelessESPHomeDevice extends Component implements ESPhomeDevice {
+	protected baseTopic: string;
+	protected commandTopic: string;
+
+	public name: string;
+
+	constructor(name: string, component: string, deviceType: "button") {
+		super();
+		this.baseTopic = ESPHOME_TOPIC + name;
+		this.commandTopic = `${this.baseTopic}/${deviceType}/${component}/command`;
+		this.name = `${name}:${component}`;
+	}
 }

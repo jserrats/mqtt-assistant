@@ -1,6 +1,6 @@
 import type { Stateful } from "../../../interfaces/stateful";
-import { ESPHomeDevice } from "../../esphome";
+import { StatefulESPHomeDevice } from "../../esphome";
 
 export class BaseESPHomeSensor<T extends boolean | string | number>
-	extends ESPHomeDevice<T>
+	extends StatefulESPHomeDevice<T>
 	implements Stateful {}
