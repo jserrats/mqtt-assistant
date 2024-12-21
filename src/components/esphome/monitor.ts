@@ -4,7 +4,7 @@ import type { Trigger } from "../../types";
 import { Component } from "../component";
 import { telegram } from "../telegram";
 
-export class EsphomeMonitor extends Component {
+export class MonitorESPHome extends Component {
 	offlineDevices: string[] = [];
 	ignoredDevices: string[] = [];
 

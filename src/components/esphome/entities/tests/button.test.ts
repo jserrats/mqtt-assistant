@@ -1,6 +1,6 @@
 import { client } from "../../../../mqtt";
 import { ESPHOME_TOPIC } from "../../../../topics";
-import { ESPHomeButton } from "../button";
+import { ButtonESPHome } from "../button";
 
 jest.mock("../../../../mqtt", () => ({
 	client: {
@@ -8,7 +8,7 @@ jest.mock("../../../../mqtt", () => ({
 	},
 }));
 
-class TestESPHomeButton extends ESPHomeButton {
+class TestESPHomeButton extends ButtonESPHome {
 	public declare commandTopic: string;
 }
 

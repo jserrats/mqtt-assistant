@@ -1,6 +1,6 @@
 import { StatelessESPHomeDevice } from "../esphome";
 
-export class ESPHomeButton extends StatelessESPHomeDevice {
+export class ButtonESPHome extends StatelessESPHomeDevice {
 	constructor(name: string, component: string) {
 		super(name, component, "button");
 	}

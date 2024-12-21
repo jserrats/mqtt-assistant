@@ -1,7 +1,7 @@
 import { client } from "../../../mqtt";
 import { router } from "../../../router";
 import { ESPHOME_TOPIC } from "../../../topics";
-import { EsphomeMonitor, type InboundAvailability } from "../monitor";
+import { MonitorESPHome, type InboundAvailability } from "../monitor";
 
 jest.mock("../../../../src/mqtt", () => ({
 	client: {
@@ -12,10 +12,10 @@ jest.mock("../../../../src/mqtt", () => ({
 }));
 
 describe("ESPHomeMonitor", () => {
-	let esphomeMonitor: EsphomeMonitor;
+	let esphomeMonitor: MonitorESPHome;
 
 	beforeAll(async () => {
-		esphomeMonitor = new EsphomeMonitor(["ignored"]);
+		esphomeMonitor = new MonitorESPHome(["ignored"]);
 	});
 
 	afterEach(async () => {
