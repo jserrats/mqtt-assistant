@@ -74,4 +74,12 @@ describe("Switch", () => {
 		expect(mockCallbackTrue).toHaveBeenCalledTimes(1);
 		expect(mockCallbackFalse).toHaveBeenCalledTimes(1);
 	});
+
+	it("should turn undefined when offline", async () => {
+		client.publish(switchDevice.topic, JSON.stringify({ state: "ON" }));
+		expect(switchDevice.state).toBe(true);
+
+		client.publish(switchDevice.topic + "/availability", JSON.stringify({ state: "offline" }));
+		expect(switchDevice.state).toBeUndefined();
+	});
 });

@@ -45,6 +45,30 @@ export class StatelessZigbeeDevice extends Component implements ZigbeeDevice {
 	constructor(name: string) {
 		super();
 		zigbeeDeviceConstructor(this, name);
+		router.addAutomation({
+			trigger: { topic: `${this.topic}/availability`, payload: "*" },
+			callback: (message: Trigger) => {
+				try {
+					if (JSON.parse(message.payload)["state"] === "offline") {
+						// set all exposes of this device to undefined
+						for (const key in this) {
+							if (this[key] instanceof ExposesZigbee) {
+								this[key]._updateExposes(undefined);
+							}
+						}
+					};
+				} catch (error) {
+					let error_message = "Unknown Error";
+					if (error instanceof Error) error_message = error.message;
+					console.error(
+						`[!] Error while parsing message:
+							TOPIC: ${message.topic}
+							PAYLOAD: ${message.payload}
+							ERROR: ${error_message}`,
+					);
+				}
+			},
+		});
 	}
 
 	_updateExposes(message: Object): void {
@@ -58,8 +82,7 @@ export class StatelessZigbeeDevice extends Component implements ZigbeeDevice {
 
 export class StatefulZigbeeDevice<T extends string | number | boolean>
 	extends StatefulComponent<T>
-	implements ZigbeeDevice
-{
+	implements ZigbeeDevice {
 	topic: string;
 	name: string;
 	linkquality = new exposes.ExposesLinkQuality(this);
@@ -67,6 +90,25 @@ export class StatefulZigbeeDevice<T extends string | number | boolean>
 	constructor(name: string) {
 		super();
 		zigbeeDeviceConstructor(this, name);
+		router.addAutomation({
+			trigger: { topic: `${this.topic}/availability`, payload: "*" },
+			callback: (message: Trigger) => {
+				try {
+					if (JSON.parse(message.payload)["state"] === "offline") {
+						this.state = undefined;
+					};
+				} catch (error) {
+					let error_message = "Unknown Error";
+					if (error instanceof Error) error_message = error.message;
+					console.error(
+						`[!] Error while parsing message:
+							TOPIC: ${message.topic}
+							PAYLOAD: ${message.payload}
+							ERROR: ${error_message}`,
+					);
+				}
+			},
+		});
 	}
 
 	//TODO: deduplicate this code

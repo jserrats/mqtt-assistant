@@ -11,7 +11,7 @@ jest.mock("../../../../src/mqtt", () => ({
 	},
 }));
 
-describe("ZigbeeComponent", () => {
+describe("StatelessZigbeeDevice", () => {
 	let zigbeeComponent: StatelessZigbeeDevice;
 
 	beforeAll(async () => {
