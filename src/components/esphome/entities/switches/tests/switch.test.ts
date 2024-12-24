@@ -57,4 +57,12 @@ describe("SwitchESPHome", () => {
 			"TOGGLE",
 		]);
 	});
+
+	it("should be undefined when offline", async () => {
+		router.route(`${ESPHOME_TOPIC}/test1/switch/test1/state`, "ON");
+		expect(switchEsphome.state).toBeTruthy();
+
+		router.route(`${ESPHOME_TOPIC}/test1/status`, "offline");
+		expect(switchEsphome.state).toBeUndefined();
+	});
 });

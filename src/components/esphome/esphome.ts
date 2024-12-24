@@ -9,8 +9,7 @@ interface ESPhomeDevice extends Component {
 
 export class StatefulESPHomeDevice<T extends string | number | boolean>
 	extends StatefulComponent<T>
-	implements ESPhomeDevice
-{
+	implements ESPhomeDevice {
 	protected baseTopic: string;
 	protected stateTopic: string;
 
@@ -31,9 +30,18 @@ export class StatefulESPHomeDevice<T extends string | number | boolean>
 				this.updateComponent(message.payload);
 			},
 		});
+
+		router.addAutomation({
+			trigger: { topic: `${this.baseTopic}/status`, payload: "*" },
+			callback: (message: Trigger) => {
+				if (message.payload === "offline") {
+					this.state = undefined;
+				}
+			},
+		});
 	}
 
-	protected updateComponent(message: string) {}
+	protected updateComponent(message: string) { }
 }
 
 export class StatelessESPHomeDevice extends Component implements ESPhomeDevice {
