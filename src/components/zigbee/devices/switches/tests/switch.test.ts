@@ -79,7 +79,16 @@ describe("Switch", () => {
 		client.publish(switchDevice.topic, JSON.stringify({ state: "ON" }));
 		expect(switchDevice.state).toBe(true);
 
-		client.publish(switchDevice.topic + "/availability", JSON.stringify({ state: "offline" }));
+		client.publish(
+			`${switchDevice.topic}/availability`,
+			JSON.stringify({ state: "offline" }),
+		);
 		expect(switchDevice.state).toBeUndefined();
+
+		client.publish(
+			`${switchDevice.topic}/availability`,
+			JSON.stringify({ state: "online" }),
+		);
+		expect(switchDevice.state).toBe(true);
 	});
 });

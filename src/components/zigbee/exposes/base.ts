@@ -34,14 +34,15 @@ export class ExposesZigbee<
 		}
 		if (this.state === undefined || message[this._exposes] !== this.state) {
 			this.state = message[this._exposes];
-			return
+			return;
 		}
 	}
 }
 
 export class ExposesNumber
 	extends ExposesZigbee<number>
-	implements NumericSensor {
+	implements NumericSensor
+{
 	public unit: string;
 	toString() {
 		return `${this.state} ${this.unit}`;
@@ -50,11 +51,12 @@ export class ExposesNumber
 
 export class ExposesString
 	extends ExposesZigbee<string>
-	implements StringSensor { }
+	implements StringSensor {}
 
 export class ExposesBoolean
 	extends ExposesZigbee<boolean>
-	implements BooleanSensor {
+	implements BooleanSensor
+{
 	public events = {
 		/** Emitted when the state property of the object is updated
 		 */

@@ -49,14 +49,14 @@ export class StatelessZigbeeDevice extends Component implements ZigbeeDevice {
 			trigger: { topic: `${this.topic}/availability`, payload: "*" },
 			callback: (message: Trigger) => {
 				try {
-					if (JSON.parse(message.payload)["state"] === "offline") {
+					if (JSON.parse(message.payload).state === "offline") {
 						// set all exposes of this device to undefined
 						for (const key in this) {
 							if (this[key] instanceof ExposesZigbee) {
 								this[key]._updateExposes(undefined);
 							}
 						}
-					};
+					}
 				} catch (error) {
 					let error_message = "Unknown Error";
 					if (error instanceof Error) error_message = error.message;
@@ -82,10 +82,12 @@ export class StatelessZigbeeDevice extends Component implements ZigbeeDevice {
 
 export class StatefulZigbeeDevice<T extends string | number | boolean>
 	extends StatefulComponent<T>
-	implements ZigbeeDevice {
+	implements ZigbeeDevice
+{
 	topic: string;
 	name: string;
 	linkquality = new exposes.ExposesLinkQuality(this);
+	private offline_state: T;
 
 	constructor(name: string) {
 		super();
@@ -94,9 +96,15 @@ export class StatefulZigbeeDevice<T extends string | number | boolean>
 			trigger: { topic: `${this.topic}/availability`, payload: "*" },
 			callback: (message: Trigger) => {
 				try {
-					if (JSON.parse(message.payload)["state"] === "offline") {
+					if (JSON.parse(message.payload).state === "offline") {
+						this.offline_state = this.state;
 						this.state = undefined;
-					};
+					} else if (
+						JSON.parse(message.payload).state === "online" &&
+						this.state === undefined
+					) {
+						this.state = this.offline_state;
+					}
 				} catch (error) {
 					let error_message = "Unknown Error";
 					if (error instanceof Error) error_message = error.message;

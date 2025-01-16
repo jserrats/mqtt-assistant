@@ -5,6 +5,7 @@ import {
 	ExposesTemperature,
 } from "../exposes";
 
+import { router } from "../../../../router";
 import {
 	type TestBooleanSensor,
 	type TestNumericSensor,
@@ -12,7 +13,6 @@ import {
 	testNumericSensorFactory,
 } from "../../../interfaces/tests/sensorTests";
 import { ExposesBoolean, ExposesNumber, ExposesString } from "../base";
-import { router } from "../../../../router";
 
 jest.mock("../../../../mqtt", () => ({
 	client: {
@@ -78,7 +78,6 @@ describe("Exposes", () => {
 		expect(mockCallback).toHaveBeenCalled();
 	});
 
-
 	it("should turn undefined when offline", async () => {
 		const exposes = new ExposesTemperature();
 		exposes._updateExposes(undefined);
@@ -86,6 +85,5 @@ describe("Exposes", () => {
 
 		exposes._updateExposes({ temperature: 10 });
 		expect(exposes.state).toStrictEqual(10);
-
 	});
 });

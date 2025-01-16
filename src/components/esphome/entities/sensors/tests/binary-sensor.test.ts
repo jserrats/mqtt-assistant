@@ -28,7 +28,6 @@ testBooleanSensorFactory(() => {
 	return new TestBinarySensorESPHome("test", "test");
 }, BinarySensorESPHome.name);
 
-
 describe("BinarySensorESPHome", () => {
 	let binarySensor: BinarySensorESPHome;
 
@@ -39,10 +38,8 @@ describe("BinarySensorESPHome", () => {
 	it("should be undefined when offline", async () => {
 		router.route(`${ESPHOME_TOPIC}/test1/binary_sensor/test1/state`, "ON");
 		expect(binarySensor.state).toBeTruthy();
-	
+
 		router.route(`${ESPHOME_TOPIC}/test1/status`, "offline");
 		expect(binarySensor.state).toBeUndefined();
 	});
-
 });
-

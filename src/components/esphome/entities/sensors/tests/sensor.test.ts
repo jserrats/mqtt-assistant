@@ -8,7 +8,7 @@ import { SensorESPHome } from "../sensor";
 
 jest.mock("../../../../../mqtt", () => ({
 	client: {
-		publish: jest.fn((newTopic: string, newPayload: string) => { }),
+		publish: jest.fn((newTopic: string, newPayload: string) => {}),
 	},
 }));
 
@@ -39,5 +39,4 @@ describe("SensorESPHome", () => {
 		router.route(`${ESPHOME_TOPIC}/test1/status`, "offline");
 		expect(sensor.state).toBeUndefined();
 	});
-
 });

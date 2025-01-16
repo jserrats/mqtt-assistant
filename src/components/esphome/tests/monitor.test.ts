@@ -1,7 +1,7 @@
 import { client } from "../../../mqtt";
 import { router } from "../../../router";
 import { ESPHOME_TOPIC } from "../../../topics";
-import { MonitorESPHome, type InboundAvailability } from "../monitor";
+import { type InboundAvailability, MonitorESPHome } from "../monitor";
 
 jest.mock("../../../../src/mqtt", () => ({
 	client: {
