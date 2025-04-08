@@ -1,8 +1,10 @@
-import { Component } from "../component";
 import type { LogLevel, TelegramMessage } from "./types";
 const { dirname } = require("node:path");
+import { client } from "../../mqtt";
+import mqtt from "mqtt/*";
 
-class Telegram extends Component {
+
+class Telegram {
 	static base_topic = "notify/telegram";
 
 	/**
@@ -10,7 +12,7 @@ class Telegram extends Component {
 	 * @param string to be logged on telegram
 	 */
 	send(message: string) {
-		this.client.publish(Telegram.base_topic, message);
+		client.publish(Telegram.base_topic, message);
 	}
 
 	log(message: TelegramMessage | string, logLevel?: LogLevel) {
@@ -25,7 +27,7 @@ class Telegram extends Component {
 		if (logLevel !== undefined) {
 			topic = `${topic}/${logLevel}`;
 		}
-		this.client.publish(topic, JSON.stringify(outMessage));
+		client.publish(topic, JSON.stringify(outMessage));
 	}
 
 	debug(message: TelegramMessage | string) {
