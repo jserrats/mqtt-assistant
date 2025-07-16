@@ -2,6 +2,10 @@ import { client } from "../../../../../mqtt";
 import { router } from "../../../../../router";
 import { ESPHOME_TOPIC } from "../../../../../topics";
 import { SwitchESPHome } from "../switch";
+import {
+	type TestSwitch,
+	testSwitchFactory,
+} from "../../../../interfaces/tests/switchTests";
 
 jest.mock("../../../../../mqtt", () => ({
 	client: {
@@ -64,5 +68,34 @@ describe("SwitchESPHome", () => {
 
 		router.route(`${ESPHOME_TOPIC}/test1/status`, "offline");
 		expect(switchEsphome.state).toBeUndefined();
+	});
+});
+
+class TestSwitchESPHome extends SwitchESPHome implements TestSwitch{ 
+	mockStateUpdate(value: boolean) {
+		router.route(
+			`${ESPHOME_TOPIC}/${this.name.split(":")[0]}/switch/${this.name.split(":")[1]}/state`,
+			value ? "ON" : "OFF",
+		);
+	}
+}
+
+testSwitchFactory(() => {
+	return new TestSwitchESPHome("test", "test");
+}, SwitchESPHome.name);
+
+describe("SwitchESPHome", () => {
+	let testSwitch: SwitchESPHome;
+
+	beforeAll(async () => {
+		testSwitch = new SwitchESPHome("test1", "test1");
+	});
+
+	it("should be undefined when offline", async () => {
+		router.route(`${ESPHOME_TOPIC}/test1/switch/test1/state`, "ON");
+		expect(testSwitch.state).toBeTruthy();
+
+		router.route(`${ESPHOME_TOPIC}/test1/status`, "offline");
+		expect(testSwitch.state).toBeUndefined();
 	});
 });
