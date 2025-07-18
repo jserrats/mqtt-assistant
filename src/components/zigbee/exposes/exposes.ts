@@ -92,3 +92,15 @@ export class ExposesContact extends ExposesBoolean {
 		super._updateExposes({ contact: tmp });
 	}
 }
+
+export class ExposesLearnIrCode extends ExposesSwitch {
+	static exposes = "learn_ir_code";
+}
+
+export class ExposesIrCodeToSend extends ExposesString {
+	static exposes = "ir_code_to_send";
+}
+
+export class ExposesLearnedIrCode extends ExposesString {
+	static exposes = "learned_ir_code";
+}
