@@ -23,11 +23,11 @@ export class IriHF8260 extends StatelessZigbeeDevice{
         );
     }
 
-    protected setLearnIrCode(order: boolean) {
+    setLearnIrCode(order: boolean) {
 			this.client.publish(
 				this.setTopic,
 				JSON.stringify({
-					state: order ? "ON" : "OFF"
+					"learn_ir_code": order ? "ON" : "OFF"
 				}),
 			);
 	}

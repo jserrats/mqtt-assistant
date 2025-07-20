@@ -8,10 +8,14 @@ import {
 export class ExposesSwitch extends ExposesBoolean {
 	static exposes = "state";
 
-	_updateExposes(message: Object): boolean {
+	_updateExposes(message: Object, exposeName?: string): boolean {
 		let tmp: boolean;
-		if (message[ExposesSwitch.exposes] !== undefined) {
-			tmp = message[ExposesSwitch.exposes] === "ON";
+		if (exposeName == undefined) {
+			exposeName = ExposesSwitch.exposes; //state
+		}
+
+		if (message[exposeName] !== undefined) {
+			tmp = message[exposeName] === "ON";
 		}
 		if (this.state === undefined || tmp !== this.state) {
 			this.state = tmp;
@@ -95,6 +99,10 @@ export class ExposesContact extends ExposesBoolean {
 
 export class ExposesLearnIrCode extends ExposesSwitch {
 	static exposes = "learn_ir_code";
+
+	_updateExposes(message: Object): boolean {
+		return super._updateExposes(message, ExposesLearnIrCode.exposes);
+	}
 }
 
 export class ExposesIrCodeToSend extends ExposesString {
